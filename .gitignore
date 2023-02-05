@@ -1,0 +1,16 @@
+# executable files
+*/*a.out
+minishell
+
+# object files
+*/*.o
+objs/
+
+# editor config files
+.vscode
+compile_commands.json
+.cache
+
+# Local playground directory
+playground/
+lab/
