@@ -15,6 +15,19 @@ t_token	*new_token(t_token *current, t_token_type type, char *literal)
 	return (new);
 }
 
+t_token	*token_metacharacter(t_token *current, char **begin, char **end)
+{
+	char	*begin_loc;
+	char	*end_loc;
+
+	begin_loc = *begin;
+	end_loc = *end;
+	end_loc++;
+	current = new_token(current, find_token_type(*begin_loc), strndup(begin_loc, end_loc - begin_loc));
+	begin_loc = end_loc;
+	return (current);
+}
+
 // tokenize input and return token nodes.
 t_token	*tokenize(char *input)
 {
@@ -29,9 +42,7 @@ t_token	*tokenize(char *input)
 	{
 		if (is_meta_character(*input))
 		{
-			end++;
-			current = new_token(current, find_token_type(*input), strndup(input, end - input));
-			input = end;
+			current = token_metacharacter(current, &input, &end);
 			continue ;
 		}
 		while (*end != '\0' && !is_meta_character(*input))
