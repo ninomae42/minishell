@@ -25,6 +25,8 @@ t_token	*token_metacharacter(t_token *current, char **begin, char **end)
 	end_loc++;
 	current = new_token(current, find_token_type(*begin_loc), strndup(begin_loc, end_loc - begin_loc));
 	begin_loc = end_loc;
+	*begin = begin_loc;
+	*end = end_loc;
 	return (current);
 }
 
