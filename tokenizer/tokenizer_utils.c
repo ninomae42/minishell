@@ -6,10 +6,10 @@ t_token	*duplicate_word(t_token *cur, t_token_type type, char *begin, char *end)
 	char	*literal;
 
 	literal = strndup(begin, end - begin);
-	if (literal ==  NULL)
+	if (literal == NULL)
 		return (NULL);
 	cur = new_token(cur, type, literal);
-	if (cur ==  NULL)
+	if (cur == NULL)
 		return (NULL);
 	return (cur);
 }

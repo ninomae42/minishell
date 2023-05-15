@@ -17,7 +17,7 @@ t_token	*tokenize(char *input, bool *is_error)
 	{
 		if (is_meta_character(*input))
 			current = tokenize_metacharacter(current, &input);
-		else if (*input ==  SINGLE_QUOTE)
+		else if (*input == SINGLE_QUOTE)
 				current = tokenize_single_quote(current, &input);
 		else if (*input == DOUBLE_QUOTE)
 			current = tokenize_double_quote(current, &input);
@@ -31,7 +31,6 @@ t_token	*tokenize(char *input, bool *is_error)
 	return (head.next);
 }
 
-
 // tokenize metacharacter
 static t_token	*tokenize_metacharacter(t_token *cur, char **input)
 {
@@ -39,8 +38,9 @@ static t_token	*tokenize_metacharacter(t_token *cur, char **input)
 	const char	*end = *input;
 
 	end++;
-	cur = duplicate_word(cur, find_token_type(*begin), (char *)begin, (char *)end);
-	if (cur ==  NULL)
+	cur = duplicate_word(cur,
+			find_token_type(*begin), (char *)begin, (char *)end);
+	if (cur == NULL)
 		return (NULL);
 	*input = (char *)end;
 	return (cur);
@@ -54,7 +54,7 @@ static t_token	*tokenize_single_quote(t_token *cur, char **input)
 
 	end++;
 	cur = duplicate_word(cur, TK_SINGLE_QUOTE, (char *)begin, (char *)end);
-	if (cur ==  NULL)
+	if (cur == NULL)
 		return (NULL);
 	begin = end;
 	while (*end && *end != SINGLE_QUOTE)
@@ -62,12 +62,12 @@ static t_token	*tokenize_single_quote(t_token *cur, char **input)
 	if (*end == '\0')
 		return (NULL);
 	cur = duplicate_word(cur, TK_WORD, (char *)begin, (char *)end);
-	if (cur ==  NULL)
+	if (cur == NULL)
 		return (NULL);
 	begin = end;
 	end++;
 	cur = duplicate_word(cur, TK_SINGLE_QUOTE, (char *)begin, (char *)end);
-	if (cur ==  NULL)
+	if (cur == NULL)
 		return (NULL);
 	*input = (char *)end;
 	return (cur);
@@ -81,7 +81,7 @@ static t_token	*tokenize_double_quote(t_token *cur, char **input)
 
 	end++;
 	cur = duplicate_word(cur, TK_DOUBLE_QUOTE, (char *)begin, (char *)end);
-	if (cur ==  NULL)
+	if (cur == NULL)
 		return (NULL);
 	begin = end;
 	while (*end && *end != DOUBLE_QUOTE)
@@ -91,12 +91,12 @@ static t_token	*tokenize_double_quote(t_token *cur, char **input)
 	if (*end == '\0')
 		return (NULL);
 	cur = duplicate_word(cur, TK_WORD, (char *)begin, (char *)end);
-	if (cur ==  NULL)
+	if (cur == NULL)
 		return (NULL);
 	begin = end;
 	end++;
 	cur = duplicate_word(cur, TK_DOUBLE_QUOTE, (char *)begin, (char *)end);
-	if (cur ==  NULL)
+	if (cur == NULL)
 		return (NULL);
 	*input = (char *)end;
 	return (cur);
@@ -120,4 +120,3 @@ static t_token	*tokenize_word(t_token *cur, char **input)
 	*input = (char *)end;
 	return (cur);
 }
-
