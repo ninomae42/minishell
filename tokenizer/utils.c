@@ -36,5 +36,9 @@ t_token_type	find_token_type(char c)
 		return (TK_LT);
 	if (c == '>')
 		return (TK_GT);
+	if (c == '\'')
+		return (TK_SINGLE_QUOTE);
+	if (c == '"')
+		return (TK_DOUBLE_QUOTE);
 	return (TK_EOF);
 }

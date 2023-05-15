@@ -8,6 +8,10 @@
 # include <unistd.h>
 
 # define META_CHARACTERS " \t\n|&;()<>"
+# define BRANK_CHARACTERS " \t"
+# define SINGLE_QUOTE '\''
+# define DOUBLE_QUOTE '"'
+
 typedef enum e_token_type
 {
 	TK_EOF,
@@ -26,6 +30,10 @@ typedef enum e_token_type
 	TK_LT,
 	TK_GT,
 
+	TK_SINGLE_QUOTE,
+	TK_DOUBLE_QUOTE,
+
+	TK_WORD,
 }	t_token_type;
 
 typedef struct s_token{

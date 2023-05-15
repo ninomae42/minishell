@@ -15,44 +15,131 @@ t_token	*new_token(t_token *current, t_token_type type, char *literal)
 	return (new);
 }
 
-t_token	*token_metacharacter(t_token *current, char **begin, char **end)
+// copys token literal and create new token node
+t_token	*duplicate_word(t_token *cur, t_token_type type, char *begin, char *end)
 {
-	char	*begin_loc;
-	char	*end_loc;
+	char	*literal;
 
-	begin_loc = *begin;
-	end_loc = *end;
-	end_loc++;
-	current = new_token(current, find_token_type(*begin_loc), strndup(begin_loc, end_loc - begin_loc));
-	begin_loc = end_loc;
-	*begin = begin_loc;
-	*end = end_loc;
-	return (current);
+	literal = strndup(begin, end - begin);
+	if (literal ==  NULL)
+		return (NULL);
+	cur = new_token(cur, type, literal);
+	if (cur ==  NULL)
+		return (NULL);
+	return (cur);
+}
+
+t_token	*tokenize_metacharacter(t_token *cur, char **input)
+{
+	const char	*begin = *input;
+	const char	*end = *input;
+
+	end++;
+	cur = duplicate_word(cur, find_token_type(*begin), (char *)begin, (char *)end);
+	if (cur ==  NULL)
+		return (NULL);
+	*input = (char *)end;
+	return (cur);
+}
+
+// tokenize single quoted word sequence
+t_token	*tokenize_single_quote(t_token *cur, char **input)
+{
+	const char	*begin = *input;
+	const char	*end = *input;
+
+	end++;
+	cur = duplicate_word(cur, TK_SINGLE_QUOTE, (char *)begin, (char *)end);
+	if (cur ==  NULL)
+		return (NULL);
+	begin = end;
+	while (*end && *end != SINGLE_QUOTE)
+		end++;
+	if (*end == '\0')
+		return (NULL);
+	cur = duplicate_word(cur, TK_WORD, (char *)begin, (char *)end);
+	if (cur ==  NULL)
+		return (NULL);
+	begin = end;
+	end++;
+	cur = duplicate_word(cur, TK_SINGLE_QUOTE, (char *)begin, (char *)end);
+	if (cur ==  NULL)
+		return (NULL);
+	*input = (char *)end;
+	return (cur);
+}
+
+// tokenize double quoted word sequence
+t_token	*tokenize_double_quote(t_token *cur, char **input)
+{
+	const char	*begin = *input;
+	const char	*end = *input;
+
+	end++;
+	cur = duplicate_word(cur, TK_DOUBLE_QUOTE, (char *)begin, (char *)end);
+	if (cur ==  NULL)
+		return (NULL);
+	begin = end;
+	while (*end && *end != DOUBLE_QUOTE)
+	{
+		end++;
+	}
+	if (*end == '\0')
+		return (NULL);
+	cur = duplicate_word(cur, TK_WORD, (char *)begin, (char *)end);
+	if (cur ==  NULL)
+		return (NULL);
+	begin = end;
+	end++;
+	cur = duplicate_word(cur, TK_DOUBLE_QUOTE, (char *)begin, (char *)end);
+	if (cur ==  NULL)
+		return (NULL);
+	*input = (char *)end;
+	return (cur);
+}
+
+// tokenize word
+t_token	*tokenize_word(t_token *cur, char **input)
+{
+	const char	*begin = *input;
+	const char	*end = *input;
+
+	while (*end && !is_meta_character(*end))
+	{
+		if (*end == SINGLE_QUOTE)
+			return (NULL);
+		end++;
+	}
+	cur = duplicate_word(cur, TK_WORD, (char *)begin, (char *)end);
+	if (cur == NULL)
+		return (NULL);
+	*input = (char *)end;
+	return (cur);
 }
 
 // tokenize input and return token nodes.
-t_token	*tokenize(char *input)
+t_token	*tokenize(char *input, bool *is_error)
 {
 	t_token	head;
 	t_token	*current;
-	char	*end;
 
 	head.next = NULL;
 	current = &head;
-	end = input;
-	while (*input != '\0')
+	while (*input && current)
 	{
 		if (is_meta_character(*input))
-		{
-			current = token_metacharacter(current, &input, &end);
-			continue ;
-		}
-		while (*end != '\0' && !is_meta_character(*input))
-			end++;
-		current = new_token(current, TK_WORD, strndup(input, end - input));
-		input = end;
+			current = tokenize_metacharacter(current, &input);
+		else if (*input ==  SINGLE_QUOTE)
+				current = tokenize_single_quote(current, &input);
+		else if (*input == DOUBLE_QUOTE)
+			current = tokenize_double_quote(current, &input);
+		else
+			current = tokenize_word(current, &input);
 	}
-	current = new_token(current, TK_EOF, NULL);
+	if (current == NULL)
+		*is_error = true;
+	else
+		current = new_token(current, TK_EOF, NULL);
 	return (head.next);
 }
 
@@ -63,7 +150,10 @@ int	main(int argc, char **argv)
 	if (!is_argc_valid(argc))
 		exit(EXIT_FAILURE);
 	input = argv[1];
-	t_token	*current = tokenize(input);
+	bool	is_tokenize_error = false;
+	t_token	*current = tokenize(input, &is_tokenize_error);
+	if (is_tokenize_error)
+		exit(EXIT_FAILURE);
 	while (current->next != NULL)
 	{
 		printf("type: %d, literal: [%s]\n", current->type, current->literal);
