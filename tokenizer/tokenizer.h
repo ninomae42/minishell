@@ -46,4 +46,8 @@ bool			is_argc_valid(int argc);
 bool			is_meta_character(char c);
 t_token_type	find_token_type(char c);
 
+t_token	*tokenize(char *input, bool *is_error);
+t_token	*duplicate_word(t_token *cur, t_token_type type, char *begin, char *end);
+t_token	*new_token(t_token *current, t_token_type type, char *literal);
+
 #endif

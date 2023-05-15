@@ -5,6 +5,8 @@ OBJS_DIR := ./objs
 
 SRCS := main.c \
 		utils.c \
+		tokenizer.c \
+		tokenizer_utils.c \
 
 OBJS := $(SRCS:.c=.o)
 SRCS := $(addprefix $(SRCS_DIR)/, $(SRCS))
