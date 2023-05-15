@@ -48,7 +48,7 @@ re: fclean all
 
 .PHONY: t
 t: all
-	./test.sh
+	python3 test.py
 
 .PHONY: norm
 norm:
