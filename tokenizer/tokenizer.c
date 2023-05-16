@@ -34,7 +34,7 @@ t_token	*tokenize(char *input, bool *is_error)
 		else if (is_operator_chars(*input))
 			current = tokenize_operators(current, &input);
 		else if (*input == SINGLE_QUOTE)
-				current = tokenize_single_quote(current, &input);
+			current = tokenize_single_quote(current, &input);
 		else if (*input == DOUBLE_QUOTE)
 			current = tokenize_double_quote(current, &input);
 		else
@@ -68,21 +68,9 @@ static t_token	*tokenize_single_quote(t_token *cur, char **input)
 	const char	*begin = *input;
 	const char	*end = *input;
 
-	end++;
-	cur = duplicate_word(cur, TK_SINGLE_QUOTE, (char *)begin, (char *)end);
-	if (cur == NULL)
-		return (NULL);
-	begin = end;
-	while (*end && *end != SINGLE_QUOTE)
+	while (*end && !is_meta_character(*end))
 		end++;
-	if (*end == '\0')
-		return (NULL);
 	cur = duplicate_word(cur, TK_WORD, (char *)begin, (char *)end);
-	if (cur == NULL)
-		return (NULL);
-	begin = end;
-	end++;
-	cur = duplicate_word(cur, TK_SINGLE_QUOTE, (char *)begin, (char *)end);
 	if (cur == NULL)
 		return (NULL);
 	*input = (char *)end;
@@ -95,23 +83,9 @@ static t_token	*tokenize_double_quote(t_token *cur, char **input)
 	const char	*begin = *input;
 	const char	*end = *input;
 
-	end++;
-	cur = duplicate_word(cur, TK_DOUBLE_QUOTE, (char *)begin, (char *)end);
-	if (cur == NULL)
-		return (NULL);
-	begin = end;
-	while (*end && *end != DOUBLE_QUOTE)
-	{
+	while (*end && !is_meta_character(*end))
 		end++;
-	}
-	if (*end == '\0')
-		return (NULL);
 	cur = duplicate_word(cur, TK_WORD, (char *)begin, (char *)end);
-	if (cur == NULL)
-		return (NULL);
-	begin = end;
-	end++;
-	cur = duplicate_word(cur, TK_DOUBLE_QUOTE, (char *)begin, (char *)end);
 	if (cur == NULL)
 		return (NULL);
 	*input = (char *)end;

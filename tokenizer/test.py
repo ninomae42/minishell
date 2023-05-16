@@ -38,6 +38,11 @@ operatorTest = [
     "<<EOF cat | grep ft >> result.out",
 ]
 
+quoteCharacterTest = [
+    "echo 'hogehoge'",
+    'echo "hogehoge"',
+    'echo "hogehoge" >> out.txt',
+]
 
 def test_tokenizer(inputStr):
     for i, input in enumerate(inputStr):
@@ -63,4 +68,5 @@ if __name__ ==  '__main__':
     # test_tokenizer(basicTest)
     # test_tokenizer(pipeRedirectionTest)
     # test_tokenizer(invalidInputTest)
-    test_tokenizer(operatorTest)
+    # test_tokenizer(operatorTest)
+    test_tokenizer(quoteCharacterTest)
