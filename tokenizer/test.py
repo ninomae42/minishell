@@ -1,5 +1,9 @@
 import subprocess
 
+red = "\033[31m"
+green = "\033[32m"
+reset = "\033[0m"
+
 metacharTest = [
         '', ' ', '\t', '\n', '|', '&', ';',
         '(', ')', '<', '>', "'", '"', "''", '""',
@@ -53,20 +57,22 @@ def runtest(index, command):
     res = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
     print(f'===== TEST{index} =====')
-    print(f"command:[{res.args[1]}]")
-    # print(f"exit status {res.returncode}")
-    print(f"stdout {res.stdout.decode()}")
-    print(f"stderr {res.stderr.decode()}")
+    print('=== input ===')
+    print(f"[{res.args[1]}]")
+    print('=== stdout ===')
+    print(f"{res.stdout.decode()}")
+    print('=== stderr ===')
+    print(f"{res.stderr.decode()}")
 
     if res.returncode == 0:
-        print(f'===== OK =====\n')
+        print(f'===== TEST{index} {green} OK {reset} =====\n')
     else:
-        print(f'===== NG =====\n')
+        print(f'===== TEST{index} {red} NG {reset} =====\n')
 
 if __name__ ==  '__main__':
     # test_tokenizer(metacharTest)
     # test_tokenizer(basicTest)
     # test_tokenizer(pipeRedirectionTest)
-    # test_tokenizer(invalidInputTest)
+    test_tokenizer(invalidInputTest)
     # test_tokenizer(operatorTest)
-    test_tokenizer(quoteCharacterTest)
+    # test_tokenizer(quoteCharacterTest)
