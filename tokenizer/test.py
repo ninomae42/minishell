@@ -4,34 +4,37 @@ red = "\033[31m"
 green = "\033[32m"
 reset = "\033[0m"
 
-metacharTest = [
-        '', ' ', '\t', '\n', '|', '&', ';',
-        '(', ')', '<', '>', "'", '"', "''", '""',
+basicTest = [
+   'hogehoge',
+   '/bin/ls',
+   'cat hoge.txt',
+   'cat  hoge.txt',
+   'cat\thoge.txt',
 ]
 
-basicTest = [
-        'hogehoge',
-        '/bin/ls',
-        'cat hoge.txt',
-        'cat  hoge.txt',
-        'cat\thoge.txt',
+quoteCharacterTest = [
+    "echo 'hogehoge'",
+    'echo "hogehoge"',
+    "echo 'hoge hoge'",
+    'echo "hoge hoge"',
+    # 'echo "hogehoge" >> out.txt',
 ]
+
 
 pipeRedirectionTest = [
-        'cat hoge.txt | grep ft',
-
-        'cat hoge.txt | grep ft > out.txt',
-        'cat hoge.txt | grep ft >> out.txt',
-        '<cat hoge.txt | grep ft out.txt',
-        '<cat hoge.txt | grep ft > out.txt',
-        '<cat hoge.txt | grep ft >> out.txt',
+   'cat hoge.txt | grep ft',
+   'cat hoge.txt | grep ft > out.txt',
+   'cat hoge.txt | grep ft >> out.txt',
+   '<cat hoge.txt | grep ft out.txt',
+   '<cat hoge.txt | grep ft > out.txt',
+   '<cat hoge.txt | grep ft >> out.txt',
 ]
 
 invalidInputTest = [
-        r'echo "hoge hoge"',
-        r"echo 'hoge'hoge'",
-        'echo "hoge\'hoge"',
-        r'echo "hoge\"hoge"',
+   r'echo "hoge hoge"',
+   r"echo 'hoge'hoge'",
+   'echo "hoge\'hoge"',
+   r'echo "hoge\"hoge"',
 ]
 
 operatorTest = [
@@ -40,12 +43,6 @@ operatorTest = [
     "cat test.txt | grep ft >> result.out",
     "<test.txt cat | grep ft >> result.out",
     "<<EOF cat | grep ft >> result.out",
-]
-
-quoteCharacterTest = [
-    "echo 'hogehoge'",
-    'echo "hogehoge"',
-    'echo "hogehoge" >> out.txt',
 ]
 
 def test_tokenizer(inputStr):
@@ -70,9 +67,8 @@ def runtest(index, command):
         print(f'===== TEST{index} {red} NG {reset} =====\n')
 
 if __name__ ==  '__main__':
-    # test_tokenizer(metacharTest)
-    # test_tokenizer(basicTest)
+    test_tokenizer(basicTest)
+    test_tokenizer(quoteCharacterTest)
     # test_tokenizer(pipeRedirectionTest)
-    test_tokenizer(invalidInputTest)
+    # test_tokenizer(invalidInputTest)
     # test_tokenizer(operatorTest)
-    # test_tokenizer(quoteCharacterTest)
