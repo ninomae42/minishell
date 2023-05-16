@@ -28,3 +28,13 @@ t_token	*new_token(t_token *current, t_token_type type, char *literal)
 	new->next = NULL;
 	return (new);
 }
+
+// skip white spaces identified by is_blank
+void	skip_spaces(char **input)
+{
+	const char *end = *input;
+
+	while (*end != '\0' && is_blank(*end))
+		end++;
+	*input = (char *)end;
+}

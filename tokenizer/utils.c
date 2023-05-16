@@ -20,3 +20,8 @@ bool	is_operator_chars(char c)
 		return (true);
 	return (false);
 }
+
+bool	is_blank(char c)
+{
+	return (c ==  ' ' || c ==  '\t');
+}

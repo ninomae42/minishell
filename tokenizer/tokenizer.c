@@ -5,20 +5,6 @@ static t_token	*tokenize_single_quote(t_token *cur, char **input);
 static t_token	*tokenize_double_quote(t_token *cur, char **input);
 static t_token	*tokenize_word(t_token *cur, char **input);
 
-bool	is_blank(char c)
-{
-	return (c ==  ' ' || c ==  '\t');
-}
-
-void	skip_spaces(char **input)
-{
-	const char *end = *input;
-
-	while (*end != '\0' && is_blank(*end))
-		end++;
-	*input = (char *)end;
-}
-
 // tokenize input and return token nodes.
 t_token	*tokenize(char *input, bool *is_error)
 {
