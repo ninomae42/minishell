@@ -32,7 +32,7 @@ t_token	*new_token(t_token *current, t_token_type type, char *literal)
 // skip white spaces identified by is_blank
 void	skip_spaces(char **input)
 {
-	const char *end = *input;
+	const char	*end = *input;
 
 	while (*end != '\0' && is_blank(*end))
 		end++;

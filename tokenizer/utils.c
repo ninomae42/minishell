@@ -23,5 +23,5 @@ bool	is_operator_chars(char c)
 
 bool	is_blank(char c)
 {
-	return (c ==  ' ' || c ==  '\t');
+	return (c == ' ' || c == '\t');
 }

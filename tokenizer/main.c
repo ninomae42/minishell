@@ -13,7 +13,7 @@ int	main(int argc, char **argv)
 	current = tokenize(input, &is_tokenize_error);
 	if (is_tokenize_error)
 		exit(EXIT_FAILURE);
-	while (current->next != NULL)
+	while (current != NULL)
 	{
 		printf("type: %d, literal: [%s]\n", current->type, current->literal);
 		current = current->next;
