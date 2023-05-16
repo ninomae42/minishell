@@ -28,7 +28,15 @@ quoteCharacterTest = [
     # "echo 'hoge' hoge'",
     # 'echo "hoge" hoge"',
 
-    # 'echo "hogehoge" >> out.txt',
+    'echo "hogehoge" > out.txt',
+    'echo "hogehoge" >> out.txt',
+    'cat input.txt | grep ft',
+    'cat input.txt | grep ft > out.txt',
+    'cat input.txt | grep ft >> out.txt',
+    '<input.txt cat | grep ft > out.txt',
+    '<input.txt cat | grep ft >> out.txt',
+    '<<EOF cat | grep ft > out.txt',
+    '<<EOF cat | grep ft >> out.txt',
 ]
 
 

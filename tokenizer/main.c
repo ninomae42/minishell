@@ -50,6 +50,24 @@ t_token	*tokenize_quotes(t_token *cur, char **cur_ch, char quote_ch)
 	return (cur);
 }
 
+t_token	*tokenize_operator(t_token *cur, char **cur_ch)
+{
+	const char	*begin = *cur_ch;
+	const char	*end = *cur_ch;
+	char		*literal;
+
+	while (*end && is_operator_charcter(*end))
+		end++;
+	literal = strndup(begin, end - begin);
+	if (literal == NULL)
+		perror_exit("strndup");
+	cur = new_token(cur, TK_OPERATOR, literal);
+	if (cur == NULL)
+		perror_exit("malloc");
+	*cur_ch = (char *)end;
+	return (cur);
+}
+
 t_token	*tokenize(char *input, bool *is_err)
 {
 	t_token	head;
@@ -61,6 +79,8 @@ t_token	*tokenize(char *input, bool *is_err)
 	{
 		if (is_blank(*input))
 			skip_blanks(&input);
+		else if (is_operator_charcter(*input))
+			cur = tokenize_operator(cur, &input);
 		else if (*input == SINGLE_QUOTE)
 			cur = tokenize_quotes(cur, &input, SINGLE_QUOTE);
 		else if (*input == DOUBLE_QUOTE)

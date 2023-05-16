@@ -28,6 +28,7 @@ typedef struct s_token{
 
 bool	is_blank(char c);
 bool	is_meta_character(char c);
+bool	is_operator_charcter(char c);
 
 t_token	*new_token(t_token *cur, t_token_type type, char *literal);
 void	skip_blanks(char **begin);
