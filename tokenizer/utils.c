@@ -20,32 +20,3 @@ bool	is_operator_chars(char c)
 		return (true);
 	return (false);
 }
-
-t_token_type	find_token_type(char c)
-{
-	if (c == ' ')
-		return (TK_SPACE);
-	if (c == '\t')
-		return (TK_TAB);
-	if (c == '\n')
-		return (TK_NEWLINE);
-	if (c == '|')
-		return (TK_PIPE);
-	if (c == '&')
-		return (TK_AMP);
-	if (c == ';')
-		return (TK_SEMICOLON);
-	if (c == '(')
-		return (TK_LPAREN);
-	if (c == ')')
-		return (TK_RPAREN);
-	if (c == '<')
-		return (TK_LT);
-	if (c == '>')
-		return (TK_GT);
-	if (c == '\'')
-		return (TK_SINGLE_QUOTE);
-	if (c == '"')
-		return (TK_DOUBLE_QUOTE);
-	return (TK_EOF);
-}

@@ -16,18 +16,6 @@
 typedef enum e_token_type
 {
 	TK_EOF,
-	TK_SPACE,
-	TK_TAB,
-	TK_NEWLINE,
-	TK_PIPE,
-	TK_AMP,
-	TK_SEMICOLON,
-	TK_LPAREN,
-	TK_RPAREN,
-	TK_LT,
-	TK_GT,
-	TK_SINGLE_QUOTE,
-	TK_DOUBLE_QUOTE,
 	TK_WORD,
 	TK_OPERATOR,
 }	t_token_type;
@@ -38,14 +26,13 @@ typedef struct s_token{
 	struct s_token	*next;
 }	t_token;
 
-bool			is_argc_valid(int argc);
-bool			is_operator_chars(char c);
-bool			is_meta_character(char c);
-t_token_type	find_token_type(char c);
+bool	is_argc_valid(int argc);
+bool	is_operator_chars(char c);
+bool	is_meta_character(char c);
 
-t_token			*tokenize(char *input, bool *is_error);
-t_token			*duplicate_word(
-					t_token *cur, t_token_type type, char *begin, char *end);
-t_token			*new_token(t_token *current, t_token_type type, char *literal);
+t_token	*tokenize(char *input, bool *is_error);
+t_token	*duplicate_word(
+			t_token *cur, t_token_type type, char *begin, char *end);
+t_token	*new_token(t_token *current, t_token_type type, char *literal);
 
 #endif
