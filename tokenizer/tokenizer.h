@@ -8,6 +8,7 @@
 # include <unistd.h>
 
 # define META_CHARACTERS " \t\n|&;()<>"
+# define OPERATOR_CHARACTERS "\n|&;()<>"
 # define BRANK_CHARACTERS " \t"
 # define SINGLE_QUOTE '\''
 # define DOUBLE_QUOTE '"'
@@ -28,6 +29,7 @@ typedef enum e_token_type
 	TK_SINGLE_QUOTE,
 	TK_DOUBLE_QUOTE,
 	TK_WORD,
+	TK_OPERATOR,
 }	t_token_type;
 
 typedef struct s_token{
@@ -37,6 +39,7 @@ typedef struct s_token{
 }	t_token;
 
 bool			is_argc_valid(int argc);
+bool			is_operator_chars(char c);
 bool			is_meta_character(char c);
 t_token_type	find_token_type(char c);
 

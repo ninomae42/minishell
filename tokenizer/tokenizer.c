@@ -1,6 +1,6 @@
 #include "tokenizer.h"
 
-static t_token	*tokenize_metacharacter(t_token *cur, char **input);
+static t_token	*tokenize_operators(t_token *cur, char **input);
 static t_token	*tokenize_single_quote(t_token *cur, char **input);
 static t_token	*tokenize_double_quote(t_token *cur, char **input);
 static t_token	*tokenize_word(t_token *cur, char **input);
@@ -31,8 +31,8 @@ t_token	*tokenize(char *input, bool *is_error)
 	{
 		if (is_blank(*input))
 			skip_spaces(&input);
-		else if (is_meta_character(*input))
-			current = tokenize_metacharacter(current, &input);
+		else if (is_operator_chars(*input))
+			current = tokenize_operators(current, &input);
 		else if (*input == SINGLE_QUOTE)
 				current = tokenize_single_quote(current, &input);
 		else if (*input == DOUBLE_QUOTE)
@@ -48,14 +48,14 @@ t_token	*tokenize(char *input, bool *is_error)
 }
 
 // tokenize metacharacter
-static t_token	*tokenize_metacharacter(t_token *cur, char **input)
+static t_token	*tokenize_operators(t_token *cur, char **input)
 {
 	const char	*begin = *input;
 	const char	*end = *input;
 
-	end++;
-	cur = duplicate_word(cur,
-			find_token_type(*begin), (char *)begin, (char *)end);
+	while (*end && is_operator_chars(*end))
+		end++;
+	cur = duplicate_word(cur, TK_OPERATOR, (char *)begin, (char *)end);
 	if (cur == NULL)
 		return (NULL);
 	*input = (char *)end;

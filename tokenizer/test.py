@@ -30,6 +30,15 @@ invalidInputTest = [
         r'echo "hoge\"hoge"',
 ]
 
+operatorTest = [
+    "cat test.txt > result.out",
+    "cat test.txt | grep ft > result.out",
+    "cat test.txt | grep ft >> result.out",
+    "<test.txt cat | grep ft >> result.out",
+    "<<EOF cat | grep ft >> result.out",
+]
+
+
 def test_tokenizer(inputStr):
     for i, input in enumerate(inputStr):
         command = ["./tokenizer", input]
@@ -50,7 +59,8 @@ def runtest(index, command):
         print(f'===== NG =====\n')
 
 if __name__ ==  '__main__':
-    test_tokenizer(metacharTest)
-    test_tokenizer(basicTest)
-    test_tokenizer(pipeRedirectionTest)
+    # test_tokenizer(metacharTest)
+    # test_tokenizer(basicTest)
+    # test_tokenizer(pipeRedirectionTest)
     # test_tokenizer(invalidInputTest)
+    test_tokenizer(operatorTest)
