@@ -4,14 +4,10 @@ bool	is_argc_valid(int argc)
 {
 	return (argc == 2);
 }
-
-void	skip_blanks(char **begin)
+void	perror_exit(char *func_name)
 {
-	const char	*current = *begin;
-
-	while (*current && is_blank(*current))
-		current++;
-	*begin = (char *)current;
+	perror(func_name);
+	exit(EXIT_FAILURE);
 }
 
 t_token	*tokenize_word(t_token *cur, char **cur_ch, bool *is_err)
@@ -33,6 +29,27 @@ t_token	*tokenize_word(t_token *cur, char **cur_ch, bool *is_err)
 	return (cur);
 }
 
+t_token	*tokenize_quotes(t_token *cur, char **cur_ch, char quote_ch)
+{
+	const char	*begin = *cur_ch;
+	const char	*end = *cur_ch;
+	char		*literal;
+
+	end++;
+	while (*end && *end != quote_ch)
+		end++;
+	if (*end && *end == quote_ch)
+		end++;
+	literal = strndup(begin, end - begin);
+	if (literal == NULL)
+		perror_exit("strndup");
+	cur = new_token(cur, TK_WORD, literal);
+	if (cur == NULL)
+		perror_exit("malloc");
+	*cur_ch = (char *)end;
+	return (cur);
+}
+
 t_token	*tokenize(char *input, bool *is_err)
 {
 	t_token	head;
@@ -44,6 +61,10 @@ t_token	*tokenize(char *input, bool *is_err)
 	{
 		if (is_blank(*input))
 			skip_blanks(&input);
+		else if (*input == SINGLE_QUOTE)
+			cur = tokenize_quotes(cur, &input, SINGLE_QUOTE);
+		else if (*input == DOUBLE_QUOTE)
+			cur = tokenize_quotes(cur, &input, DOUBLE_QUOTE);
 		else
 			cur = tokenize_word(cur, &input, is_err);
 	}

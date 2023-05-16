@@ -17,6 +17,17 @@ quoteCharacterTest = [
     'echo "hogehoge"',
     "echo 'hoge hoge'",
     'echo "hoge hoge"',
+    "echo 'hoge\thoge'",
+    'echo "hoge\thoge"',
+
+    # unclosed
+    # "echo 'hoge hoge",
+    # 'echo "hoge hoge',
+    # "echo hoge hoge'",
+    # 'echo hoge hoge"',
+    # "echo 'hoge' hoge'",
+    # 'echo "hoge" hoge"',
+
     # 'echo "hogehoge" >> out.txt',
 ]
 
@@ -67,7 +78,7 @@ def runtest(index, command):
         print(f'===== TEST{index} {red} NG {reset} =====\n')
 
 if __name__ ==  '__main__':
-    test_tokenizer(basicTest)
+    # test_tokenizer(basicTest)
     test_tokenizer(quoteCharacterTest)
     # test_tokenizer(pipeRedirectionTest)
     # test_tokenizer(invalidInputTest)
