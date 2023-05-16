@@ -1,21 +1,24 @@
 #include "tokenizer.h"
 
+bool	is_argc_valid(int argc)
+{
+	return (argc == 2);
+}
+
 int	main(int argc, char **argv)
 {
-	char	*input;
-	bool	is_tokenize_error;
+	t_token	*token;
 	t_token	*current;
+	bool	is_error;
 
 	if (!is_argc_valid(argc))
 		exit(EXIT_FAILURE);
-	input = argv[1];
-	is_tokenize_error = false;
-	current = tokenize(input, &is_tokenize_error);
-	if (is_tokenize_error)
-		exit(EXIT_FAILURE);
-	while (current->next != NULL)
+	is_error = false;
+	token = tokenize(argv[1], &is_error);
+	current = token;
+	while (current != NULL)
 	{
-		printf("type: %d, literal: [%s]\n", current->type, current->literal);
+		printf("type: %d, literal: %s\n", current->type, current->literal);
 		current = current->next;
 	}
 	exit(EXIT_SUCCESS);

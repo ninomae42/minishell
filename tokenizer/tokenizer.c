@@ -1,122 +1,87 @@
 #include "tokenizer.h"
 
-static t_token	*tokenize_metacharacter(t_token *cur, char **input);
-static t_token	*tokenize_single_quote(t_token *cur, char **input);
-static t_token	*tokenize_double_quote(t_token *cur, char **input);
-static t_token	*tokenize_word(t_token *cur, char **input);
+static t_token	*tokenize_operator(t_token *cur, char **cur_ch);
+static t_token	*tokenize_quotes(t_token *cur, char **cur_ch, char quote_ch);
+static t_token	*tokenize_word(t_token *cur, char **cur_ch, bool *is_err);
 
-// tokenize input and return token nodes.
-t_token	*tokenize(char *input, bool *is_error)
+t_token	*tokenize(char *input, bool *is_err)
 {
 	t_token	head;
-	t_token	*current;
+	t_token	*cur;
 
 	head.next = NULL;
-	current = &head;
-	while (*input && current)
+	cur = &head;
+	while (*input && !*is_err)
 	{
-		if (is_meta_character(*input))
-			current = tokenize_metacharacter(current, &input);
+		if (is_blank(*input))
+			skip_blanks(&input);
+		else if (is_operator_charcter(*input))
+			cur = tokenize_operator(cur, &input);
 		else if (*input == SINGLE_QUOTE)
-				current = tokenize_single_quote(current, &input);
+			cur = tokenize_quotes(cur, &input, SINGLE_QUOTE);
 		else if (*input == DOUBLE_QUOTE)
-			current = tokenize_double_quote(current, &input);
+			cur = tokenize_quotes(cur, &input, DOUBLE_QUOTE);
 		else
-			current = tokenize_word(current, &input);
+			cur = tokenize_word(cur, &input, is_err);
 	}
-	if (current == NULL)
-		*is_error = true;
-	else
-		current = new_token(current, TK_EOF, NULL);
+	cur = new_token(cur, TK_EOF, NULL);
 	return (head.next);
 }
 
-// tokenize metacharacter
-static t_token	*tokenize_metacharacter(t_token *cur, char **input)
+t_token	*tokenize_operator(t_token *cur, char **cur_ch)
 {
-	const char	*begin = *input;
-	const char	*end = *input;
+	const char	*begin = *cur_ch;
+	const char	*end = *cur_ch;
+	char		*literal;
 
-	end++;
-	cur = duplicate_word(cur,
-			find_token_type(*begin), (char *)begin, (char *)end);
-	if (cur == NULL)
-		return (NULL);
-	*input = (char *)end;
-	return (cur);
-}
-
-// tokenize single quoted word sequence
-static t_token	*tokenize_single_quote(t_token *cur, char **input)
-{
-	const char	*begin = *input;
-	const char	*end = *input;
-
-	end++;
-	cur = duplicate_word(cur, TK_SINGLE_QUOTE, (char *)begin, (char *)end);
-	if (cur == NULL)
-		return (NULL);
-	begin = end;
-	while (*end && *end != SINGLE_QUOTE)
+	while (*end && is_operator_charcter(*end))
 		end++;
-	if (*end == '\0')
-		return (NULL);
-	cur = duplicate_word(cur, TK_WORD, (char *)begin, (char *)end);
+	literal = strndup(begin, end - begin);
+	if (literal == NULL)
+		perror_exit("strndup");
+	cur = new_token(cur, TK_OPERATOR, literal);
 	if (cur == NULL)
-		return (NULL);
-	begin = end;
-	end++;
-	cur = duplicate_word(cur, TK_SINGLE_QUOTE, (char *)begin, (char *)end);
-	if (cur == NULL)
-		return (NULL);
-	*input = (char *)end;
+		perror_exit("malloc");
+	*cur_ch = (char *)end;
 	return (cur);
 }
 
-// tokenize double quoted word sequence
-static t_token	*tokenize_double_quote(t_token *cur, char **input)
+t_token	*tokenize_quotes(t_token *cur, char **cur_ch, char quote_ch)
 {
-	const char	*begin = *input;
-	const char	*end = *input;
+	const char	*begin = *cur_ch;
+	const char	*end = *cur_ch;
+	char		*literal;
 
 	end++;
-	cur = duplicate_word(cur, TK_DOUBLE_QUOTE, (char *)begin, (char *)end);
-	if (cur == NULL)
-		return (NULL);
-	begin = end;
-	while (*end && *end != DOUBLE_QUOTE)
-	{
+	while (*end && *end != quote_ch)
 		end++;
-	}
-	if (*end == '\0')
-		return (NULL);
-	cur = duplicate_word(cur, TK_WORD, (char *)begin, (char *)end);
+	if (*end && *end == quote_ch)
+		end++;
+	literal = strndup(begin, end - begin);
+	if (literal == NULL)
+		perror_exit("strndup");
+	cur = new_token(cur, TK_WORD, literal);
 	if (cur == NULL)
-		return (NULL);
-	begin = end;
-	end++;
-	cur = duplicate_word(cur, TK_DOUBLE_QUOTE, (char *)begin, (char *)end);
-	if (cur == NULL)
-		return (NULL);
-	*input = (char *)end;
+		perror_exit("malloc");
+	*cur_ch = (char *)end;
 	return (cur);
 }
 
-// tokenize word
-static t_token	*tokenize_word(t_token *cur, char **input)
+t_token	*tokenize_word(t_token *cur, char **cur_ch, bool *is_err)
 {
-	const char	*begin = *input;
-	const char	*end = *input;
+	const char	*begin = *cur_ch;
+	const char	*end = *cur_ch;
+	char		*literal;
 
 	while (*end && !is_meta_character(*end))
-	{
-		if (*end == SINGLE_QUOTE)
-			return (NULL);
 		end++;
-	}
-	cur = duplicate_word(cur, TK_WORD, (char *)begin, (char *)end);
-	if (cur == NULL)
+	literal = strndup(begin, end - begin);
+	if (literal == NULL)
+	{
+		*is_err = true;
 		return (NULL);
-	*input = (char *)end;
+	}
+	cur = new_token(cur, TK_WORD, literal);
+	*cur_ch = (char *)end;
 	return (cur);
 }
