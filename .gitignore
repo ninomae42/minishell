@@ -12,5 +12,4 @@ compile_commands.json
 .cache
 
 # Local playground directory
-playground/
 lab/
