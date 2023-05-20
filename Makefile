@@ -30,7 +30,7 @@ OBJS := $(patsubst $(SRCS_DIR)/%.c,$(OBJS_DIR)/%.o,$(SRCS))
 DEPS := $(OBJS:.o=.d)
 
 # include settings
-INC_DIR := $(dir $(SRCS))
+INC_DIR := $(sort $(dir $(SRCS)))
 INCLUDES := $(addprefix -I, $(INC_DIR))
 
 # library setting
