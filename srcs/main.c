@@ -1,4 +1,5 @@
 #include "tokenizer.h"
+#include "parser/parser.h"
 
 bool	is_argc_valid(int argc)
 {
@@ -21,5 +22,8 @@ int	main(int argc, char **argv)
 		printf("type: %d, literal: %s\n", current->type, current->literal);
 		current = current->next;
 	}
+	puts("");
+	t_node	*ast = parse(token);
+	print_ast_in_order(ast);
 	exit(EXIT_SUCCESS);
 }

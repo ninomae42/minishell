@@ -8,11 +8,11 @@ MAIN_SRC := main.c
 MAIN_SRC := $(addprefix $(SRCS_DIR)/, $(MAIN_SRC))
 
 # parser files
-# PARSER_DIR := parser
-# PARSER_SRCS := parser.c
-#
-# PARSER_DIR := $(addprefix $(SRCS_DIR)/, $(PARSER_DIR))
-# PARSER_SRCS := $(addprefix $(PARSER_DIR)/, $(PARSER_SRCS))
+PARSER_DIR := parser
+PARSER_SRCS := parser.c
+
+PARSER_DIR := $(addprefix $(SRCS_DIR)/, $(PARSER_DIR))
+PARSER_SRCS := $(addprefix $(PARSER_DIR)/, $(PARSER_SRCS))
 
 # tokenizer files
 TOKENIZER_DIR := tokenizer
@@ -70,6 +70,6 @@ re: fclean all
 
 .PHONY: t
 t: all
-	python3 ./srcs/tokenizer/test.py
+	python3 ./srcs/parser/test.py
 
 -include $(DEPS)
