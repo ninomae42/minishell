@@ -66,7 +66,7 @@ operatorTest = [
 
 def test_tokenizer(inputStr):
     for i, input in enumerate(inputStr):
-        command = ["./tokenizer", input]
+        command = ["./minishell", input]
         runtest(i, command)
 
 def runtest(index, command):

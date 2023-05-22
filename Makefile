@@ -68,4 +68,8 @@ fclean: clean
 .PHONY: re
 re: fclean all
 
+.PHONY: t
+t: all
+	python3 ./srcs/tokenizer/test.py
+
 -include $(DEPS)
