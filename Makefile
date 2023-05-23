@@ -7,12 +7,19 @@ OBJS_DIR := ./objs
 MAIN_SRC := main.c
 MAIN_SRC := $(addprefix $(SRCS_DIR)/, $(MAIN_SRC))
 
+# executor files
+EXEC_DIR := exec
+EXEC_SRCS := exec.c
+
+EXEC_DIR := $(addprefix $(SRCS_DIR)/, $(EXEC_DIR))
+EXEC_SRCS := $(addprefix $(EXEC_DIR)/, $(EXEC_SRCS))
+
 # parser files
-# PARSER_DIR := parser
-# PARSER_SRCS := parser.c
-#
-# PARSER_DIR := $(addprefix $(SRCS_DIR)/, $(PARSER_DIR))
-# PARSER_SRCS := $(addprefix $(PARSER_DIR)/, $(PARSER_SRCS))
+PARSER_DIR := parser
+PARSER_SRCS := parser.c
+
+PARSER_DIR := $(addprefix $(SRCS_DIR)/, $(PARSER_DIR))
+PARSER_SRCS := $(addprefix $(PARSER_DIR)/, $(PARSER_SRCS))
 
 # tokenizer files
 TOKENIZER_DIR := tokenizer
@@ -25,7 +32,7 @@ TOKENIZER_DIR := $(addprefix $(SRCS_DIR)/, $(TOKENIZER_DIR))
 TOKENIZER_SRCS := $(addprefix $(TOKENIZER_DIR)/, $(TOKENIZER_SRCS))
 
 # all source and object deps files
-SRCS := $(MAIN_SRC) $(TOKENIZER_SRCS) $(PARSER_SRCS)
+SRCS := $(MAIN_SRC) $(TOKENIZER_SRCS) $(PARSER_SRCS) $(EXEC_SRCS)
 OBJS := $(patsubst $(SRCS_DIR)/%.c,$(OBJS_DIR)/%.o,$(SRCS))
 DEPS := $(OBJS:.o=.d)
 
@@ -70,6 +77,6 @@ re: fclean all
 
 .PHONY: t
 t: all
-	python3 ./srcs/tokenizer/test.py
+	python3 ./srcs/parser/test.py
 
 -include $(DEPS)
