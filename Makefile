@@ -7,6 +7,13 @@ OBJS_DIR := ./objs
 MAIN_SRC := main.c
 MAIN_SRC := $(addprefix $(SRCS_DIR)/, $(MAIN_SRC))
 
+# executor files
+EXEC_DIR := exec
+EXEC_SRCS := exec.c
+
+EXEC_DIR := $(addprefix $(SRCS_DIR)/, $(EXEC_DIR))
+EXEC_SRCS := $(addprefix $(EXEC_DIR)/, $(EXEC_SRCS))
+
 # parser files
 PARSER_DIR := parser
 PARSER_SRCS := parser.c
@@ -25,7 +32,7 @@ TOKENIZER_DIR := $(addprefix $(SRCS_DIR)/, $(TOKENIZER_DIR))
 TOKENIZER_SRCS := $(addprefix $(TOKENIZER_DIR)/, $(TOKENIZER_SRCS))
 
 # all source and object deps files
-SRCS := $(MAIN_SRC) $(TOKENIZER_SRCS) $(PARSER_SRCS)
+SRCS := $(MAIN_SRC) $(TOKENIZER_SRCS) $(PARSER_SRCS) $(EXEC_SRCS)
 OBJS := $(patsubst $(SRCS_DIR)/%.c,$(OBJS_DIR)/%.o,$(SRCS))
 DEPS := $(OBJS:.o=.d)
 

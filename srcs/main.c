@@ -1,5 +1,6 @@
 #include "tokenizer.h"
 #include "parser/parser.h"
+#include "exec/exec.h"
 
 bool	is_argc_valid(int argc)
 {
@@ -25,5 +26,6 @@ int	main(int argc, char **argv)
 	puts("");
 	t_node	*ast = parse(token);
 	print_ast_pre_order(ast);
+	exec_command(ast);
 	exit(EXIT_SUCCESS);
 }
