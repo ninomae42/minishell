@@ -26,6 +26,20 @@ void	print_ast_pre_order(t_node *ast)
 	print_ast_pre_order(sibling);
 }
 
+size_t	count_words(t_node *current)
+{
+	size_t	cnt;
+
+	cnt = 0;
+	while (current != NULL)
+	{
+		if (current->child != NULL && current->child->type == ND_WORD)
+			cnt++;
+		current = current->brother;
+	}
+	return (cnt);
+}
+
 t_node	*new_node(t_node_type type, t_node *child)
 {
 	t_node	*node;
@@ -74,6 +88,7 @@ t_node	*simple_command(t_parser *parser)
 
 	node = new_node(ND_SIMPLE_COMMAND, NULL);
 	node->child = simple_command_element(parser);
+	printf("words count: %zu\n", count_words(node->child));
 	return (node);
 }
 

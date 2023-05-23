@@ -5,12 +5,7 @@ size_t	count_argc(t_node *commands)
 {
 	size_t	count;
 
-	count = 0;
-	while (commands != NULL)
-	{
-		count++;
-		commands = commands->brother;
-	}
+	count = count_words(commands);
 	return (count);
 }
 

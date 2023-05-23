@@ -25,4 +25,6 @@ typedef struct s_parser
 t_node	*parse(t_token *token);
 void	print_ast_pre_order(t_node *ast);
 
+size_t	count_words(t_node *current);
+
 #endif
