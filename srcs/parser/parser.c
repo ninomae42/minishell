@@ -26,7 +26,7 @@ void	print_ast_pre_order(t_node *ast)
 	print_ast_pre_order(sibling);
 }
 
-t_node	*new_node(t_node_type type)
+t_node	*new_node(t_node_type type, t_node *child)
 {
 	t_node	*node;
 
@@ -35,6 +35,7 @@ t_node	*new_node(t_node_type type)
 		perror_exit("malloc");
 	memset(node, 0, sizeof(t_node));
 	node->type = type;
+	node->child = child;
 	return (node);
 }
 
@@ -44,7 +45,7 @@ t_node	*word(t_parser *parser)
 
 	if (parser->token == NULL || parser->token->type == TK_EOF)
 		return (NULL);
-	node = new_node(ND_WORD);
+	node = new_node(ND_WORD, NULL);
 	node->word = strdup(parser->token->literal);
 	parser->token = parser->token->next;
 	return (node);
@@ -55,14 +56,14 @@ t_node	*simple_command_element(t_parser *parser)
 	t_node	*head;
 	t_node	*current;
 
-	head = word(parser);
+	head = new_node(ND_SIMPLE_COMMAND_ELEMENT, word(parser));
 	current = head;
 	while (true)
 	{
 		if (parser->token == NULL || parser->token->type == TK_EOF)
 			return (head);
 		if (parser->token->type == TK_WORD)
-			current->brother = word(parser);
+			current->brother = new_node(ND_SIMPLE_COMMAND_ELEMENT, word(parser));
 		current = current->brother;
 	}
 }
@@ -71,9 +72,8 @@ t_node	*simple_command(t_parser *parser)
 {
 	t_node	*node;
 
-	node = new_node(ND_SIMPLE_COMMAND);
-	node->child = new_node(ND_SIMPLE_COMMAND_ELEMENT);
-	node->child->brother = simple_command_element(parser);
+	node = new_node(ND_SIMPLE_COMMAND, NULL);
+	node->child = simple_command_element(parser);
 	return (node);
 }
 
