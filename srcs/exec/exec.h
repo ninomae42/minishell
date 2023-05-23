@@ -11,6 +11,6 @@ struct s_cmd_node{
 	t_cmd_node	*next;
 };
 
-void	exec_command(t_node *ast);
+int	exec_command(t_node *ast);
 
 #endif

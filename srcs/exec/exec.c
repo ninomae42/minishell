@@ -49,7 +49,7 @@ t_cmd_node	*simple_command_node(t_node *ast)
 	return (cmd);
 }
 
-void	exec_simple_command(t_node *ast)
+int	exec_simple_command(t_node *ast)
 {
 	pid_t	pid;
 	int		status;
@@ -69,11 +69,15 @@ void	exec_simple_command(t_node *ast)
 	{
 		status = 0;
 		wait(&status);
-		printf("parent: child exited with status: %d\n", status);
+		printf("parent: child exited with status: %d\n", WEXITSTATUS(status));
+		return (status);
 	}
 }
 
-void	exec_command(t_node *ast)
+int	exec_command(t_node *ast)
 {
-	exec_simple_command(ast);
+	int	status;
+
+	status = exec_simple_command(ast);
+	return (status);
 }

@@ -26,6 +26,6 @@ int	main(int argc, char **argv)
 	puts("");
 	t_node	*ast = parse(token);
 	print_ast_pre_order(ast);
-	exec_command(ast);
-	exit(EXIT_SUCCESS);
+	int status = exec_command(ast);
+	exit(status);
 }
