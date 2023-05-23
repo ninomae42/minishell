@@ -49,9 +49,9 @@ LDFLAGS := $(LIB_DIR) $(LFLAGS)
 # compiler settings
 CC := cc
 CFLAGS := -Wall -Wextra -Werror -MMD -MP
-# CLFAGS += -g
-# CLFAGS += -fsanitize=undefined
-# CLFAGS += -fsanitize=address
+# CFLAGS += -g
+# CFLAGS += -fsanitize=undefined
+# CFLAGS += -fsanitize=address
 RM := rm -rf
 
 .PHONY: all
