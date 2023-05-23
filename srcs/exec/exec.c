@@ -16,7 +16,8 @@ void	set_argv(size_t argc, char **argv, t_node *commands)
 	i = 0;
 	while (i < argc)
 	{
-		argv[i] = commands->word;
+		// if (commands->child != NULL)
+		argv[i] = commands->child->word;
 		commands = commands->brother;
 		i++;
 	}
@@ -40,11 +41,11 @@ t_cmd_node	*simple_command_node(t_node *ast)
 
 	cmd = new_cmd_node();
 	cmd->environ = environ;
-	cmd->argc = count_argc(ast->child->brother);
+	cmd->argc = count_argc(ast->child);
 	cmd->argv = (char **)malloc(sizeof(char *) * (cmd->argc + 1));
 	if (cmd->argv == NULL)
 		perror_exit("malloc");
-	set_argv(cmd->argc, cmd->argv, ast->child->brother);
+	set_argv(cmd->argc, cmd->argv, ast->child);
 	cmd->filename = cmd->argv[0];
 	return (cmd);
 }
