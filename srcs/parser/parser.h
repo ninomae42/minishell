@@ -12,8 +12,8 @@ enum e_node_type{
 typedef struct s_node	t_node;
 struct s_node{
 	t_node_type	type;
-	t_node		*lhs;
-	t_node		*rhs;
+	t_node		*child;
+	t_node		*brother;
 	char		*word;
 };
 
@@ -23,6 +23,6 @@ typedef struct s_parser
 }	t_parser;
 
 t_node	*parse(t_token *token);
-void	print_ast_in_order(t_node *ast);
+void	print_ast_pre_order(t_node *ast);
 
 #endif

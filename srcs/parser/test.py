@@ -17,8 +17,8 @@ def runtest(index, command):
     print(f"[{res.args[1]}]")
     print('=== stdout ===')
     print(f"{res.stdout.decode()}")
-    print('=== stderr ===')
-    print(f"{res.stderr.decode()}")
+    # print('=== stderr ===')
+    # print(f"{res.stderr.decode()}")
 
     if res.returncode == 0:
         print(f'===== TEST{index} {green} OK {reset} ({res.returncode}) =====\n')
@@ -29,6 +29,9 @@ basicTest = [
     '/bin/ls',
     '/bin/echo',
     '/bin/echo hello',
+    '/bin/echo hello world',
+    '/bin/echo hello world hoge',
+    '/bin/echo hello world hoge moge',
 ]
 
 if __name__ ==  '__main__':
