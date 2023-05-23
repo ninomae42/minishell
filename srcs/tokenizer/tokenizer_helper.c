@@ -22,3 +22,35 @@ void	skip_blanks(char **begin)
 		current++;
 	*begin = (char *)current;
 }
+
+void	dealloc_token(t_token *head)
+{
+	t_token	*tmp;
+
+	while (head != NULL)
+	{
+		tmp = head;
+		free(head);
+		head = tmp->next;
+	}
+}
+
+char	*token_type2str(t_token_type type)
+{
+	if (type == TK_WORD)
+		return ("TK_WORD");
+	if (type == TK_OPERATOR)
+		return ("TK_OPERATOR");
+	if (type == TK_EOF)
+		return ("TK_EOF");
+	return ("UNKNOWN");
+}
+
+void	print_token(t_token *token)
+{
+	while (token != NULL)
+	{
+		printf("type: %s, literal: %s\n", token_type2str(token->type), token->literal);
+		token = token->next;
+	}
+}

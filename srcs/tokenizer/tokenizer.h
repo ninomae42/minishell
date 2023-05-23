@@ -34,6 +34,9 @@ t_token	*tokenize(char *input, bool *is_err);
 
 t_token	*new_token(t_token *cur, t_token_type type, char *literal);
 void	skip_blanks(char **begin);
+void	dealloc_token(t_token *head);
+char	*token_type2str(t_token_type type);
+void	print_token(t_token *token);
 
 void	perror_exit(char *func_name);
 
