@@ -24,6 +24,12 @@ void	set_argv(size_t argc, char **argv, t_node *commands)
 	argv[i] = NULL;
 }
 
+void	dealloc_cmd_node(t_cmd_node *cmd)
+{
+	free(cmd->argv);
+	free(cmd);
+}
+
 t_cmd_node	*new_cmd_node()
 {
 	t_cmd_node	*node;
@@ -71,6 +77,7 @@ int	exec_simple_command(t_node *ast)
 		status = 0;
 		wait(&status);
 		printf("parent: child exited with status: %d\n", WEXITSTATUS(status));
+		dealloc_cmd_node(cmd);
 		return (status);
 	}
 }
