@@ -1,0 +1,14 @@
+# executable files
+a.out
+
+# object files
+*/*.o
+objs/
+
+# static libraries
+libft.a
+
+# editor config files
+.vscode
+compile_commands.json
+.cache
