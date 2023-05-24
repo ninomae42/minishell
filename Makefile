@@ -48,8 +48,10 @@ LIBFT_LIB_NAME := ft
 LIBFT_INC_DIR := ./libft/includes
 #
 LIBS := $(LIBFT_LIB_NAME)
+
 LIB_DIR := $(LIBFT_DIR)
 LIB_DIR := $(addprefix -L, $(LIB_DIR))
+
 LFLAGS := $(addprefix -l, $(LIBS))
 LDFLAGS := $(LIB_DIR) $(LFLAGS)
 
@@ -64,8 +66,6 @@ RM := rm -rf
 
 .PHONY: all
 all: $(NAME)
-# all:
-# 	@echo $(INC_DIR)
 
 $(NAME): $(OBJS) $(LIBFT)
 	$(CC) $(CFLAGS) $(OBJS) $(LDFLAGS) -o $(NAME)
