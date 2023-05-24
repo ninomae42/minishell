@@ -37,12 +37,19 @@ OBJS := $(patsubst $(SRCS_DIR)/%.c,$(OBJS_DIR)/%.o,$(SRCS))
 DEPS := $(OBJS:.o=.d)
 
 # include settings
-INC_DIR := $(sort $(dir $(SRCS)))
-INCLUDES := $(addprefix -I, $(INC_DIR))
+INC_DIR = $(sort $(dir $(SRCS))) $(LIBFT_INC_DIR)
+INCLUDES = $(addprefix -I, $(INC_DIR))
 
 # library setting
-LIBS :=
-LIB_DIR :=
+# libft
+LIBFT_DIR := ./libft
+LIBFT := ./libft/libft.a
+LIBFT_LIB_NAME := ft
+LIBFT_INC_DIR := ./libft/includes
+#
+LIBS := $(LIBFT_LIB_NAME)
+LIB_DIR := $(LIBFT_DIR)
+LIB_DIR := $(addprefix -L, $(LIB_DIR))
 LFLAGS := $(addprefix -l, $(LIBS))
 LDFLAGS := $(LIB_DIR) $(LFLAGS)
 
@@ -52,12 +59,15 @@ CFLAGS := -Wall -Wextra -Werror -MMD -MP
 # CFLAGS += -g
 # CFLAGS += -fsanitize=undefined
 # CFLAGS += -fsanitize=address
+MAKE := make
 RM := rm -rf
 
 .PHONY: all
 all: $(NAME)
+# all:
+# 	@echo $(INC_DIR)
 
-$(NAME): $(OBJS)
+$(NAME): $(OBJS) $(LIBFT)
 	$(CC) $(CFLAGS) $(OBJS) $(LDFLAGS) -o $(NAME)
 
 $(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c
@@ -66,10 +76,12 @@ $(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c
 
 .PHONY: clean
 clean:
+	$(MAKE) clean -C $(LIBFT_DIR)
 	$(RM) $(OBJS_DIR)
 
 .PHONY: fclean
 fclean: clean
+	$(MAKE) fclean -C $(LIBFT_DIR)
 	$(RM) $(NAME)
 
 .PHONY: re
@@ -78,5 +90,9 @@ re: fclean all
 .PHONY: t
 t: all
 	python3 ./srcs/parser/test.py
+
+
+$(LIBFT):
+	$(MAKE) -C $(LIBFT_DIR)
 
 -include $(DEPS)
