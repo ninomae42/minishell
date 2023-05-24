@@ -11,6 +11,23 @@ char	*node_type2str(t_node_type type)
 	return ("Unknown");
 }
 
+void	dealloc_ast(t_node *ast)
+{
+	t_node	*child;
+	t_node	*brother;
+
+	if (ast == NULL)
+		return ;
+	child = ast->child;
+	brother = ast->brother;
+
+	if (ast->type == ND_WORD && ast->word != NULL)
+		free(ast->word);
+	free(ast);
+	dealloc_ast(child);
+	dealloc_ast(brother);
+}
+
 void	print_ast_pre_order(t_node *ast)
 {
 	t_node	*child;
