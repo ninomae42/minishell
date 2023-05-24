@@ -80,5 +80,6 @@ int	exec_command(t_node *ast)
 	int	status;
 
 	status = exec_simple_command(ast);
+	dealloc_ast(ast);
 	return (status);
 }
