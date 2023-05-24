@@ -29,9 +29,11 @@ void	dealloc_token(t_token *head)
 
 	while (head != NULL)
 	{
-		tmp = head;
+		tmp = head->next;
+		if (head->literal != NULL)
+			free(head->literal);
 		free(head);
-		head = tmp->next;
+		head = tmp;
 	}
 }
 
