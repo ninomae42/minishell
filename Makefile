@@ -7,6 +7,13 @@ OBJS_DIR := ./objs
 MAIN_SRC := main.c
 MAIN_SRC := $(addprefix $(SRCS_DIR)/, $(MAIN_SRC))
 
+# utils files
+UTILS_DIR := utils
+UTILS_SRCS := perror_exit.c
+
+UTILS_DIR := $(addprefix $(SRCS_DIR)/, $(UTILS_DIR))
+UTILS_SRCS := $(addprefix $(UTILS_DIR)/, $(UTILS_SRCS))
+
 # executor files
 EXEC_DIR := exec
 EXEC_SRCS := exec.c
@@ -26,7 +33,6 @@ TOKENIZER_DIR := tokenizer
 TOKENIZER_SRCS := tokenizer.c \
 				  tokenizer_helper.c \
 				  tokenizer_utils.c \
-				  utils.c \
 
 TOKENIZER_DIR := $(addprefix $(SRCS_DIR)/, $(TOKENIZER_DIR))
 TOKENIZER_SRCS := $(addprefix $(TOKENIZER_DIR)/, $(TOKENIZER_SRCS))
