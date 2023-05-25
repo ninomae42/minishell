@@ -38,6 +38,4 @@ void	dealloc_token(t_token *head);
 char	*token_type2str(t_token_type type);
 void	print_token(t_token *token);
 
-void	perror_exit(char *func_name);
-
 #endif

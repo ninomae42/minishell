@@ -1,4 +1,5 @@
 #include "tokenizer.h"
+#include "utils.h"
 
 static t_token	*tokenize_operator(t_token *cur, char **cur_ch);
 static t_token	*tokenize_quotes(t_token *cur, char **cur_ch, char quote_ch);

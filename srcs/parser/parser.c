@@ -1,4 +1,5 @@
 #include "parser.h"
+#include "utils.h"
 
 char	*node_type2str(t_node_type type)
 {

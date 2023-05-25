@@ -1,4 +1,5 @@
 #include "exec.h"
+#include "utils.h"
 extern char **environ;
 
 size_t	count_argc(t_node *commands)
