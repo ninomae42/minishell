@@ -14,6 +14,13 @@ UTILS_SRCS := perror_exit.c
 UTILS_DIR := $(addprefix $(SRCS_DIR)/, $(UTILS_DIR))
 UTILS_SRCS := $(addprefix $(UTILS_DIR)/, $(UTILS_SRCS))
 
+# environment files
+ENV_DIR := environ
+ENV_SRCS := environ.c \
+			env_init.c \
+ENV_DIR := $(addprefix $(SRCS_DIR)/, $(ENV_DIR))
+ENV_SRCS := $(addprefix $(ENV_DIR)/, $(ENV_SRCS))
+
 # executor files
 EXEC_DIR := exec
 EXEC_SRCS := exec.c
@@ -38,7 +45,7 @@ TOKENIZER_DIR := $(addprefix $(SRCS_DIR)/, $(TOKENIZER_DIR))
 TOKENIZER_SRCS := $(addprefix $(TOKENIZER_DIR)/, $(TOKENIZER_SRCS))
 
 # all source and object deps files
-SRCS := $(MAIN_SRC) $(TOKENIZER_SRCS) $(PARSER_SRCS) $(EXEC_SRCS)
+SRCS := $(MAIN_SRC) $(TOKENIZER_SRCS) $(PARSER_SRCS) $(EXEC_SRCS) $(ENV_SRCS) $(UTILS_SRCS)
 OBJS := $(patsubst $(SRCS_DIR)/%.c,$(OBJS_DIR)/%.o,$(SRCS))
 DEPS := $(OBJS:.o=.d)
 
