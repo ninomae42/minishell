@@ -3,25 +3,51 @@
 #include "exec.h"
 #include "environ.h"
 
-bool	is_argc_valid(int argc)
-{
-	return (argc == 2);
-}
+extern char **environ;
 
-int	main(int argc, char **argv)
-{
-	t_token	*token;
-	bool	is_error;
+// bool	is_argc_valid(int argc)
+// {
+// 	return (argc == 2);
+// }
+//
+// int	main(int argc, char **argv)
+// {
+// 	t_token	*token;
+// 	bool	is_error;
+//
+// 	if (!is_argc_valid(argc))
+// 		exit(EXIT_FAILURE);
+// 	is_error = false;
+// 	token = tokenize(argv[1], &is_error);
+// 	print_token(token);
+// 	puts("=====");
+// 	t_node	*ast = parse(token);
+// 	dealloc_token(token);
+// 	print_ast_pre_order(ast);
+// 	int status = exec_command(ast);
+// 	exit(status);
+// }
 
-	if (!is_argc_valid(argc))
+int	main(void)
+{
+	t_env	*env;
+
+	env = env_new();
+	if (load_env(env, environ) != 0)
+	{
+		env_dealloc(env);
 		exit(EXIT_FAILURE);
-	is_error = false;
-	token = tokenize(argv[1], &is_error);
-	print_token(token);
-	puts("=====");
-	t_node	*ast = parse(token);
-	dealloc_token(token);
-	print_ast_pre_order(ast);
-	int status = exec_command(ast);
-	exit(status);
+	}
+	ft_printenv(env);
+	puts("");
+
+	ft_setenv(env, "PWD", "/code/dir/dir2", 1);
+	ft_printenv(env);
+	puts("");
+
+	ft_unsetenv(env, "PWD");
+	ft_printenv(env);
+	puts("");
+
+	env_dealloc(env);
 }
