@@ -1,6 +1,7 @@
 #include "tokenizer.h"
-#include "parser/parser.h"
-#include "exec/exec.h"
+#include "parser.h"
+#include "exec.h"
+#include "environ.h"
 
 bool	is_argc_valid(int argc)
 {
