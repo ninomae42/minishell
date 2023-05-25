@@ -34,5 +34,8 @@ char		*ft_getenv(t_env *env, const char *name);
 int			ft_setenv(t_env *env, const char *name, const char *value, int overwrite);
 
 // env_utils.c
+t_env_node	*env_find_node(t_env *env, const char *name);
 bool		is_env_name_valid(const char *name);
+size_t		env_entry_len(t_env *env);
+
 #endif
