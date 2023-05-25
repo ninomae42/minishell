@@ -30,6 +30,9 @@ void		env_dealloc(t_env *env);
 // ft_getenv.c
 char		*ft_getenv(t_env *env, const char *name);
 
+// ft_setenv.c
+int			ft_setenv(t_env *env, const char *name, const char *value, int overwrite);
+
 // env_utils.c
 bool		is_env_name_valid(const char *name);
 #endif
