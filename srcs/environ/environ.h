@@ -27,6 +27,9 @@ t_env_node	*env_new_node(t_env_node *current, char *name, char *value);
 void		env_free_all_node(t_env_node *head);
 void		env_dealloc(t_env *env);
 
+// load_env.c
+int			load_env(t_env *env, char **environ);
+
 // ft_getenv.c
 char		*ft_getenv(t_env *env, const char *name);
 

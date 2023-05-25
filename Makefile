@@ -16,7 +16,7 @@ UTILS_SRCS := $(addprefix $(UTILS_DIR)/, $(UTILS_SRCS))
 
 # environment files
 ENV_DIR := environ
-ENV_SRCS := environ.c \
+ENV_SRCS := load_env.c \
 			env_init.c \
 			env_utils.c \
 			ft_getenv.c \
