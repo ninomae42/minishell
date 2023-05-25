@@ -18,6 +18,12 @@ UTILS_SRCS := $(addprefix $(UTILS_DIR)/, $(UTILS_SRCS))
 ENV_DIR := environ
 ENV_SRCS := environ.c \
 			env_init.c \
+			env_utils.c \
+			ft_getenv.c \
+			ft_setenv.c \
+			ft_unsetenv.c \
+			ft_printenv.c \
+
 ENV_DIR := $(addprefix $(SRCS_DIR)/, $(ENV_DIR))
 ENV_SRCS := $(addprefix $(ENV_DIR)/, $(ENV_SRCS))
 

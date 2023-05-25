@@ -36,6 +36,9 @@ int			ft_setenv(t_env *env, const char *name, const char *value, int overwrite);
 // ft_unsetenv.c
 int			ft_unsetenv(t_env *env, const char *name);
 
+// ft_printenv.c
+void		ft_printenv(t_env *env);
+
 // env_utils.c
 t_env_node	*env_find_node(t_env *env, const char *name);
 bool		is_env_name_valid(const char *name);
