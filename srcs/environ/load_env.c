@@ -27,11 +27,13 @@ int	load_env(t_env *env, char **environ)
 {
 	t_env_node	head;
 	t_env_node	*current;
+	size_t		size;
 
 	if (environ == NULL)
 		return (-1);
 	head.next = NULL;
 	current = &head;
+	size = 0;
 	while (*environ != NULL)
 	{
 		current = parse_set_env_var_entry(current, *environ);
@@ -40,9 +42,11 @@ int	load_env(t_env *env, char **environ)
 			env_free_all_node(head.next);
 			return (-1);
 		}
+		size++;
 		environ++;
 	}
 	env->head = head.next;
 	env->tail = current;
+	env->size = size;
 	return (0);
 }

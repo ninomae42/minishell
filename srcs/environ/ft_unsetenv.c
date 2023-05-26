@@ -50,5 +50,6 @@ static int	delete_node_by_name(t_env *env, const char *name)
 	free(target->value);
 	free(target->str);
 	free(target);
+	env->size--;
 	return (0);
 }

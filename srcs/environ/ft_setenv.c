@@ -57,5 +57,6 @@ static int	add_new_env_node(t_env *env, char *name, char *value)
 	}
 	node = env_new_node(env->tail, name, value, entry);
 	env->tail = node;
+	env->size++;
 	return (0);
 }

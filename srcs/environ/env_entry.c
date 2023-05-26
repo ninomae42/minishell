@@ -26,3 +26,8 @@ void	env_entry_print(t_env *env)
 		current = current->next;
 	}
 }
+
+size_t	env_entry_size(t_env *env)
+{
+	return (env->size);
+}

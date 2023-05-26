@@ -20,6 +20,7 @@ typedef struct s_env	t_env;
 struct s_env{
 	t_env_node	*head;
 	t_env_node	*tail;
+	size_t		size;
 };
 
 // env_init.c
@@ -31,6 +32,7 @@ void		env_dealloc(t_env *env);
 // env_entry.c
 char		*env_entry_new_str(const char *name, const char *value);
 void		env_entry_print(t_env *env);
+size_t		env_entry_size(t_env *env);
 
 // load_env.c
 int			load_env(t_env *env, char **environ);

@@ -10,6 +10,7 @@ t_env	*env_new(void)
 		perror_exit("malloc");
 	env->head = NULL;
 	env->tail = NULL;
+	env->size = 0;
 	return (env);
 }
 
