@@ -14,3 +14,15 @@ char	*env_entry_new_str(const char *name, const char *value)
 	ft_strlcat(res, value, alloc_size);
 	return (res);
 }
+
+void	env_entry_print(t_env *env)
+{
+	t_env_node	*current;
+
+	current = env->head;
+	while (current != NULL)
+	{
+		printf("%s\n", current->str);
+		current = current->next;
+	}
+}

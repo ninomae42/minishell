@@ -38,15 +38,18 @@ int	main(void)
 		env_dealloc(env);
 		exit(EXIT_FAILURE);
 	}
-	ft_printenv(env);
+	// ft_printenv(env);
+	env_entry_print(env);
 	puts("");
 
 	ft_setenv(env, "PWD", "/code/dir/dir2", 1);
-	ft_printenv(env);
+	// ft_printenv(env);
+	env_entry_print(env);
 	puts("");
 
 	ft_unsetenv(env, "PWD");
-	ft_printenv(env);
+	// ft_printenv(env);
+	env_entry_print(env);
 	puts("");
 
 	env_dealloc(env);
