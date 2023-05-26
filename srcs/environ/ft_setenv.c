@@ -22,32 +22,40 @@ int	ft_setenv(t_env *env, const char *name, const char *value, int overwrite)
 static int	replace_target_value(t_env_node *target, const char *value)
 {
 	char	*tmp;
+	char	*entry;
 
 	tmp = strdup(value);
-	if (tmp == NULL)
+	entry = env_entry_new_str(target->name, value);
+	if (tmp == NULL || entry == NULL)
 	{
 		perror("malloc");
+		free(tmp);
+		free(entry);
 		return (-1);
 	}
 	free(target->value);
+	free(target->str);
 	target->value = tmp;
+	target->str = entry;
 	return (0);
 }
 
 static int	add_new_env_node(t_env *env, char *name, char *value)
 {
 	t_env_node	*node;
+	char		*entry;
 
 	name = strdup(name);
-	if (name == NULL)
-		return (-1);
 	value = strdup(value);
+	entry = env_entry_new_str(name, value);
 	if (value == NULL)
 	{
 		free(name);
+		free(value);
+		free(entry);
 		return (-1);
 	}
-	node = env_new_node(env->tail, name, value);
+	node = env_new_node(env->tail, name, value, entry);
 	env->tail = node;
 	return (0);
 }

@@ -13,7 +13,7 @@ t_env	*env_new(void)
 	return (env);
 }
 
-t_env_node	*env_new_node(t_env_node *current, char *name, char *value)
+t_env_node	*env_new_node(t_env_node *current, char *name, char *value, char *str)
 {
 	t_env_node	*node;
 
@@ -22,6 +22,7 @@ t_env_node	*env_new_node(t_env_node *current, char *name, char *value)
 		perror_exit("malloc");
 	node->name = name;
 	node->value = value;
+	node->str = str;
 	node->next = NULL;
 	current->next = node;
 	return (node);
@@ -36,6 +37,7 @@ void	env_free_all_node(t_env_node *head)
 		next = head->next;
 		free(head->name);
 		free(head->value);
+		free(head->str);
 		free(head);
 		head = next;
 	}

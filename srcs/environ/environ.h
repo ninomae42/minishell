@@ -12,6 +12,7 @@ typedef struct s_env_node	t_env_node;
 struct s_env_node{
 	char		*name;
 	char		*value;
+	char		*str;
 	t_env_node	*next;
 };
 
@@ -23,9 +24,12 @@ struct s_env{
 
 // env_init.c
 t_env		*env_new(void);
-t_env_node	*env_new_node(t_env_node *current, char *name, char *value);
+t_env_node	*env_new_node(t_env_node *current, char *name, char *value, char *str);
 void		env_free_all_node(t_env_node *head);
 void		env_dealloc(t_env *env);
+
+// env_entry.c
+char		*env_entry_new_str(const char *name, const char *value);
 
 // load_env.c
 int			load_env(t_env *env, char **environ);
