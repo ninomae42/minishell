@@ -38,16 +38,43 @@ int	main(void)
 		env_dealloc(env);
 		exit(EXIT_FAILURE);
 	}
-	ft_printenv(env);
-	puts("");
+	// ft_printenv(env);
+	// env_entry_print(env);
+	// printf("entry_size: %zu\n", env_entry_size(env));
+	// puts("");
+	//
+	// ft_setenv(env, "PWD", "/code/dir/dir2", 1);
+	// // ft_printenv(env);
+	// env_entry_print(env);
+	// printf("entry_size: %zu\n", env_entry_size(env));
+	// puts("");
+	//
+	// ft_setenv(env, "HOGE", "hogehoge=mogemoge", 1);
+	// // ft_printenv(env);
+	// env_entry_print(env);
+	// printf("entry_size: %zu\n", env_entry_size(env));
+	// puts("");
+	//
+	// ft_unsetenv(env, "PWD");
+	// // ft_printenv(env);
+	// env_entry_print(env);
+	// printf("entry_size: %zu\n", env_entry_size(env));
+	// puts("");
+	//
+	// ft_unsetenv(env, "HOSTNAME");
+	// // ft_printenv(env);
+	// env_entry_print(env);
+	// printf("entry_size: %zu\n", env_entry_size(env));
+	// puts("");
 
-	ft_setenv(env, "PWD", "/code/dir/dir2", 1);
-	ft_printenv(env);
-	puts("");
-
-	ft_unsetenv(env, "PWD");
-	ft_printenv(env);
-	puts("");
+	char	**environ = env_entry_alloc_environ(env);
+	char	**tmp = environ;
+	while (*environ != NULL)
+	{
+		printf("%s\n", *environ);
+		environ++;
+	}
+	free(tmp);
 
 	env_dealloc(env);
 }

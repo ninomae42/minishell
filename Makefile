@@ -19,6 +19,7 @@ ENV_DIR := environ
 ENV_SRCS := load_env.c \
 			env_init.c \
 			env_utils.c \
+			env_entry.c \
 			ft_getenv.c \
 			ft_setenv.c \
 			ft_unsetenv.c \

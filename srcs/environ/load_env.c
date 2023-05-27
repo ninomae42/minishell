@@ -3,7 +3,6 @@
 
 static t_env_node	*parse_set_env_var_entry(t_env_node *current, char *entry)
 {
-	t_env_node	*node;
 	char		*name;
 	char		*value;
 	char		*delm;
@@ -12,27 +11,29 @@ static t_env_node	*parse_set_env_var_entry(t_env_node *current, char *entry)
 	if (delm == NULL)
 		return (NULL);
 	name = strndup(entry, delm - entry);
-	if (name == NULL)
-		return (NULL);
 	value = strdup(delm + 1);
-	if (value == NULL)
+	entry = strdup(entry);
+	if (name == NULL || value == NULL || entry == NULL)
 	{
 		free(name);
+		free(value);
+		free(entry);
 		return (NULL);
 	}
-	node = env_new_node(current, name, value);
-	return (node);
+	return (env_new_node(current, name, value, entry));
 }
 
 int	load_env(t_env *env, char **environ)
 {
 	t_env_node	head;
 	t_env_node	*current;
+	size_t		size;
 
 	if (environ == NULL)
 		return (-1);
 	head.next = NULL;
 	current = &head;
+	size = 0;
 	while (*environ != NULL)
 	{
 		current = parse_set_env_var_entry(current, *environ);
@@ -41,9 +42,11 @@ int	load_env(t_env *env, char **environ)
 			env_free_all_node(head.next);
 			return (-1);
 		}
+		size++;
 		environ++;
 	}
 	env->head = head.next;
 	env->tail = current;
+	env->size = size;
 	return (0);
 }

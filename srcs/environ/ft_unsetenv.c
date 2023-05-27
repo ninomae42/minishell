@@ -48,6 +48,8 @@ static int	delete_node_by_name(t_env *env, const char *name)
 	prev->next = next;
 	free(target->name);
 	free(target->value);
+	free(target->str);
 	free(target);
+	env->size--;
 	return (0);
 }
