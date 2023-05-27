@@ -31,3 +31,24 @@ size_t	env_entry_size(t_env *env)
 {
 	return (env->size);
 }
+
+char	**env_entry_alloc_environ(t_env *env)
+{
+	char	**res;
+	size_t	i;
+	t_env_node	*current;
+
+	res = (char **)malloc(sizeof(char *) * (env->size + 1));
+	if (res == NULL)
+		return (NULL);
+	i = 0;
+	current = env->head;
+	while (current != NULL)
+	{
+		res[i] = current->str;
+		i++;
+		current = current->next;
+	}
+	res[i] = NULL;
+	return (res);
+}

@@ -33,6 +33,7 @@ void		env_dealloc(t_env *env);
 char		*env_entry_new_str(const char *name, const char *value);
 void		env_entry_print(t_env *env);
 size_t		env_entry_size(t_env *env);
+char		**env_entry_alloc_environ(t_env *env);
 
 // load_env.c
 int			load_env(t_env *env, char **environ);
