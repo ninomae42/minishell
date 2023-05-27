@@ -27,6 +27,8 @@ void	set_argv(size_t argc, char **argv, t_node *commands)
 
 void	dealloc_cmd_node(t_cmd_node *cmd)
 {
+	if (cmd->argv[0] != cmd->filename)
+		free(cmd->filename);
 	free(cmd->argv);
 	free(cmd->environ);
 	free(cmd);
@@ -54,7 +56,7 @@ t_cmd_node	*simple_command_node(t_node *ast, t_env *env)
 	if (cmd->argv == NULL)
 		perror_exit("malloc");
 	set_argv(cmd->argc, cmd->argv, ast->child);
-	cmd->filename = cmd->argv[0];
+	cmd->filename = find_executable_path(cmd->argv[0], env);
 	return (cmd);
 }
 
