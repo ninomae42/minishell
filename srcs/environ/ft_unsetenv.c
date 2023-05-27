@@ -1,6 +1,5 @@
 #include "environ.h"
 
-static t_env_node	*env_find_before_node(t_env *env, const char *name);
 static int	delete_node_by_name(t_env *env, const char *name);
 
 int	ft_unsetenv(t_env *env, const char *name)
@@ -13,39 +12,43 @@ int	ft_unsetenv(t_env *env, const char *name)
 	return (delete_node_by_name(env, name));
 }
 
-static t_env_node	*env_find_before_node(t_env *env, const char *name)
+static int	env_find_target_node(t_env_node *head, const char *name,
+						t_env_node **target, t_env_node **prev)
 {
-	t_env_node	*current;
-	t_env_node	*prev;
+	t_env_node	*i_prev;
 
-	if (env == NULL || env->head == NULL)
-		return (NULL);
-	current = env->head;
-	prev = env->head;
-	while (current != NULL)
+	if (head == NULL)
+		return (-1);
+	i_prev = head;
+	while (head != NULL)
 	{
-		if (strcmp(current->name, name) == 0)
-			return (prev);
-		prev = current;
-		current = current->next;
+		if (strcmp(head->name, name) == 0)
+		{
+			*prev = i_prev;
+			*target = head;
+			return (0);
+		}
+		i_prev = head;
+		head = head->next;
 	}
-	return (NULL);
+	*target = NULL;
+	*prev = NULL;
+	return (-1);
 }
 
 static int	delete_node_by_name(t_env *env, const char *name)
 {
 	t_env_node	*prev;
 	t_env_node	*target;
-	t_env_node	*next;
 
-	prev = env_find_before_node(env, name);
-	if (prev == NULL)
+	if (env == NULL)
 		return (-1);
-	target = prev->next;
-	if (target == NULL)
+	if (env_find_target_node(env->head, name, &target, &prev) < 0)
 		return (-1);
-	next = target->next;
-	prev->next = next;
+	if (prev == target)
+		env->head = target->next;
+	else
+		prev->next = target->next;
 	free(target->name);
 	free(target->value);
 	free(target->str);
