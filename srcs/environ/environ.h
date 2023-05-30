@@ -1,12 +1,12 @@
 #ifndef ENVIRON_H
 # define ENVIRON_H
-#include "libft.h"
-#include <errno.h>
-#include <stdbool.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <unistd.h>
+# include "libft.h"
+# include <errno.h>
+# include <stdbool.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <string.h>
+# include <unistd.h>
 
 typedef struct s_env_node	t_env_node;
 struct s_env_node{
