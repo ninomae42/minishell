@@ -25,7 +25,7 @@ struct s_env{
 
 // env_init.c
 t_env		*env_new(void);
-t_env_node	*env_new_node(t_env_node *current, char *name, char *value, char *str);
+int			env_node_new(t_env *env, char *name, char *value, char *str);
 void		env_free_all_node(t_env_node *head);
 void		env_dealloc(t_env *env);
 
