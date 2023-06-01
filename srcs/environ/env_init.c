@@ -14,6 +14,8 @@ t_env	*env_new(void)
 	return (env);
 }
 
+// Allocates new environment list and link to env's head or tail pointer.
+// env's entry size also incremented this function.
 int	env_node_new(t_env *env, char *name, char *value, char *str)
 {
 	t_env_node	*node;
