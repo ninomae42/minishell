@@ -1,52 +1,56 @@
-#include "tokenizer.h"
 #include "environ.h"
 
-static t_env_node	*parse_set_env_var_entry(t_env_node *current, char *entry)
-{
-	char		*name;
-	char		*value;
-	char		*delm;
-
-	delm = strchr(entry, '=');
-	if (delm == NULL)
-		return (NULL);
-	name = strndup(entry, delm - entry);
-	value = strdup(delm + 1);
-	entry = strdup(entry);
-	if (name == NULL || value == NULL || entry == NULL)
-	{
-		free(name);
-		free(value);
-		free(entry);
-		return (NULL);
-	}
-	return (env_new_node(current, name, value, entry));
-}
+static int	parse_env_entry(t_env *env, char *entry);
+static int	duplicate_entry_value(t_env_node *node_val, char *entry);
 
 int	load_env(t_env *env, char **environ)
 {
-	t_env_node	head;
-	t_env_node	*current;
-	size_t		size;
-
 	if (environ == NULL)
 		return (-1);
-	head.next = NULL;
-	current = &head;
-	size = 0;
 	while (*environ != NULL)
 	{
-		current = parse_set_env_var_entry(current, *environ);
-		if (current == NULL)
+		if (parse_env_entry(env, *environ) < 0)
 		{
-			env_free_all_node(head.next);
+			env_free_env_nodes(env);
 			return (-1);
 		}
-		size++;
 		environ++;
 	}
-	env->head = head.next;
-	env->tail = current;
-	env->size = size;
+	return (0);
+}
+
+static int	parse_env_entry(t_env *env, char *entry)
+{
+	t_env_node	node_val;
+
+	if (duplicate_entry_value(&node_val, entry) < 0)
+		return (-1);
+	if (env_node_new(env, node_val.name, node_val.value, node_val.str) < 0)
+	{
+		free(node_val.name);
+		free(node_val.value);
+		free(node_val.str);
+		return (-1);
+	}
+	return (0);
+}
+
+static int	duplicate_entry_value(t_env_node *node_val, char *entry)
+{
+	char	*delimiter;
+
+	delimiter = strchr(entry, '=');
+	if (delimiter == NULL)
+		return (-1);
+	node_val->name = strndup(entry, delimiter - entry);
+	node_val->value = strdup(delimiter + 1);
+	node_val->str = strdup(entry);
+	if (node_val->name == NULL || node_val->value == NULL || node_val->str == NULL)
+	{
+		free(node_val->name);
+		free(node_val->value);
+		free(node_val->str);
+		return (-1);
+	}
 	return (0);
 }
