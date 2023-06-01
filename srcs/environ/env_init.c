@@ -14,38 +14,51 @@ t_env	*env_new(void)
 	return (env);
 }
 
-t_env_node	*env_new_node(t_env_node *current, char *name, char *value, char *str)
+// Allocates new environment list and link to env's head or tail pointer.
+// env's entry size also incremented this function.
+int	env_node_new(t_env *env, char *name, char *value, char *str)
 {
 	t_env_node	*node;
 
 	node = (t_env_node *)malloc(sizeof(t_env_node));
 	if (node == NULL)
-		perror_exit("malloc");
+		return (-1);
 	node->name = name;
 	node->value = value;
 	node->str = str;
 	node->next = NULL;
-	current->next = node;
-	return (node);
+	if (env->head == NULL)
+		env->head = node;
+	else
+		env->tail->next = node;
+	env->tail = node;
+	env->size++;
+	return (0);
 }
 
-void	env_free_all_node(t_env_node *head)
+void	env_free_env_nodes(t_env *env)
 {
+	t_env_node	*current;
 	t_env_node	*next;
 
-	while (head != NULL)
+	current = env->head;
+	while (current != NULL)
 	{
-		next = head->next;
-		free(head->name);
-		free(head->value);
-		free(head->str);
-		free(head);
-		head = next;
+		next = current->next;
+		free(current->name);
+		free(current->value);
+		free(current->str);
+		free(current);
+		current = next;
 	}
+	env->size = 0;
+	env->head = NULL;
+	env->tail = NULL;
 }
+
 
 void	env_dealloc(t_env *env)
 {
-	env_free_all_node(env->head);
+	env_free_env_nodes(env);
 	free(env);
 }

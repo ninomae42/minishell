@@ -28,7 +28,6 @@ static int	replace_target_value(t_env_node *target, const char *value)
 	entry = env_entry_new_str(target->name, value);
 	if (tmp == NULL || entry == NULL)
 	{
-		perror("malloc");
 		free(tmp);
 		free(entry);
 		return (-1);
@@ -42,21 +41,24 @@ static int	replace_target_value(t_env_node *target, const char *value)
 
 static int	add_new_env_node(t_env *env, char *name, char *value)
 {
-	t_env_node	*node;
 	char		*entry;
 
 	name = strdup(name);
 	value = strdup(value);
 	entry = env_entry_new_str(name, value);
-	if (value == NULL)
+	if (name == NULL || value == NULL || entry == NULL)
 	{
 		free(name);
 		free(value);
 		free(entry);
 		return (-1);
 	}
-	node = env_new_node(env->tail, name, value, entry);
-	env->tail = node;
-	env->size++;
+	if (env_node_new(env, name, value, entry) < 0)
+	{
+		free(name);
+		free(value);
+		free(entry);
+		return (-1);
+	}
 	return (0);
 }
