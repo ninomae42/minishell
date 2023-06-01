@@ -20,4 +20,7 @@ int		exec_command(t_node *ast, t_env *env);
 // find_executable_path.c
 char	*find_executable_path(char *filename, t_env *env);
 
+// is_builtin.c
+bool	is_builtin(char *filename);
+
 #endif
