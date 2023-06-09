@@ -8,6 +8,7 @@ SRCS := main.c \
 		token.c \
 		tokenizer.c \
 		tokenizer_ctype.c \
+		tokenizer_main.c \
 
 SRCS := $(addprefix $(SRCS_DIR)/, $(SRCS))
 OBJS := $(patsubst $(SRCS_DIR)/%.c,$(OBJS_DIR)/%.o,$(SRCS))

@@ -1,4 +1,5 @@
 #include "minishell.h"
+#include "tokenizer.h"
 
 extern char	**environ;
 
@@ -38,6 +39,7 @@ int	main(void)
 	char	*line;
 
 	rl_outstream = stderr;
+	status = 0;
 	while (true)
 	{
 		line = readline("minishell$ ");
@@ -45,7 +47,9 @@ int	main(void)
 			break ;
 		if (*line)
 			add_history(line);
-		status = exec(line);
+		t_token *token = tokenize(line);
+		token_print(token);
+		token_destroy(token);
 		free(line);
 	}
 	exit(status);

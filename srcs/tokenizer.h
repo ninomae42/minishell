@@ -47,6 +47,10 @@ void			t_read_char(t_tokenizer *tokenizer);
 char			t_peek_char(t_tokenizer *tokenizer);
 bool			t_at_eof(t_tokenizer *tokenizer);
 
+// tokenizer_main.c
+t_token			*tokenize(char *input);
+t_token_node	*t_tokenize_word(t_tokenizer *tokenizer);
+
 // token.c
 t_token			*new_token(void);
 t_token_node	*new_token_node(t_token_kind kind, char *literal);
