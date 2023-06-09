@@ -30,4 +30,6 @@ if __name__ == '__main__':
     runtest('')
     runtest('/bin/ls')
     runtest('/bin/echo')
+    runtest('/bin/echo hello')
+    runtest('/bin/echo -n hello')
 
