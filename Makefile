@@ -67,6 +67,7 @@ fclean: clean
 .PHONY: re
 re: fclean all
 
+.PHONY: norm
 norm:
 	-@norminette srcs/ | grep -v "INVALID_HEADER"
 
