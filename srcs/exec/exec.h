@@ -4,6 +4,7 @@
 # include "environ.h"
 # include "utils.h"
 # include <sys/wait.h>
+# define DEFAULT_SEARCH_PATH "/bin:/usr/bin:"
 
 typedef struct s_cmd_node	t_cmd_node;
 struct s_cmd_node{

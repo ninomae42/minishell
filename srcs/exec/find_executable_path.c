@@ -60,7 +60,11 @@ char	*find_executable_path(char *filename, t_env *env)
 
 	if (strchr(filename, '/') != NULL) 
 		return (filename);
+	if (is_builtin(filename))
+		return (filename);
 	env_path = ft_getenv(env, "PATH");
+	if (env_path == NULL)
+		env_path = DEFAULT_SEARCH_PATH;
 	executable_path = get_executable_path(env_path, filename);
 	if (executable_path == NULL)
 		return (filename);
