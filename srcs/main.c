@@ -1,5 +1,6 @@
 #include "minishell.h"
 #include "tokenizer.h"
+#include "parser.h"
 
 extern char	**environ;
 
@@ -96,8 +97,11 @@ int	main(void)
 			continue;
 		}
 		t_token *token = tokenize(line);
-		// token_print(token);
-		status = exec(token);
+		token_print(token);
+		t_ast	*ast = parse(token);
+		ast_print(ast);
+		ast_destroy(ast);
+		// status = exec(token);
 		token_destroy(token);
 		free(line);
 	}
