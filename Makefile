@@ -4,7 +4,8 @@ SRCS_DIR := ./srcs
 OBJS_DIR := ./objs
 
 ### source files
-SRCS := main.c
+SRCS := main.c \
+		token.c \
 
 SRCS := $(addprefix $(SRCS_DIR)/, $(SRCS))
 OBJS := $(patsubst $(SRCS_DIR)/%.c,$(OBJS_DIR)/%.o,$(SRCS))

@@ -25,4 +25,10 @@ struct s_token
 	size_t			size;
 };
 
+// token.c
+t_token			*new_token(void);
+t_token_node	*new_token_node(t_token_kind kind, char *literal);
+void			token_destroy(t_token *token);
+void			token_print(t_token *token);
+
 #endif
