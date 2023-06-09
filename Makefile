@@ -30,7 +30,9 @@ ENV_SRCS := $(addprefix $(ENV_DIR)/, $(ENV_SRCS))
 
 # executor files
 EXEC_DIR := exec
-EXEC_SRCS := exec.c
+EXEC_SRCS := exec.c \
+			 find_executable_path.c \
+			 is_builtin.c \
 
 EXEC_DIR := $(addprefix $(SRCS_DIR)/, $(EXEC_DIR))
 EXEC_SRCS := $(addprefix $(EXEC_DIR)/, $(EXEC_SRCS))

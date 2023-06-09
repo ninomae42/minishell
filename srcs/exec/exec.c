@@ -27,7 +27,10 @@ void	set_argv(size_t argc, char **argv, t_node *commands)
 
 void	dealloc_cmd_node(t_cmd_node *cmd)
 {
+	if (cmd->argv[0] != cmd->filename)
+		free(cmd->filename);
 	free(cmd->argv);
+	free(cmd->environ);
 	free(cmd);
 }
 
@@ -42,28 +45,28 @@ t_cmd_node	*new_cmd_node()
 	return (node);
 }
 
-t_cmd_node	*simple_command_node(t_node *ast)
+t_cmd_node	*simple_command_node(t_node *ast, t_env *env)
 {
 	t_cmd_node	*cmd;
 
 	cmd = new_cmd_node();
-	cmd->environ = environ;
+	cmd->environ = env_entry_alloc_environ(env);
 	cmd->argc = count_argc(ast->child);
 	cmd->argv = (char **)malloc(sizeof(char *) * (cmd->argc + 1));
 	if (cmd->argv == NULL)
 		perror_exit("malloc");
 	set_argv(cmd->argc, cmd->argv, ast->child);
-	cmd->filename = cmd->argv[0];
+	cmd->filename = find_executable_path(cmd->argv[0], env);
 	return (cmd);
 }
 
-int	exec_simple_command(t_node *ast)
+int	exec_simple_command(t_node *ast, t_env *env)
 {
 	pid_t	pid;
 	int		status;
 	t_cmd_node	*cmd;
 
-	cmd = simple_command_node(ast);
+	cmd = simple_command_node(ast, env);
 	pid = fork();
 	if (pid == -1)
 		perror_exit("fork");
@@ -83,11 +86,11 @@ int	exec_simple_command(t_node *ast)
 	}
 }
 
-int	exec_command(t_node *ast)
+int	exec_command(t_node *ast, t_env *env)
 {
 	int	status;
 
-	status = exec_simple_command(ast);
+	status = exec_simple_command(ast, env);
 	dealloc_ast(ast);
 	return (status);
 }
