@@ -13,6 +13,7 @@ SRCS := main.c \
 		parser.c \
 		parser_main.c \
 		parser_utils.c \
+		exec_cmd.c \
 
 SRCS := $(addprefix $(SRCS_DIR)/, $(SRCS))
 OBJS := $(patsubst $(SRCS_DIR)/%.c,$(OBJS_DIR)/%.o,$(SRCS))
