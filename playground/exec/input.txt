@@ -1,4 +1,0 @@
-ft_strlen.c
-ft_hoge.c
-strlen.c
-hoge.c
