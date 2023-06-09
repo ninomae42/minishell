@@ -28,5 +28,6 @@ def runtest(command):
 
 if __name__ == '__main__':
     runtest('')
-    runtest('echo -n')
+    runtest('/bin/ls')
+    runtest('/bin/echo')
 
