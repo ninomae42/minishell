@@ -15,6 +15,9 @@ struct s_cmd
 t_cmd	*new_cmd(void);
 void	cmd_destroy(t_cmd *cmd);
 
+// exec_main.c
+int		exec_cmd(t_ast *ast);
+
 // exec_args.c
 size_t	count_argc(t_ast_node *node);
 char	**dup_argv(t_ast_node *node, size_t argc);
