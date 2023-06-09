@@ -67,6 +67,10 @@ fclean: clean
 .PHONY: re
 re: fclean all
 
+.PHONY: t
+t: all
+	python3 ./tests/test.py
+
 .PHONY: norm
 norm:
 	-@norminette srcs/ | grep -v "INVALID_HEADER"
