@@ -31,4 +31,8 @@ t_token_node	*new_token_node(t_token_kind kind, char *literal);
 void			token_destroy(t_token *token);
 void			token_print(t_token *token);
 
+// tokenizer_ctype.c
+bool			is_metacharacter(char c);
+bool			is_whitespace(char c);
+
 #endif
