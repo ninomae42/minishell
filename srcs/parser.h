@@ -32,6 +32,9 @@ struct s_parser
 	t_token_node	*peek_tok;
 };
 
+// parser_main.c
+t_ast		*parse(t_token *token);
+
 // parser.c
 t_parser	*new_parser(t_token *token);
 void		p_next_token(t_parser *parser);

@@ -11,6 +11,7 @@ SRCS := main.c \
 		tokenizer_main.c \
 		ast.c \
 		parser.c \
+		parser_main.c \
 		parser_utils.c \
 
 SRCS := $(addprefix $(SRCS_DIR)/, $(SRCS))
