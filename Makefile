@@ -6,6 +6,7 @@ OBJS_DIR := ./objs
 ### source files
 SRCS := main.c \
 		token.c \
+		tokenizer.c \
 		tokenizer_ctype.c \
 
 SRCS := $(addprefix $(SRCS_DIR)/, $(SRCS))
