@@ -1,6 +1,7 @@
 #ifndef FT_PATH_H
 # define FT_PATH_H
 # include <errno.h>
+# include <sys/stat.h>
 # include "minishell.h"
 # include "libft.h"
 

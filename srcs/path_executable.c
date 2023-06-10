@@ -50,6 +50,39 @@ bool	path_is_contain_slash(char *path)
 	return (false);
 }
 
+bool	path_is_directory(char *path)
+{
+	struct stat	st;
+
+	errno = 0;
+	if (stat(path, &st) < 0)
+		return (false);
+	return (S_ISDIR(st.st_mode));
+}
+
+bool	path_is_exist(char *path)
+{
+	errno = 0;
+	if (access(path, F_OK) < 0)
+		return (false);
+	return (true);
+}
+
+bool	path_is_valid_full_path(char *path)
+{
+	if (!path_is_exist(path))
+	{
+		err_perror_with_path(ENOENT, path);
+		return (false);
+	}
+	if (path_is_directory(path))
+	{
+		err_is_directory(path);
+		return (false);
+	}
+	return (true);
+}
+
 char	*path_get_executable(char *filename)
 {
 	char	*path;
@@ -57,7 +90,11 @@ char	*path_get_executable(char *filename)
 	if (filename == NULL)
 		return (NULL);
 	if (path_is_contain_slash(filename))
+	{
+		if (!path_is_valid_full_path(filename))
+			return (NULL);
 		return (ft_strdup(filename));
+	}
 	path = getenv("PATH");
 	if (path == NULL)
 		return (filename);
