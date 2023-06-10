@@ -23,7 +23,7 @@ int	main(void)
 			free(line);
 			continue;
 		}
-		char	*path = path_get_executable(line);
+		char	*path = cmd_get_binary_path(line);
 		printf("main: %s\n", path);
 		free(path);
 		// t_token *token = tokenize(line);
