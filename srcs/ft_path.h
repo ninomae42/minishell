@@ -6,7 +6,7 @@
 # include "libft.h"
 
 // path_executable.c
-char	*path_get_executable(char *filename);
+char	*path_search_binary_path(char *search_dir, char *filename);
 
 // path_dir_split.c
 char	**path_split_dirs(char *env_path);

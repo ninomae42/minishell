@@ -43,59 +43,10 @@ char	*get_executable_internal(char *env_path, char *filename)
 	return (exec_path);
 }
 
-bool	path_is_valid_full_path(char *path)
+char	*path_search_binary_path(char *search_dir, char *filename)
 {
-	if (!path_is_exist(path))
-	{
-		err_perror_with_path(ENOENT, path);
-		return (false);
-	}
-	if (path_is_directory(path))
-	{
-		err_is_directory(path);
-		return (false);
-	}
-	return (true);
-}
-
-bool	path_is_valid_current_path(char *path, char *filename)
-{
-	if (!path_is_exist(path))
-	{
-		err_perror_with_path(ENOENT, filename);
-		return (false);
-	}
-	if (path_is_directory(path))
-	{
-		err_is_directory(filename);
-		return (false);
-	}
-	return (true);
-}
-
-char	*path_get_executable(char *filename)
-{
-	char	*env_path;
 	char	*res_path;
 
-	if (filename == NULL)
-		return (NULL);
-	if (path_is_contain_slash(filename))
-	{
-		if (!path_is_valid_full_path(filename))
-			return (NULL);
-		return (ft_strdup(filename));
-	}
-	env_path = getenv("PATH");
-	if (env_path == NULL)
-		env_path = ".";
-	// if (path == NULL || path[0] == '\0')
-	// 	path = _PATH_DEFPATH;
-	res_path = get_executable_internal(env_path, filename);
-	if (!path_is_valid_current_path(res_path, filename))
-	{
-		free(res_path);
-		return (NULL);
-	}
+	res_path = get_executable_internal(search_dir, filename);
 	return (res_path);
 }
