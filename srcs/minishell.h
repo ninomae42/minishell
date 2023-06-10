@@ -7,5 +7,6 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include "libft.h"
+# include "ft_err.h"
 
 #endif
