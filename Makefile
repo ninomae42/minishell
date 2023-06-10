@@ -16,6 +16,7 @@ SRCS := main.c \
 		exec_cmd.c \
 		exec_main.c \
 		exec_args.c \
+		err_main.c \
 
 SRCS := $(addprefix $(SRCS_DIR)/, $(SRCS))
 OBJS := $(patsubst $(SRCS_DIR)/%.c,$(OBJS_DIR)/%.o,$(SRCS))
