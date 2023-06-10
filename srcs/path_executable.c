@@ -43,12 +43,21 @@ char	*get_executable_internal(char *env_path, char *filename)
 	return (exec_path);
 }
 
+bool	path_is_contain_slash(char *path)
+{
+	if (*path != '\0' && ft_strchr(path, '/') != NULL)
+		return (true);
+	return (false);
+}
+
 char	*path_get_executable(char *filename)
 {
 	char	*path;
 
-	if (ft_strchr(filename, '/') != NULL)
-		return (filename);
+	if (filename == NULL)
+		return (NULL);
+	if (path_is_contain_slash(filename))
+		return (ft_strdup(filename));
 	path = getenv("PATH");
 	if (path == NULL)
 		return (filename);
