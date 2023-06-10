@@ -13,4 +13,9 @@ char	**path_split_dirs(char *env_path);
 void	dir_free(char **dir);
 void	dir_print(char **dir);
 
+// path_utils.c
+bool	path_is_contain_slash(char *path);
+bool	path_is_directory(char *path);
+bool	path_is_exist(char *path);
+
 #endif
