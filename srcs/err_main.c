@@ -16,3 +16,20 @@ void	err_perror(int err_no)
 	ft_putstr_fd(ERR_PREFIX, STDERR_FILENO);
 	ft_putendl_fd(strerror(err_no), STDERR_FILENO);
 }
+
+void	err_perror_with_path(int err_no, char *path)
+{
+	ft_putstr_fd(ERR_PREFIX, STDERR_FILENO);
+	ft_putstr_fd(path, STDERR_FILENO);
+	ft_putstr_fd(": ", STDERR_FILENO);
+	ft_putendl_fd(strerror(err_no), STDERR_FILENO);
+}
+
+
+void	err_is_directory(char *path)
+{
+	ft_putstr_fd(ERR_PREFIX, STDERR_FILENO);
+	ft_putstr_fd(path, STDERR_FILENO);
+	ft_putstr_fd(": ", STDERR_FILENO);
+	ft_putendl_fd(ERR_IS_DIRECTORY, STDERR_FILENO);
+}
