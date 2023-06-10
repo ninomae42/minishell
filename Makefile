@@ -17,6 +17,7 @@ SRCS := main.c \
 		exec_main.c \
 		exec_args.c \
 		err_main.c \
+		path_executable.c \
 		path_dir_split.c \
 
 SRCS := $(addprefix $(SRCS_DIR)/, $(SRCS))
