@@ -83,9 +83,25 @@ bool	path_is_valid_full_path(char *path)
 	return (true);
 }
 
+bool	path_is_valid_current_path(char *path, char *filename)
+{
+	if (!path_is_exist(path))
+	{
+		err_perror_with_path(ENOENT, filename);
+		return (false);
+	}
+	if (path_is_directory(path))
+	{
+		err_is_directory(filename);
+		return (false);
+	}
+	return (true);
+}
+
 char	*path_get_executable(char *filename)
 {
-	char	*path;
+	char	*env_path;
+	char	*res_path;
 
 	if (filename == NULL)
 		return (NULL);
@@ -95,9 +111,16 @@ char	*path_get_executable(char *filename)
 			return (NULL);
 		return (ft_strdup(filename));
 	}
-	path = getenv("PATH");
-	if (path == NULL)
-		return (filename);
-	path = get_executable_internal(path, filename);
-	return (path);
+	env_path = getenv("PATH");
+	if (env_path == NULL)
+		env_path = ".";
+	// if (path == NULL || path[0] == '\0')
+	// 	path = _PATH_DEFPATH;
+	res_path = get_executable_internal(env_path, filename);
+	if (!path_is_valid_current_path(res_path, filename))
+	{
+		free(res_path);
+		return (NULL);
+	}
+	return (res_path);
 }
