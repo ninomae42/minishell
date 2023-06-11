@@ -5,12 +5,14 @@
 # include "minishell.h"
 # include "libft.h"
 
+# define DIR_DELIMITER ':'
+
 // path_executable.c
 char	*path_search_binary_path(char *search_dir, char *filename);
 
 // path_dir_split.c
-char	**path_split_dirs(char *env_path);
-void	dir_free(char **dir);
+char	**path_dir_split(char *dir_list);
+void	dir_free(char **dirs);
 void	dir_print(char **dir);
 
 // path_utils.c

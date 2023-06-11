@@ -1,43 +1,83 @@
 #include "ft_path.h"
 
-char	**path_split_dirs(char *env_path)
+static size_t	find_num_of_dirs(char *dir_list);
+static char		*find_next_delim(char *str);
+static char		**split_main(char *str, size_t num_of_dirs);
+
+// Receive a colon(":") separated dir_list.
+// On success splitted directory list is returned,
+// Otherwise, NULL is returned.
+char	**path_dir_split(char *dir_list)
 {
 	char	**dirs;
+	size_t	num_of_dirs;
 
-	errno = 0;
-	dirs = ft_split(env_path, ':');
-	if (dirs == NULL)
-	{
-		if (errno == 0)
-			errno = EINVAL;
-		perror("ft_split");
-		exit(EXIT_FAILURE);
-	}
+	if (dir_list == NULL)
+		return (NULL);
+	num_of_dirs = find_num_of_dirs(dir_list);
+	dirs = split_main(dir_list, num_of_dirs);
 	return (dirs);
 }
 
-void	dir_free(char **dir)
+void	dir_free(char **dirs)
 {
 	size_t	i;
 
 	i = 0;
-	while (dir[i])
+	while (dirs[i] != NULL)
 	{
-		free(dir[i]);
+		free(dirs[i]);
 		i++;
 	}
-	free(dir[i]);
+	free(dirs);
 }
 
-void	dir_print(char **dir)
+static size_t	find_num_of_dirs(char *s)
 {
+	size_t	num_of_dirs;
+
+	num_of_dirs = 1;
+	while (*s)
+	{
+		if (*s == DIR_DELIMITER)
+			num_of_dirs++;
+		s++;
+	}
+	return (num_of_dirs);
+}
+
+static char	*find_next_delim(char *s)
+{
+	char	*delim;
+
+	delim = ft_strchr(s, DIR_DELIMITER);
+	if (delim == NULL)
+		delim = ft_strchr(delim, '\0');
+	return (delim);
+}
+
+static char	**split_main(char *s, size_t num_of_dirs)
+{
+	char	**dirs;
+	char	*delim;
 	size_t	i;
 
+	dirs = (char **)malloc(sizeof(char *) * (num_of_dirs + 1));
+	if (dirs == NULL)
+		return (NULL);
 	i = 0;
-	while (dir[i])
+	dirs[num_of_dirs] = NULL;
+	while (i < num_of_dirs)
 	{
-		printf("%s\n", dir[i]);
+		delim = find_next_delim(s);
+		dirs[i] = ft_strndup(s, delim - s);
+		if (dirs[i] ==  NULL)
+		{
+			dir_free(dirs);
+			return (NULL);
+		}
+		s = delim + 1;
 		i++;
 	}
-	printf("\n");
+	return (dirs);
 }
