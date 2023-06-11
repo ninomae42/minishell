@@ -67,5 +67,6 @@ char			*token_kind_to_str(t_token_kind kind);
 // tokenizer_ctype.c
 bool			is_metacharacter(char c);
 bool			is_whitespace(char c);
+bool			is_redirect_character(char c);
 
 #endif
