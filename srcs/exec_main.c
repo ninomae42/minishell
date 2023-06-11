@@ -10,7 +10,7 @@ t_cmd	*make_simple_command(t_ast_node *node)
 	cmd->argc = count_argc(node);
 	cmd->argv = dup_argv(node, cmd->argc);
 	cmd->environ = environ;
-	cmd->exec_path = cmd->argv[0];
+	cmd->exec_path = cmd_get_binary_path(cmd->argv[0]);
 	return (cmd);
 }
 
@@ -33,6 +33,8 @@ int	exec_cmd(t_ast *ast)
 
 	status = 0;
 	cmd = make_cmd(ast);
+	if (cmd->exec_path == NULL)
+		return (127);
 	pid = fork();
 	if (pid < 0)
 	{

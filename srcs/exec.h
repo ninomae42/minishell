@@ -22,4 +22,7 @@ int		exec_cmd(t_ast *ast);
 size_t	count_argc(t_ast_node *node);
 char	**dup_argv(t_ast_node *node, size_t argc);
 
+// exec_path.c
+char	*cmd_get_binary_path(char *filename);;
+
 #endif

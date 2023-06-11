@@ -2,6 +2,7 @@
 #include "tokenizer.h"
 #include "parser.h"
 #include "exec.h"
+#include "ft_path.h"
 
 int	main(void)
 {
@@ -22,6 +23,9 @@ int	main(void)
 			free(line);
 			continue;
 		}
+		// char	*path = cmd_get_binary_path(line);
+		// printf("main: %s\n", path);
+		// free(path);
 		t_token *token = tokenize(line);
 		// token_print(token);
 		t_ast	*ast = parse(token);

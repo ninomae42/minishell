@@ -9,4 +9,8 @@
 # include "libft.h"
 # include "ft_err.h"
 
+// ft_strndup.c
+size_t	ft_strnlen(const char *s, size_t maxlen);
+char	*ft_strndup(char *s, size_t len);
+
 #endif
