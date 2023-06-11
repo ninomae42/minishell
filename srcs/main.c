@@ -23,16 +23,16 @@ int	main(void)
 			free(line);
 			continue;
 		}
-		char	*path = cmd_get_binary_path(line);
-		printf("main: %s\n", path);
-		free(path);
-		// t_token *token = tokenize(line);
-		// // token_print(token);
-		// t_ast	*ast = parse(token);
-		// // ast_print(ast);
-		// status = exec_cmd(ast);
-		// ast_destroy(ast);
-		// token_destroy(token);
+		// char	*path = cmd_get_binary_path(line);
+		// printf("main: %s\n", path);
+		// free(path);
+		t_token *token = tokenize(line);
+		// token_print(token);
+		t_ast	*ast = parse(token);
+		// ast_print(ast);
+		status = exec_cmd(ast);
+		ast_destroy(ast);
+		token_destroy(token);
 		free(line);
 	}
 	exit(status);
