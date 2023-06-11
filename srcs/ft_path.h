@@ -13,8 +13,10 @@ char	*path_search_binary_path(char *search_dir, char *filename);
 // path_dir_split.c
 char	**path_dir_split(char *dir_list);
 void	dir_free(char **dirs);
-void	dir_print(char **dir);
 
+// path_dir_split.c
+void	dir_print(char **dirs);
+size_t	dir_len(char **dirs);
 // path_utils.c
 bool	path_is_contain_slash(char *path);
 bool	path_is_directory(char *path);
