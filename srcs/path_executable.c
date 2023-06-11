@@ -50,7 +50,6 @@ char	*path_search_binary_path(char *search_dir, char *filename)
 	dirs = path_dir_split(search_dir);
 	if (dirs == NULL)
 		return (NULL);
-	dir_print(dirs);
 	res_path = search_binary_internal(dirs, filename);
 	dir_free(dirs);
 	return (res_path);
