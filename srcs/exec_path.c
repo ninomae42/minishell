@@ -1,4 +1,5 @@
 #include "exec.h"
+#include "ft_err.h"
 #include "ft_path.h"
 
 typedef int	t_file_type;
@@ -30,6 +31,21 @@ bool	is_valid_path(char *path)
 	return (true);
 }
 
+bool	is_valid_path_current(char *path, char *filename)
+{
+	if (!path_has_exec_right(path))
+	{
+		err_perror_with_path(errno, filename);
+		return (false);
+	}
+	if (path_is_directory(path))
+	{
+		err_is_directory(filename);
+		return (false);
+	}
+	return (true);
+}
+
 char	*cmd_find_binary_path(char *filename)
 {
 	char	*env_path;
@@ -38,10 +54,20 @@ char	*cmd_find_binary_path(char *filename)
 	env_path = getenv("PATH");
 	path = NULL;
 	if (env_path != NULL)
+	{
 		path = path_search_binary_path(env_path, filename);
+		if (path == NULL || path_is_directory(path))
+			err_command_not_found(filename);
+	}
 	else
-		// do search for current dir
-		;
+	{
+		path = path_search_binary_path(".", filename);
+		if (path != NULL && !is_valid_path_current(path, filename))
+		{
+			free(path);
+			path = NULL;
+		}
+	}
 	return (path);
 }
 
@@ -62,8 +88,6 @@ char	*cmd_get_binary_path(char *filename)
 	else
 	{
 		path = cmd_find_binary_path(filename);
-		if (path == NULL)
-			err_command_not_found(filename);
 	}
 	return (path);
 }

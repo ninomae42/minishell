@@ -1,6 +1,6 @@
 #include "ft_path.h"
 
-char	*concat_path(char *dir, char *filename)
+static char	*concat_path(char *dir, char *filename)
 {
 	size_t	path_len;
 	char	*path;
@@ -18,35 +18,40 @@ char	*concat_path(char *dir, char *filename)
 	return (path);
 }
 
-char	*get_executable_internal(char *env_path, char *filename)
+static char	*search_binary_internal(char **dirs, char *filename)
 {
-	size_t	i;
-	char	**dirs;
-	char	*tmp_path;
-	char	*exec_path;
+	char	*path;
 
-	dirs = path_split_dirs(env_path);
-	exec_path = NULL;
-	i = 0;
-	while (dirs[i] != NULL)
+	while (*dirs != NULL)
 	{
-		tmp_path = concat_path(dirs[i], filename);
-		if (access(tmp_path, X_OK) == 0)
+		if (*dirs[0] == '\0')
 		{
-			exec_path = tmp_path;
-			break ;
+			path = concat_path(".", filename);
+			if (access(path, F_OK) == 0)
+				return (path);
 		}
-		free(tmp_path);
-		i++;
+		else
+		{
+			path = concat_path(*dirs, filename);
+			if (access(path, F_OK) == 0)
+				return (path);
+		}
+		free(path);
+		dirs++;
 	}
-	dir_free(dirs);
-	return (exec_path);
+	return (NULL);
 }
 
 char	*path_search_binary_path(char *search_dir, char *filename)
 {
+	char	**dirs;
 	char	*res_path;
 
-	res_path = get_executable_internal(search_dir, filename);
+	dirs = path_dir_split(search_dir);
+	if (dirs == NULL)
+		return (NULL);
+	dir_print(dirs);
+	res_path = search_binary_internal(dirs, filename);
+	dir_free(dirs);
 	return (res_path);
 }
