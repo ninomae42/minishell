@@ -66,7 +66,8 @@ static void	ast_print_internal(t_ast_node *node)
 		return ;
 	child = node->child;
 	brother = node->brother;
-	printf("kind: %d, literal: %s\n", node->kind, node->literal);
+	printf("nd_kind: %s, literal: %s\n",
+			node_kind_to_str(node->kind), node->literal);
 	ast_print_internal(child);
 	ast_print_internal(brother);
 }

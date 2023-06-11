@@ -6,6 +6,10 @@ typedef enum e_node_kind	t_node_kind;
 enum e_node_kind
 {
 	ND_WORD,
+	ND_REDIRECT_IN,
+	ND_REDIRECT_IN_HDOC,
+	ND_REDIRECT_OUT,
+	ND_REDIRECT_OUT_APPEND,
 	ND_SIMPLE_COMMAND,
 };
 
@@ -51,5 +55,8 @@ t_ast_node	*new_ast_node(t_node_kind kind,
 				t_ast_node *child, t_ast_node *brother, char *word);
 void		ast_destroy(t_ast *ast);
 void		ast_print(t_ast *ast);
+
+// ast_utils.c
+char		*node_kind_to_str(t_node_kind kind);
 
 #endif
