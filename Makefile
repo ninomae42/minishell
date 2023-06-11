@@ -15,6 +15,7 @@ SRCS := main.c \
 		ast_utils.c \
 		parser.c \
 		parser_main.c \
+		parser_simple_command.c \
 		parser_utils.c \
 		exec_cmd.c \
 		exec_main.c \

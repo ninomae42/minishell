@@ -39,6 +39,9 @@ struct s_parser
 // parser_main.c
 t_ast		*parse(t_token *token);
 
+// parser_simple_command.c
+t_ast_node	*parse_simple_command(t_parser *parser);
+
 // parser.c
 t_parser	*new_parser(t_token *token);
 void		p_next_token(t_parser *parser);
