@@ -7,6 +7,10 @@ enum e_token_kind
 {
 	TK_EOF,
 	TK_WORD,
+	TK_REDIRECT_IN,
+	TK_REDIRECT_IN_HDOC,
+	TK_REDIRECT_OUT,
+	TK_REDIRECT_OUT_APPEND,
 };
 
 typedef struct s_token_node	t_token_node;
@@ -56,6 +60,9 @@ t_token			*new_token(void);
 t_token_node	*new_token_node(t_token_kind kind, char *literal);
 void			token_destroy(t_token *token);
 void			token_print(t_token *token);
+
+// token_utils.c
+char			*token_kind_to_str(t_token_kind kind);
 
 // tokenizer_ctype.c
 bool			is_metacharacter(char c);

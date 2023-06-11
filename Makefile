@@ -6,6 +6,7 @@ OBJS_DIR := ./objs
 ### source files
 SRCS := main.c \
 		token.c \
+		token_utils.c \
 		tokenizer.c \
 		tokenizer_ctype.c \
 		tokenizer_main.c \

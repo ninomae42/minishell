@@ -56,7 +56,8 @@ void	token_print(t_token *token)
 	cur = token->head;
 	while (cur != NULL)
 	{
-		printf("type: %d, literal: %s\n", cur->kind, cur->literal);
+		printf("tk_kind: %s, literal: %s\n",
+			token_kind_to_str(cur->kind), cur->literal);
 		cur = cur->next;
 	}
 }
