@@ -52,7 +52,7 @@ static char	*find_next_delim(char *s)
 
 	delim = ft_strchr(s, DIR_DELIMITER);
 	if (delim == NULL)
-		delim = ft_strchr(delim, '\0');
+		delim = ft_strchr(s, '\0');
 	return (delim);
 }
 
