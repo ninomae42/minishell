@@ -20,7 +20,9 @@ SRCS := main.c \
 		err_main.c \
 		path_executable.c \
 		path_dir_split.c \
+		path_dir_utils.c \
 		path_utils.c \
+		ft_strndup.c \
 
 SRCS := $(addprefix $(SRCS_DIR)/, $(SRCS))
 OBJS := $(patsubst $(SRCS_DIR)/%.c,$(OBJS_DIR)/%.o,$(SRCS))
