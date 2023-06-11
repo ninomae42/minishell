@@ -17,9 +17,11 @@ void	dir_free(char **dirs);
 // path_dir_split.c
 void	dir_print(char **dirs);
 size_t	dir_len(char **dirs);
+
 // path_utils.c
 bool	path_is_contain_slash(char *path);
 bool	path_is_directory(char *path);
 bool	path_is_exist(char *path);
+bool	path_has_exec_right(char *path);
 
 #endif

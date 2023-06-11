@@ -24,3 +24,11 @@ bool	path_is_exist(char *path)
 		return (false);
 	return (true);
 }
+
+bool	path_has_exec_right(char *path)
+{
+	errno = 0;
+	if (access(path, X_OK) < 0)
+		return (false);
+	return (true);
+}
