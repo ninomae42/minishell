@@ -1,9 +1,9 @@
 #include "tokenizer.h"
 
-#define TK_REDIRECT_IN 1
-#define TK_REDIRECT_IN_HDOC 2
-#define TK_REDIRECT_OUT 3
-#define TK_REDIRECT_OUT_APPEND 4
+#define REDIRECT_IN 1
+#define REDIRECT_IN_HDOC 2
+#define REDIRECT_OUT 3
+#define REDIRECT_OUT_APPEND 4
 
 bool	t_is_redirect(t_tokenizer *tokenizer)
 {
@@ -13,12 +13,12 @@ bool	t_is_redirect(t_tokenizer *tokenizer)
 static int	t_get_redirect_type(t_tokenizer	*tokenizer)
 {
 	if (tokenizer->cur == '<' && t_peek_char(tokenizer) == '<')
-		return (TK_REDIRECT_IN_HDOC);
+		return (REDIRECT_IN_HDOC);
 	else if (tokenizer->cur == '>' && t_peek_char(tokenizer) == '>')
-		return (TK_REDIRECT_OUT_APPEND);
+		return (REDIRECT_OUT_APPEND);
 	else if (tokenizer->cur == '<')
-		return (TK_REDIRECT_IN);
-	return (TK_REDIRECT_OUT);
+		return (REDIRECT_IN);
+	return (REDIRECT_OUT);
 }
 
 static t_token_node	*tokenize_redirect_main(t_tokenizer *tokenizer, int type)
@@ -26,15 +26,15 @@ static t_token_node	*tokenize_redirect_main(t_tokenizer *tokenizer, int type)
 	t_token_node	*node;
 
 	node = NULL;
-	if (type == TK_REDIRECT_IN)
+	if (type == REDIRECT_IN)
 		node = new_token_node(TK_REDIRECT_IN, ft_strdup("<"));
-	else if (type == TK_REDIRECT_OUT)
+	else if (type == REDIRECT_OUT)
 		node = new_token_node(TK_REDIRECT_OUT, ft_strdup(">"));
-	else if (type == TK_REDIRECT_IN_HDOC)
+	else if (type == REDIRECT_IN_HDOC)
 		node = new_token_node(TK_REDIRECT_IN_HDOC, ft_strdup("<<"));
-	else if (type == TK_REDIRECT_OUT_APPEND)
+	else if (type == REDIRECT_OUT_APPEND)
 		node = new_token_node(TK_REDIRECT_OUT_APPEND, ft_strdup(">>"));
-	if (type == TK_REDIRECT_IN_HDOC || type == TK_REDIRECT_OUT_APPEND)
+	if (type == REDIRECT_IN_HDOC || type == REDIRECT_OUT_APPEND)
 		t_read_char(tokenizer);
 	t_read_char(tokenizer);
 	return (node);
