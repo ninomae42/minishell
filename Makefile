@@ -11,6 +11,7 @@ SRCS := main.c \
 		tokenizer_ctype.c \
 		tokenizer_main.c \
 		ast.c \
+		ast_utils.c \
 		parser.c \
 		parser_main.c \
 		parser_utils.c \
