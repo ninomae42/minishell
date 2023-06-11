@@ -21,6 +21,7 @@ SRCS := main.c \
 		exec_args.c \
 		exec_path.c \
 		err_main.c \
+		err_parser.c \
 		path_executable.c \
 		path_dir_split.c \
 		path_dir_utils.c \
