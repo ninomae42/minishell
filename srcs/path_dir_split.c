@@ -66,6 +66,7 @@ static char	**split_main(char *s, size_t num_of_dirs)
 	if (dirs == NULL)
 		return (NULL);
 	i = 0;
+	ft_bzero(dirs, sizeof(char *) * (num_of_dirs + 1));
 	dirs[num_of_dirs] = NULL;
 	while (i < num_of_dirs)
 	{
