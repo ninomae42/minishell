@@ -25,6 +25,7 @@ t_ast_node	*parse_redirect_main(t_parser *p, t_node_kind kind)
 	if (!p_cur_is(p, TK_WORD))
 	{
 		err_put_parser_syntax_err(p->cur_tok->literal);
+		p->is_syntax_err = true;
 		free(node);
 		return (NULL);
 	}

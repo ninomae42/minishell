@@ -37,10 +37,16 @@ t_ast_node	*parse_simple_command(t_parser *parser)
 		return (NULL);
 	child = parse_simple_command_elem(parser);
 	node = new_ast_node(ND_SIMPLE_COMMAND, child, NULL, NULL);
-	while (!p_at_eof(parser) && p_is_simple_command_element(parser))
+	while (!parser->is_syntax_err && !p_at_eof(parser)
+			&& p_is_simple_command_element(parser))
 	{
 		child->brother = parse_simple_command_elem(parser);
 		child = child->brother;
+	}
+	if (parser->is_syntax_err)
+	{
+		ast_node_destroy(node);
+		return (NULL);
 	}
 	return (node);
 }
