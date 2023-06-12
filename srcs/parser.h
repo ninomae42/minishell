@@ -34,6 +34,7 @@ struct s_parser
 	t_token			*token;
 	t_token_node	*cur_tok;
 	t_token_node	*peek_tok;
+	bool			is_syntax_err;
 };
 
 // parser_main.c

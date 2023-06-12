@@ -15,6 +15,7 @@ t_parser	*new_parser(t_token *token)
 	parser->token = token;
 	parser->cur_tok = NULL;
 	parser->peek_tok = NULL;
+	parser->is_syntax_err = false;
 	parser_init_token(parser);
 	return (parser);
 }
