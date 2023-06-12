@@ -29,8 +29,7 @@ t_ast_node	*parse_redirect_main(t_parser *p, t_node_kind kind)
 		free(node);
 		return (NULL);
 	}
-	node->child = new_ast_node(ND_WORD, NULL, NULL, p->cur_tok->literal);
-	p_next_token(p);
+	node->child = parse_word(p);
 	return (node);
 }
 
