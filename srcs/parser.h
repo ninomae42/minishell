@@ -61,6 +61,7 @@ t_ast		*new_ast(void);
 t_ast_node	*new_ast_node(t_node_kind kind,
 				t_ast_node *child, t_ast_node *brother, char *word);
 void		ast_destroy(t_ast *ast);
+void		ast_node_destroy(t_ast_node *node);
 void		ast_print(t_ast *ast);
 
 // ast_utils.c

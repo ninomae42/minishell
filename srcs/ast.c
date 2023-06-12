@@ -1,7 +1,5 @@
 #include "parser.h"
 
-static void	ast_destroy_internal(t_ast_node *node);
-
 t_ast	*new_ast(void)
 {
 	t_ast	*ast;
@@ -38,11 +36,11 @@ t_ast_node	*new_ast_node(t_node_kind kind, t_ast_node *child, t_ast_node *brothe
 
 void	ast_destroy(t_ast *ast)
 {
-	ast_destroy_internal(ast->root);
+	ast_node_destroy(ast->root);
 	free(ast);
 }
 
-static void	ast_destroy_internal(t_ast_node *node)
+void	ast_node_destroy(t_ast_node *node)
 {
 	t_ast_node	*child;
 	t_ast_node	*brother;
@@ -51,8 +49,8 @@ static void	ast_destroy_internal(t_ast_node *node)
 		return ;
 	child = node->child;
 	brother = node->brother;
-	ast_destroy_internal(child);
-	ast_destroy_internal(brother);
+	ast_node_destroy(child);
+	ast_node_destroy(brother);
 	free(node->literal);
 	free(node);
 }
