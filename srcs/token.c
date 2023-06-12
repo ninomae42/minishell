@@ -41,8 +41,7 @@ void	token_destroy(t_token *token)
 	while (cur != NULL)
 	{
 		next = cur->next;
-		if (cur->kind == TK_WORD)
-			free(cur->literal);
+		free(cur->literal);
 		free(cur);
 		cur = next;
 	}
