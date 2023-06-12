@@ -14,15 +14,21 @@ bool	p_is_simple_command_element(t_parser *p)
 	return (false);
 }
 
+t_ast_node	*parse_word(t_parser *parser)
+{
+	t_ast_node	*node;
+
+	node = new_ast_node(ND_WORD, NULL, NULL, parser->cur_tok->literal);
+	p_next_token(parser);
+	return (node);
+}
+
 t_ast_node	*parse_simple_command_elem(t_parser *parser)
 {
 	t_ast_node	*node;
 
 	if (p_cur_is(parser, TK_WORD))
-	{
-		node = new_ast_node(ND_WORD, NULL, NULL, parser->cur_tok->literal);
-		p_next_token(parser);
-	}
+		node = parse_word(parser);
 	else
 		node = parse_redirect(parser);
 	return (node);
