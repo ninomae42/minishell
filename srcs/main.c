@@ -27,10 +27,11 @@ int	main(void)
 		// printf("main: %s\n", path);
 		// free(path);
 		t_token *token = tokenize(line);
-		// token_print(token);
+		token_print(token);
 		t_ast	*ast = parse(token);
-		// ast_print(ast);
-		status = exec_cmd(ast);
+		puts("");
+		ast_print(ast);
+		// status = exec_cmd(ast);
 		ast_destroy(ast);
 		token_destroy(token);
 		free(line);
