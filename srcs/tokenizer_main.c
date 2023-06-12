@@ -32,6 +32,8 @@ static t_token_node	*t_next_token(t_tokenizer *tokenizer)
 
 	if (t_at_eof(tokenizer))
 		return (NULL);
+	else if (t_is_redirect(tokenizer))
+		node = t_tokenize_redirect(tokenizer);
 	else
 		node = t_tokenize_word(tokenizer);
 	return (node);

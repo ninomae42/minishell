@@ -12,3 +12,8 @@ bool	is_whitespace(char c)
 {
 	return (c == ' ' || c == '\t');
 }
+
+bool	is_redirect_character(char c)
+{
+	return (c == '<' || c == '>');
+}

@@ -6,18 +6,24 @@ OBJS_DIR := ./objs
 ### source files
 SRCS := main.c \
 		token.c \
+		token_utils.c \
 		tokenizer.c \
 		tokenizer_ctype.c \
 		tokenizer_main.c \
+		tokenizer_redirect.c \
 		ast.c \
+		ast_utils.c \
 		parser.c \
 		parser_main.c \
+		parser_simple_command.c \
 		parser_utils.c \
+		parser_redirect.c \
 		exec_cmd.c \
 		exec_main.c \
 		exec_args.c \
 		exec_path.c \
 		err_main.c \
+		err_parser.c \
 		path_executable.c \
 		path_dir_split.c \
 		path_dir_utils.c \
