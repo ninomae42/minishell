@@ -20,6 +20,7 @@ SRCS := main.c \
 		parser_redirect.c \
 		exec_cmd.c \
 		exec_main.c \
+		exec_simple_command.c \
 		exec_args.c \
 		exec_path.c \
 		err_main.c \

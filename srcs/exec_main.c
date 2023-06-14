@@ -2,13 +2,17 @@
 
 extern char	**environ;
 
-t_cmd	*make_simple_command(t_ast_node *node)
+void	set_argv_and_redirect(t_cmd *cmd, t_ast_node *node);
+
+t_cmd	*build_simple_command(t_ast_node *node)
 {
 	t_cmd	*cmd;
 
 	cmd = new_cmd();
 	cmd->argc = count_argc(node);
-	cmd->argv = dup_argv(node, cmd->argc);
+	// cmd->argv = dup_argv(node, cmd->argc);
+	cmd->argv = (char **)malloc(sizeof(char *) * (cmd->argc + 1));
+	set_argv_and_redirect(cmd, node);
 	cmd->environ = environ;
 	cmd->exec_path = cmd_get_binary_path(cmd->argv[0]);
 	return (cmd);
@@ -19,15 +23,16 @@ t_cmd	*make_cmd(t_ast *ast)
 	t_cmd	*cmd;
 
 	if (ast->root->kind == ND_SIMPLE_COMMAND)
-		cmd = make_simple_command(ast->root->child);
+		cmd = build_simple_command(ast->root->child);
 	else
 		cmd = NULL;
 	return (cmd);
 }
 
+int	exec_simple_command(t_cmd *cmd);
+
 int	exec_cmd(t_ast *ast)
 {
-	pid_t	pid;
 	int		status;
 	t_cmd	*cmd;
 
@@ -35,23 +40,6 @@ int	exec_cmd(t_ast *ast)
 	cmd = make_cmd(ast);
 	if (cmd->exec_path == NULL)
 		return (127);
-	pid = fork();
-	if (pid < 0)
-	{
-		perror("fork");
-		cmd_destroy(cmd);
-		return (1);
-	}
-	if (pid == 0)
-	{
-		if (execve(cmd->exec_path, cmd->argv, cmd->environ) < 0)
-			perror("execve");
-		exit(EXIT_FAILURE);
-	}
-	else
-	{
-		wait(&status);
-		cmd_destroy(cmd);
-	}
+	status = exec_simple_command(cmd);
 	return (status);
 }

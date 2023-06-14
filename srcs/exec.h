@@ -1,14 +1,26 @@
 #ifndef EXEC_H
 # define EXEC_H
 # include "parser.h"
+# include <fcntl.h>
+# include <unistd.h>
+
+typedef struct s_redirect	t_redirect;
+struct s_redirect
+{
+	bool	need_backup_in;
+	int		default_in_fd;
+	bool	need_backup_out;
+	int		default_out_fd;
+};
 
 typedef struct s_cmd	t_cmd;
 struct s_cmd
 {
-	size_t	argc;
-	char	**argv;
-	char	**environ;
-	char	*exec_path;
+	size_t		argc;
+	char		**argv;
+	char		**environ;
+	char		*exec_path;
+	t_redirect	redirect;
 };
 
 // exec_cmd.c
