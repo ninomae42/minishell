@@ -32,6 +32,7 @@ t_redirect_node	*new_redirect_node(char *filename, int redirect_type)
 	if (node == NULL)
 		ft_fatal("malloc");
 	node->file_fd = file_fd;
+	node->redirect_type = redirect_type;
 	node->next = NULL;
 	return (node);
 }

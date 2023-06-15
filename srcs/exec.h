@@ -15,6 +15,7 @@ typedef struct s_redirect_node	t_redirect_node;
 struct s_redirect_node
 {
 	int				file_fd;
+	int				redirect_type;
 	t_redirect_node	*next;
 };
 
