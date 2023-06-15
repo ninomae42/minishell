@@ -37,7 +37,7 @@ struct s_cmd_node
 	char		**argv;
 	char		**environ;
 	char		*binary_path;
-	t_redirect	redirect;
+	t_redirect	*redirect;
 	t_cmd_node	*next;
 };
 
@@ -54,7 +54,9 @@ void			delete_redirect_node(t_redirect_node *node);
 int				r_set_redirect(t_redirect *redirect, t_ast_node *node);
 
 // exec_redirects.c
-void			init_redirect(t_redirect *redirect);
+t_redirect		*new_redirect(void);
+void			destroy_redirect(t_redirect *redirect);
+
 int				backup_output_fd(t_redirect *redirect);
 void			reset_output_redirect(t_redirect *redirect);
 int				backup_input_fd(t_redirect *redirect);

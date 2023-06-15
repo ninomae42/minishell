@@ -43,7 +43,8 @@ void	delete_redirect_node(t_redirect_node *node)
 	while (node != NULL)
 	{
 		next = node->next;
-		close(node->file_fd);
+		if (0 <= node->file_fd)
+			close(node->file_fd);
 		free(node);
 		node = next;
 	}
