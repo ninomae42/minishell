@@ -14,7 +14,7 @@ static int	open_redirect_file(char *filename, int redirect_type)
 		fd = -1;
 	if (fd < 0)
 	{
-		err_perror(errno);
+		err_perror_with_path(errno, filename);
 		return (-1);
 	}
 	return (fd);
