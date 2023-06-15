@@ -15,6 +15,8 @@ struct s_cmd_node
 	t_cmd_node	*next;
 };
 
+int	exec_cmd(t_ast *ast);
+
 t_cmd_node	*new_cmd_node(t_ast_node *node);
 void		destroy_cmd_node(t_cmd_node *cmd);
 
