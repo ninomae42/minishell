@@ -15,6 +15,7 @@ t_cmd_node	*new_cmd_node(t_ast_node *node)
 	cmd->environ = NULL;
 	cmd->binary_path = NULL;
 	cmd->next = NULL;
+	init_redirect(&cmd->redirect);
 	return (cmd);
 }
 
@@ -29,10 +30,38 @@ t_cmd_node	*build_command(t_ast *ast)
 	t_ast_node	*node;
 	t_cmd_node	*cmd;
 
+	if (ast == NULL || ast->root == NULL)
+		return (NULL);
 	node = ast->root;
 	cmd = new_cmd_node(node->child);
 	return (cmd);
 }
+
+int	set_argv_and_redirect(char **argv, t_ast_node *node, t_redirect *redirect)
+{
+	size_t	i;
+
+	i = 0;
+	while (node != NULL)
+	{
+		if (node->kind == ND_WORD)
+			argv[i++] = node->literal;
+		else if (node->kind == ND_REDIRECT_OUT || node->kind == ND_REDIRECT_OUT_APPEND)
+		{
+			if (set_output_redirect(node, redirect) < 0)
+				return (-1);
+		}
+		else if (node->kind == ND_REDIRECT_IN)
+		{
+			if (do_input_redirect(node->child->literal, redirect) < 0)
+				return (-1);
+		}
+		node = node->brother;
+	}
+	argv[i] = NULL;
+	return (0);
+}
+
 
 int	exec_simple_command(t_cmd_node *cmd)
 {
@@ -42,7 +71,11 @@ int	exec_simple_command(t_cmd_node *cmd)
 	status = 0;
 	cmd->argc = count_argc(cmd->node);
 	cmd->argv = alloc_argv(cmd->argc);
-	set_argv(cmd->argv, cmd->node);
+	if (set_argv_and_redirect(cmd->argv, cmd->node, &cmd->redirect) < 0)
+	{
+		destroy_cmd_node(cmd);
+		return (1);
+	}
 	cmd->environ = environ;
 	pid = fork();
 	if (pid < 0)
@@ -64,6 +97,8 @@ int	exec_simple_command(t_cmd_node *cmd)
 	else
 	{
 		wait(&status);
+		reset_input_redirect(&cmd->redirect);
+		reset_output_redirect(&cmd->redirect);
 		destroy_cmd_node(cmd);
 	}
 	return (WEXITSTATUS(status));
@@ -76,6 +111,8 @@ int	exec_cmd(t_ast *ast)
 
 	status = 0;
 	cmd = build_command(ast);
+	if (cmd == NULL)
+		return (1);
 	status = exec_simple_command(cmd);
 	printf("exec_cmd_finished: %d\n", status);
 	return (status);

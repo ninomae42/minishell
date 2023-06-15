@@ -21,6 +21,8 @@ SRCS := main.c \
 		exec_main.c \
 		exec_arguments.c \
 		exec_path.c \
+		exec_redirects.c \
+		exec_redirect_out.c \
 		err_main.c \
 		err_parser.c \
 		path_executable.c \
