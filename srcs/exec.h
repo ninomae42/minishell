@@ -57,10 +57,12 @@ int				r_set_redirect(t_redirect *redirect, t_ast_node *node);
 t_redirect		*new_redirect(void);
 void			destroy_redirect(t_redirect *redirect);
 
-int				backup_output_fd(t_redirect *redirect);
-void			reset_output_redirect(t_redirect *redirect);
-int				backup_input_fd(t_redirect *redirect);
-void			reset_input_redirect(t_redirect *redirect);
+// exec_redirect_bakup.c
+int				r_backup_out_fd(t_redirect *redirect);
+void			r_reset_out_redirect(t_redirect *redirect);
+int				r_backup_in_fd(t_redirect *redirect);
+void			r_reset_in_redirect(t_redirect *redirect);
+
 
 // exec_redirect_out.c
 int				set_output_redirect(t_ast_node *node, t_redirect *redirect);
