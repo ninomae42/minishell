@@ -20,6 +20,11 @@ int	exec_cmd(t_ast *ast);
 t_cmd_node	*new_cmd_node(t_ast_node *node);
 void		destroy_cmd_node(t_cmd_node *cmd);
 
+// exec_arguments.c
+size_t		count_argc(t_ast_node *node);
+char		**alloc_argv(size_t argc);
+void		set_argv(char **argv, t_ast_node *node);
+
 // exec_path.c
 char	*cmd_get_binary_path(char *filename);;
 
