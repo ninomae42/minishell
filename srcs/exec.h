@@ -4,16 +4,32 @@
 # include <fcntl.h>
 # include <unistd.h>
 
-typedef struct s_redirect	t_redirect;
-struct s_redirect
+# define REDIRECT_IN 1
+# define REDIRECT_IN_HDOC 2
+# define REDIRECT_OUT 3
+# define REDIRECT_OUT_APPEND 4
+
+# define REDIRECT_FILE_MODE 0644
+
+typedef struct s_redirect_node	t_redirect_node;
+struct s_redirect_node
 {
-	bool	need_dup_input;
-	int		default_in_fd;
-	bool	need_dup_output;
-	int		default_out_fd;
+	int				file_fd;
+	t_redirect_node	*next;
 };
 
-typedef struct s_cmd_node	t_cmd_node;
+typedef struct s_redirect		t_redirect;
+struct s_redirect
+{
+	t_redirect_node	*head;
+	t_redirect_node	*tail;
+	bool			need_dup_input;
+	int				default_in_fd;
+	bool			need_dup_output;
+	int				default_out_fd;
+};
+
+typedef struct s_cmd_node		t_cmd_node;
 struct s_cmd_node
 {
 	t_ast_node	*node;
@@ -25,28 +41,32 @@ struct s_cmd_node
 	t_cmd_node	*next;
 };
 
-int	exec_cmd(t_ast *ast);
+int				exec_cmd(t_ast *ast);
 
-t_cmd_node	*new_cmd_node(t_ast_node *node);
-void		destroy_cmd_node(t_cmd_node *cmd);
+t_cmd_node		*new_cmd_node(t_ast_node *node);
+void			destroy_cmd_node(t_cmd_node *cmd);
+
+// exec_redirect_node.c
+t_redirect_node	*new_redirect_node(char *filename, int redirect_type);
+void			delete_redirect_node(t_redirect_node *node);
 
 // exec_redirects.c
-void		init_redirect(t_redirect *redirect);
-int			backup_output_fd(t_redirect *redirect);
-void		reset_output_redirect(t_redirect *redirect);
-int			backup_input_fd(t_redirect *redirect);
-void		reset_input_redirect(t_redirect *redirect);
+void			init_redirect(t_redirect *redirect);
+int				backup_output_fd(t_redirect *redirect);
+void			reset_output_redirect(t_redirect *redirect);
+int				backup_input_fd(t_redirect *redirect);
+void			reset_input_redirect(t_redirect *redirect);
 
 // exec_redirect_out.c
-int			set_output_redirect(t_ast_node *node, t_redirect *redirect);
-int			do_input_redirect(char *filename, t_redirect *redirect);
+int				set_output_redirect(t_ast_node *node, t_redirect *redirect);
+int				do_input_redirect(char *filename, t_redirect *redirect);
 
 // exec_arguments.c
-size_t		count_argc(t_ast_node *node);
-char		**alloc_argv(size_t argc);
-void		set_argv(char **argv, t_ast_node *node);
+size_t			count_argc(t_ast_node *node);
+char			**alloc_argv(size_t argc);
+void			set_argv(char **argv, t_ast_node *node);
 
 // exec_path.c
-char	*cmd_get_binary_path(char *filename);;
+char			*cmd_get_binary_path(char *filename);;
 
 #endif
