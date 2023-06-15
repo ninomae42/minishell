@@ -65,10 +65,8 @@ void			r_reset_out_redirect(t_redirect *redirect);
 int				r_backup_in_fd(t_redirect *redirect);
 void			r_reset_in_redirect(t_redirect *redirect);
 
-
 // exec_redirect_out.c
-int				set_output_redirect(t_ast_node *node, t_redirect *redirect);
-int				do_input_redirect(char *filename, t_redirect *redirect);
+int				r_do_redirect(t_redirect *redirect);
 
 // exec_arguments.c
 size_t			count_argc(t_ast_node *node);

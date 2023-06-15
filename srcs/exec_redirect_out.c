@@ -1,81 +1,47 @@
 #include "exec.h"
 
-int	do_output_redirect(char *filename, t_redirect *redirect)
+int	do_redirect_internal(t_redirect_node *cur, t_redirect *redirect)
 {
-	int	outfile_fd;
+	int	type;
 
-	outfile_fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	if (outfile_fd < 0)
+	type = cur->redirect_type;
+	if (type == REDIRECT_IN)
 	{
-		err_perror(errno);
-		return (-1);
+		if (redirect->need_dup_input && r_backup_in_fd(redirect) < 0)
+			return (-1);
+		if (dup2(cur->file_fd, STDIN_FILENO) < 0)
+		{
+			if (redirect->default_in_fd != STDIN_FILENO)
+				r_reset_in_redirect(redirect);
+			return (-1);
+		}
 	}
-	if (backup_output_fd(redirect) < 0)
+	else if (type == REDIRECT_OUT || type == REDIRECT_OUT_APPEND)
 	{
-		close(outfile_fd);
-		return (-1);
+		if (redirect->need_dup_output && r_backup_out_fd(redirect) < 0)
+			return (-1);
+		if (dup2(cur->file_fd, STDOUT_FILENO) < 0)
+		{
+			if (redirect->default_out_fd != STDOUT_FILENO)
+				r_reset_out_redirect(redirect);
+			return (-1);
+		}
 	}
-	if (dup2(outfile_fd, STDOUT_FILENO) < 0)
-	{
-		reset_output_redirect(redirect);
-		close(outfile_fd);
-		return (-1);
-	}
+	close(cur->file_fd);
+	cur->file_fd = -1;
 	return (0);
 }
 
-int	do_output_redirect_append(char *filename, t_redirect *redirect)
+int	r_do_redirect(t_redirect *redirect)
 {
-	int	outfile_fd;
+	t_redirect_node	*node;
 
-	outfile_fd = open(filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
-	if (outfile_fd < 0)
+	node = redirect->head;
+	while (node != NULL)
 	{
-		err_perror(errno);
-		return (-1);
-	}
-	if (backup_output_fd(redirect) < 0)
-	{
-		close(outfile_fd);
-		return (-1);
-	}
-	if (dup2(outfile_fd, STDOUT_FILENO) < 0)
-	{
-		reset_output_redirect(redirect);
-		close(outfile_fd);
-		return (-1);
+		if (do_redirect_internal(node, redirect) < 0)
+			return (-1);
+		node = node->next;
 	}
 	return (0);
-}
-
-int	do_input_redirect(char *filename, t_redirect *redirect)
-{
-	int	infile_fd;
-
-	infile_fd = open(filename, O_RDONLY);
-	if (infile_fd < 0)
-	{
-		err_perror(errno);
-		return (-1);
-	}
-	if (backup_input_fd(redirect) < 0)
-	{
-		close(infile_fd);
-		return (-1);
-	}
-	if (dup2(infile_fd, STDIN_FILENO) < 0)
-	{
-		reset_input_redirect(redirect);
-		close(infile_fd);
-		return (-1);
-	}
-	return (0);
-}
-
-int	set_output_redirect(t_ast_node *node, t_redirect *redirect)
-{
-	if (node->kind == ND_REDIRECT_OUT)
-		return (do_output_redirect(node->child->literal, redirect));
-	else
-		return (do_output_redirect_append(node->child->literal, redirect));
 }
