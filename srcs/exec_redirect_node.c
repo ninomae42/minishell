@@ -8,7 +8,7 @@ static int	open_redirect_file(char *filename, int redirect_type)
 		fd = open(filename, O_RDONLY);
 	else if (redirect_type == REDIRECT_OUT)
 		fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, REDIRECT_FILE_MODE);
-	else if (redirect_type == REDIRECT_OUT)
+	else if (redirect_type == REDIRECT_OUT_APPEND)
 		fd = open(filename, O_WRONLY | O_CREAT | O_APPEND, REDIRECT_FILE_MODE);
 	else
 		fd = -1;
