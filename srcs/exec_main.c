@@ -15,12 +15,13 @@ t_cmd_node	*new_cmd_node(t_ast_node *node)
 	cmd->environ = NULL;
 	cmd->binary_path = NULL;
 	cmd->next = NULL;
-	init_redirect(&cmd->redirect);
+	cmd->redirect = new_redirect();
 	return (cmd);
 }
 
 void	destroy_cmd_node(t_cmd_node *cmd)
 {
+	destroy_redirect(cmd->redirect);
 	free(cmd->argv);
 	free(cmd);
 }
@@ -46,14 +47,9 @@ int	set_argv_and_redirect(char **argv, t_ast_node *node, t_redirect *redirect)
 	{
 		if (node->kind == ND_WORD)
 			argv[i++] = node->literal;
-		else if (node->kind == ND_REDIRECT_OUT || node->kind == ND_REDIRECT_OUT_APPEND)
+		else if (exec_node_is_redirect(node))
 		{
-			if (set_output_redirect(node, redirect) < 0)
-				return (-1);
-		}
-		else if (node->kind == ND_REDIRECT_IN)
-		{
-			if (do_input_redirect(node->child->literal, redirect) < 0)
+			if (r_set_redirect(redirect, node) < 0)
 				return (-1);
 		}
 		node = node->brother;
@@ -71,7 +67,7 @@ int	exec_simple_command(t_cmd_node *cmd)
 	status = 0;
 	cmd->argc = count_argc(cmd->node);
 	cmd->argv = alloc_argv(cmd->argc);
-	if (set_argv_and_redirect(cmd->argv, cmd->node, &cmd->redirect) < 0)
+	if (set_argv_and_redirect(cmd->argv, cmd->node, cmd->redirect) < 0)
 	{
 		destroy_cmd_node(cmd);
 		return (1);
@@ -85,6 +81,8 @@ int	exec_simple_command(t_cmd_node *cmd)
 	}
 	if (pid == 0)
 	{
+		if (r_do_redirect(cmd->redirect) < 0)
+			exit(EXIT_FAILURE);
 		cmd->binary_path = cmd_get_binary_path(cmd->argv[0]);
 		if (cmd->binary_path == NULL)
 			exit(127);
@@ -97,8 +95,6 @@ int	exec_simple_command(t_cmd_node *cmd)
 	else
 	{
 		wait(&status);
-		reset_input_redirect(&cmd->redirect);
-		reset_output_redirect(&cmd->redirect);
 		destroy_cmd_node(cmd);
 	}
 	return (WEXITSTATUS(status));
