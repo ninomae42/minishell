@@ -34,3 +34,15 @@ int	r_set_redirect(t_redirect *redirect, t_ast_node *node)
 		return (-1);
 	return (0);
 }
+
+bool	exec_node_is_redirect(t_ast_node *node)
+{
+	t_node_kind	kind;
+
+	kind = node->kind;
+	if (kind == ND_REDIRECT_IN || kind == ND_REDIRECT_OUT
+		|| kind == ND_REDIRECT_OUT_APPEND
+		|| kind == ND_REDIRECT_IN_HDOC)
+		return (true);
+	return (false);
+}

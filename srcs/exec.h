@@ -53,6 +53,7 @@ void			delete_redirect_node(t_redirect_node *node);
 
 // exec_redirect_set.c
 int				r_set_redirect(t_redirect *redirect, t_ast_node *node);
+bool			exec_node_is_redirect(t_ast_node *node);
 
 // exec_redirects.c
 t_redirect		*new_redirect(void);
