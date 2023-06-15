@@ -22,11 +22,22 @@ void	destroy_cmd_node(t_cmd_node *cmd)
 	free(cmd);
 }
 
+t_cmd_node	*build_command(t_ast *ast)
+{
+	t_ast_node	*node;
+	t_cmd_node	*cmd;
+
+	node = ast->root;
+	cmd = new_cmd_node(node->child);
+	return (cmd);
+}
+
 int	exec_cmd(t_ast *ast)
 {
 	int		status;
+	t_cmd_node	*cmd;
 
-	(void)ast;
 	status = 0;
+	cmd = build_command(ast);
 	return (status);
 }
