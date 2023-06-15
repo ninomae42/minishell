@@ -29,7 +29,8 @@ int	r_set_redirect(t_redirect *redirect, t_ast_node *node)
 	else if (node->kind == ND_REDIRECT_OUT_APPEND)
 		res = r_add_redirect_node(redirect, filename, REDIRECT_OUT_APPEND);
 	else
-		;
+		// TODO: HEREDOCの設定を入れる
+		return (-1);
 	if (res < 0)
 		return (-1);
 	return (0);
