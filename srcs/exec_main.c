@@ -1,57 +1,115 @@
 #include "exec.h"
 
-extern char	**environ;
+extern char **environ;
 
-t_cmd	*make_simple_command(t_ast_node *node)
+t_cmd_node	*new_cmd_node(t_ast_node *node)
 {
-	t_cmd	*cmd;
+	t_cmd_node	*cmd;
 
-	cmd = new_cmd();
-	cmd->argc = count_argc(node);
-	cmd->argv = dup_argv(node, cmd->argc);
-	cmd->environ = environ;
-	cmd->exec_path = cmd_get_binary_path(cmd->argv[0]);
+	cmd = (t_cmd_node *)malloc(sizeof(t_cmd_node));
+	if (cmd == NULL)
+		ft_fatal("malloc");
+	cmd->node = node;
+	cmd->argc = 0;
+	cmd->argv = NULL;
+	cmd->environ = NULL;
+	cmd->binary_path = NULL;
+	cmd->next = NULL;
+	cmd->redirect = new_redirect();
 	return (cmd);
 }
 
-t_cmd	*make_cmd(t_ast *ast)
+void	destroy_cmd_node(t_cmd_node *cmd)
 {
-	t_cmd	*cmd;
+	destroy_redirect(cmd->redirect);
+	free(cmd->argv);
+	free(cmd);
+}
 
-	if (ast->root->kind == ND_SIMPLE_COMMAND)
-		cmd = make_simple_command(ast->root->child);
-	else
-		cmd = NULL;
+t_cmd_node	*build_command(t_ast *ast)
+{
+	t_ast_node	*node;
+	t_cmd_node	*cmd;
+
+	if (ast == NULL || ast->root == NULL)
+		return (NULL);
+	node = ast->root;
+	cmd = new_cmd_node(node->child);
 	return (cmd);
 }
 
-int	exec_cmd(t_ast *ast)
+int	set_argv_and_redirect(char **argv, t_ast_node *node, t_redirect *redirect)
+{
+	size_t	i;
+
+	i = 0;
+	while (node != NULL)
+	{
+		if (node->kind == ND_WORD)
+			argv[i++] = node->literal;
+		else if (exec_node_is_redirect(node))
+		{
+			if (r_set_redirect(redirect, node) < 0)
+				return (-1);
+		}
+		node = node->brother;
+	}
+	argv[i] = NULL;
+	return (0);
+}
+
+
+int	exec_simple_command(t_cmd_node *cmd)
 {
 	pid_t	pid;
 	int		status;
-	t_cmd	*cmd;
 
 	status = 0;
-	cmd = make_cmd(ast);
-	if (cmd->exec_path == NULL)
-		return (127);
+	cmd->argc = count_argc(cmd->node);
+	cmd->argv = alloc_argv(cmd->argc);
+	if (set_argv_and_redirect(cmd->argv, cmd->node, cmd->redirect) < 0)
+	{
+		destroy_cmd_node(cmd);
+		return (1);
+	}
+	cmd->environ = environ;
 	pid = fork();
 	if (pid < 0)
 	{
-		perror("fork");
-		cmd_destroy(cmd);
+		err_perror(errno);
 		return (1);
 	}
 	if (pid == 0)
 	{
-		if (execve(cmd->exec_path, cmd->argv, cmd->environ) < 0)
-			perror("execve");
-		exit(EXIT_FAILURE);
+		if (r_do_redirect(cmd->redirect) < 0)
+			exit(EXIT_FAILURE);
+		cmd->binary_path = cmd_get_binary_path(cmd->argv[0]);
+		if (cmd->binary_path == NULL)
+			exit(127);
+		if (execve(cmd->binary_path, cmd->argv, cmd->environ) < 0)
+		{
+			err_perror(errno);
+			exit(EXIT_FAILURE);
+		}
 	}
 	else
 	{
 		wait(&status);
-		cmd_destroy(cmd);
+		destroy_cmd_node(cmd);
 	}
+	return (WEXITSTATUS(status));
+}
+
+int	exec_cmd(t_ast *ast)
+{
+	int		status;
+	t_cmd_node	*cmd;
+
+	status = 0;
+	cmd = build_command(ast);
+	if (cmd == NULL)
+		return (1);
+	status = exec_simple_command(cmd);
+	printf("exec_cmd_finished: %d\n", status);
 	return (status);
 }
