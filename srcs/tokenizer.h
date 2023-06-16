@@ -11,6 +11,7 @@ enum e_token_kind
 	TK_REDIRECT_IN_HDOC,
 	TK_REDIRECT_OUT,
 	TK_REDIRECT_OUT_APPEND,
+	TK_PIPELINE,
 };
 
 typedef struct s_token_node	t_token_node;

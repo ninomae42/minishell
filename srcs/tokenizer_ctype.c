@@ -17,3 +17,8 @@ bool	is_redirect_character(char c)
 {
 	return (c == '<' || c == '>');
 }
+
+bool	is_pipeline_character(char c)
+{
+	return (c == '|');
+}
