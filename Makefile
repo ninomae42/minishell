@@ -50,11 +50,16 @@ LIBFT := ./libft/libft.a
 LIBFT_NAME := ft
 LIBFT_INC_DIR := ./libft/includes
 
+# Get target OS name
+UNAME := $(shell uname)
+
 # readline
-RL_DIR := $(shell brew --prefix readline)
 RL_NAME := readline
-RL_LIB_DIR := $(addprefix $(RL_DIR)/, lib)
-RL_INC_DIR := $(addprefix $(RL_DIR)/, lib)
+ifeq ($(UNAME), Darwin)
+	RL_DIR := $(shell brew --prefix readline)
+	RL_LIB_DIR := $(addprefix $(RL_DIR)/, lib)
+	RL_INC_DIR := $(addprefix $(RL_DIR)/, lib)
+endif
 
 LIBS := $(LIBFT_NAME) $(RL_NAME)
 
