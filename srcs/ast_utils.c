@@ -14,5 +14,7 @@ char	*node_kind_to_str(t_node_kind kind)
 		return ("ND_REDIRECT_OUT_APPEND");
 	if (kind == ND_SIMPLE_COMMAND)
 		return ("ND_SIMPLE_COMMAND");
+	if (kind == ND_PIPELINE)
+		return ("ND_PIPELINE");
 	return ("UNKNOWN");
 }

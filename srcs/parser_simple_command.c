@@ -14,6 +14,19 @@ bool	p_is_simple_command_element(t_parser *p)
 	return (false);
 }
 
+bool	p_is_redirect(t_parser *p)
+{
+	t_token_kind	kind;
+
+	if (p->cur_tok == NULL)
+		return (false);
+	kind = p->cur_tok->kind;
+	if (kind == TK_REDIRECT_IN || kind == TK_REDIRECT_IN_HDOC
+		|| kind == TK_REDIRECT_OUT || kind == TK_REDIRECT_OUT_APPEND)
+		return (true);
+	return (false);
+}
+
 t_ast_node	*parse_word(t_parser *parser)
 {
 	t_ast_node	*node;
@@ -29,8 +42,14 @@ t_ast_node	*parse_simple_command_elem(t_parser *parser)
 
 	if (p_cur_is(parser, TK_WORD))
 		node = parse_word(parser);
-	else
+	else if (p_is_redirect(parser))
 		node = parse_redirect(parser);
+	else
+	{
+		err_put_parser_syntax_err(parser->cur_tok->literal);
+		parser->is_syntax_err = true;
+		node = NULL;
+	}
 	return (node);
 }
 

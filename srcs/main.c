@@ -31,7 +31,7 @@ int	main(void)
 		t_ast	*ast = parse(token);
 		puts("");
 		ast_print(ast);
-		status = exec_cmd(ast);
+		// status = exec_cmd(ast);
 		ast_destroy(ast);
 		token_destroy(token);
 		free(line);

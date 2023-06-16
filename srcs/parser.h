@@ -11,6 +11,7 @@ enum e_node_kind
 	ND_REDIRECT_OUT,
 	ND_REDIRECT_OUT_APPEND,
 	ND_SIMPLE_COMMAND,
+	ND_PIPELINE,
 };
 
 typedef struct s_ast_node	t_ast_node;
