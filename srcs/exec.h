@@ -3,6 +3,7 @@
 # include "parser.h"
 # include <fcntl.h>
 # include <unistd.h>
+# include <sys/wait.h>
 
 # define REDIRECT_IN 1
 # define REDIRECT_IN_HDOC 2
