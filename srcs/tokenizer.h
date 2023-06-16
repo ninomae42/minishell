@@ -60,6 +60,10 @@ t_token_node	*t_tokenize_word(t_tokenizer *tokenizer);
 bool			t_is_redirect(t_tokenizer *tokenizer);
 t_token_node	*t_tokenize_redirect(t_tokenizer *tokenizer);
 
+// tokenizer_pipeline.c
+bool			t_is_pipeline(t_tokenizer *tokenizer);
+t_token_node	*t_tokenize_pipeline(t_tokenizer *tokenizer);
+
 // token.c
 t_token			*new_token(void);
 t_token_node	*new_token_node(t_token_kind kind, char *literal);
@@ -73,5 +77,6 @@ char			*token_kind_to_str(t_token_kind kind);
 bool			is_metacharacter(char c);
 bool			is_whitespace(char c);
 bool			is_redirect_character(char c);
+bool			is_pipeline_character(char c);
 
 #endif
