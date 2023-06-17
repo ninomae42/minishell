@@ -26,6 +26,32 @@ void	destroy_cmd_node(t_cmd_node *cmd)
 	free(cmd);
 }
 
+t_cmd	*new_cmd(void)
+{
+	t_cmd	*cmd;
+
+	cmd = (t_cmd *)malloc(sizeof(t_cmd));
+	if (cmd == NULL)
+		ft_fatal("malloc");
+	cmd->head = NULL;
+	cmd->tail = NULL;
+	cmd->num_of_commands = 0;
+	return (cmd);
+}
+
+void	cmd_add_command(t_cmd *cmd, t_ast_node *node)
+{
+	t_cmd_node	*command;
+
+	command = new_cmd_node(node);
+	if (cmd->head == NULL)
+		cmd->head = command;
+	else
+		cmd->tail->next = command;
+	cmd->tail = command;
+	cmd->num_of_commands++;
+}
+
 t_cmd_node	*build_command(t_ast *ast)
 {
 	t_ast_node	*node;

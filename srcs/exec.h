@@ -43,6 +43,14 @@ struct s_cmd_node
 	t_cmd_node	*next;
 };
 
+typedef struct s_cmd			t_cmd;
+struct s_cmd
+{
+	t_cmd_node	*head;
+	t_cmd_node	*tail;
+	size_t		num_of_commands;
+};
+
 int				exec_cmd(t_ast *ast);
 
 t_cmd_node		*new_cmd_node(t_ast_node *node);
