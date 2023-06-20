@@ -94,48 +94,6 @@ int	set_argv_and_redirect(char **argv, t_ast_node *node, t_redirect *redirect)
 	return (0);
 }
 
-
-int	exec_simple_command(t_cmd_node *cmd)
-{
-	pid_t	pid;
-	int		status;
-
-	status = 0;
-	cmd->argc = count_argc(cmd->node);
-	cmd->argv = alloc_argv(cmd->argc);
-	if (set_argv_and_redirect(cmd->argv, cmd->node, cmd->redirect) < 0)
-	{
-		destroy_cmd_node(cmd);
-		return (1);
-	}
-	cmd->environ = environ;
-	pid = fork();
-	if (pid < 0)
-	{
-		err_perror(errno);
-		return (1);
-	}
-	if (pid == 0)
-	{
-		if (r_do_redirect(cmd->redirect) < 0)
-			exit(EXIT_FAILURE);
-		cmd->binary_path = cmd_get_binary_path(cmd->argv[0]);
-		if (cmd->binary_path == NULL)
-			exit(127);
-		if (execve(cmd->binary_path, cmd->argv, cmd->environ) < 0)
-		{
-			err_perror(errno);
-			exit(EXIT_FAILURE);
-		}
-	}
-	else
-	{
-		wait(&status);
-		destroy_cmd_node(cmd);
-	}
-	return (WEXITSTATUS(status));
-}
-
 void	exec_simple_command_child(t_cmd_node *cmd)
 {
 	cmd->argc = count_argc(cmd->node);
@@ -156,6 +114,27 @@ void	exec_simple_command_child(t_cmd_node *cmd)
 		err_perror(errno);
 		exit(EXIT_FAILURE);
 	}
+}
+
+int	exec_simple_command(t_cmd_node *cmd)
+{
+	int		status;
+
+	status = 0;
+	cmd->pid = fork();
+	if (cmd->pid < 0)
+	{
+		err_perror(errno);
+		return (1);
+	}
+	if (cmd->pid == 0)
+		exec_simple_command_child(cmd);
+	else
+	{
+		wait(&status);
+		destroy_cmd_node(cmd);
+	}
+	return (WEXITSTATUS(status));
 }
 
 #define PIPE_READ 0
