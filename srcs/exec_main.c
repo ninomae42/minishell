@@ -55,15 +55,22 @@ void	cmd_add_command(t_cmd *cmd, t_ast_node *node)
 	cmd->num_of_commands++;
 }
 
-t_cmd_node	*build_command(t_ast *ast)
+t_cmd	*build_command(t_ast *ast)
 {
-	t_ast_node	*node;
-	t_cmd_node	*cmd;
+	t_ast_node	*pipeline;
+	t_ast_node	*simple_command;
+	t_cmd		*cmd;
 
 	if (ast == NULL || ast->root == NULL)
 		return (NULL);
-	node = ast->root;
-	cmd = new_cmd_node(node->child);
+	pipeline = ast->root;
+	cmd = new_cmd();
+	while (pipeline != NULL)
+	{
+		simple_command = pipeline->child;
+		cmd_add_command(cmd, simple_command->child);
+		pipeline = pipeline->brother;
+	}
 	return (cmd);
 }
 
@@ -132,13 +139,13 @@ int	exec_simple_command(t_cmd_node *cmd)
 int	exec_cmd(t_ast *ast)
 {
 	int		status;
-	t_cmd_node	*cmd;
+	t_cmd	*cmd;
 
 	status = 0;
 	cmd = build_command(ast);
 	if (cmd == NULL)
 		return (1);
-	status = exec_simple_command(cmd);
+	status = exec_command(cmd);
 	printf("exec_cmd_finished: %d\n", status);
 	return (status);
 }
