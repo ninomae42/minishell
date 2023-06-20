@@ -136,6 +136,28 @@ int	exec_simple_command(t_cmd_node *cmd)
 	return (WEXITSTATUS(status));
 }
 
+void	exec_simple_command_child(t_cmd_node *cmd)
+{
+	cmd->argc = count_argc(cmd->node);
+	cmd->argv = alloc_argv(cmd->argc);
+	if (set_argv_and_redirect(cmd->argv, cmd->node, cmd->redirect) < 0)
+	{
+		destroy_cmd_node(cmd);
+		exit(EXIT_FAILURE);
+	}
+	cmd->environ = environ;
+	if (r_do_redirect(cmd->redirect) < 0)
+		exit(EXIT_FAILURE);
+	cmd->binary_path = cmd_get_binary_path(cmd->argv[0]);
+	if (cmd->binary_path == NULL)
+		exit(127);
+	if (execve(cmd->binary_path, cmd->argv, cmd->environ) < 0)
+	{
+		err_perror(errno);
+		exit(EXIT_FAILURE);
+	}
+}
+
 int	exec_cmd(t_ast *ast)
 {
 	int		status;
