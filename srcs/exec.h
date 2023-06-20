@@ -34,6 +34,10 @@ struct s_redirect
 typedef struct s_cmd_node		t_cmd_node;
 struct s_cmd_node
 {
+	pid_t		pid;
+	int			pipe_mode;
+	int			pipe_read_fd;
+	int			pipe_write_fd;
 	t_ast_node	*node;
 	size_t		argc;
 	char		**argv;
