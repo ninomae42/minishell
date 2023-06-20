@@ -158,6 +158,22 @@ void	exec_simple_command_child(t_cmd_node *cmd)
 	}
 }
 
+void	exec_open_pipe(t_cmd_node *command)
+{
+	int	pipe_fd[2];
+
+	if (pipe(pipe_fd) < 0)
+		ft_fatal("pipe");
+	command->pipe_read_fd = pipe_fd[0];
+	command->pipe_write_fd = pipe_fd[1];
+}
+
+void	exec_close_pipe(t_cmd_node *command)
+{
+	close(command->pipe_read_fd);
+	close(command->pipe_write_fd);
+}
+
 int	exec_cmd(t_ast *ast)
 {
 	int		status;
