@@ -16,6 +16,9 @@ t_cmd_node	*new_cmd_node(t_ast_node *node)
 	cmd->binary_path = NULL;
 	cmd->next = NULL;
 	cmd->redirect = new_redirect();
+	cmd->pid = -1;
+	cmd->pipe_read_fd = -1;
+	cmd->pipe_write_fd = -1;
 	return (cmd);
 }
 
