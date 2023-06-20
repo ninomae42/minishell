@@ -209,6 +209,57 @@ void	exec_connect_pipes(t_cmd_node *current, t_cmd_node *prev)
 	}
 }
 
+int	exec_pipeline(t_cmd *cmd)
+{
+	t_cmd_node	*prev;
+	t_cmd_node	*current;
+
+	current = cmd->head;
+	prev = current;
+	while (current != NULL)
+	{
+		exec_set_pipe_state(current, prev);
+		if (current->next != NULL)
+			exec_open_pipe(current);
+		current->pid = fork();
+		if (current->pid == 0)
+		{
+			// do child process
+			exec_connect_pipes(current, prev);
+			exec_simple_command_child(current);
+			exit(EXIT_FAILURE);
+		}
+		else
+		{
+			if (prev != current)
+				exec_close_pipe(prev);
+			prev = current;
+			current = current->next;
+		}
+	}
+	// TODO: waitの仕方もっといい感じにする
+	size_t	i = 0;
+	int		status = 0;
+	while (i < cmd->num_of_commands)
+	{
+		wait(&status);
+		i++;
+	}
+	return (WEXITSTATUS(status));
+}
+
+int	exec_command(t_cmd *cmd)
+{
+	int	status;
+
+	status = 0;
+	if (1 < cmd->num_of_commands)
+		status = exec_pipeline(cmd);
+	else
+		status = exec_simple_command(cmd->head);
+	return (status);
+}
+
 int	exec_cmd(t_ast *ast)
 {
 	int		status;
