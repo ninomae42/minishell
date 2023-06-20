@@ -201,6 +201,7 @@ int	exec_pipeline(t_cmd *cmd)
 		if (current->next != NULL)
 			exec_open_pipe(current);
 		current->pid = fork();
+		// must handle fork error. if error occurs terminate all pre-allocated processes
 		if (current->pid == 0)
 		{
 			// do child process
