@@ -27,6 +27,7 @@ SRCS := main.c \
 		exec_redirect_node.c \
 		exec_redirect_set.c \
 		exec_redirect_out.c \
+		exec_pipeline.c \
 		err_main.c \
 		err_parser.c \
 		path_executable.c \
