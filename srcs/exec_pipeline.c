@@ -32,21 +32,26 @@ void	exec_set_pipe_state(t_cmd_node *current, t_cmd_node *prev)
 
 void	exec_connect_pipes(t_cmd_node *current, t_cmd_node *prev)
 {
+	errno = 0;
 	if (current->pipe_mode == PIPE_WRITE)
 	{
-		dup2(current->pipe_write_fd, STDOUT_FILENO);
+		if (dup2(current->pipe_write_fd, STDOUT_FILENO) < 0)
+			err_fatal(errno);
 		exec_close_pipe(current);
 	}
 	else if (current->pipe_mode == PIPE_READ_WRITE)
 	{
-		dup2(prev->pipe_read_fd, STDIN_FILENO);
-		dup2(current->pipe_write_fd, STDOUT_FILENO);
+		if (dup2(prev->pipe_read_fd, STDIN_FILENO) < 0)
+			err_fatal(errno);
+		if (dup2(current->pipe_write_fd, STDOUT_FILENO) < 0)
+			err_fatal(errno);
 		exec_close_pipe(prev);
 		exec_close_pipe(current);
 	}
 	else if (current->pipe_mode == PIPE_READ)
 	{
-		dup2(prev->pipe_read_fd, STDIN_FILENO);
+		if (dup2(prev->pipe_read_fd, STDIN_FILENO) < 0)
+			err_fatal(errno);
 		exec_close_pipe(prev);
 	}
 }
