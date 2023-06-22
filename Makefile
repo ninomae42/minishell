@@ -38,6 +38,7 @@ SRCS := main.c \
 		path_dir_utils.c \
 		path_utils.c \
 		ft_strndup.c \
+		env_main.c \
 
 SRCS := $(addprefix $(SRCS_DIR)/, $(SRCS))
 OBJS := $(patsubst $(SRCS_DIR)/%.c,$(OBJS_DIR)/%.o,$(SRCS))
