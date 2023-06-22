@@ -93,4 +93,9 @@ void			set_argv(char **argv, t_ast_node *node);
 // exec_path.c
 char			*cmd_get_binary_path(char *filename);;
 
+// exec_syscall.c
+int				ft_fork(void);
+int				ft_pipe(int filedes[2]);
+int				ft_kill(pid_t pid, int sig);
+
 #endif
