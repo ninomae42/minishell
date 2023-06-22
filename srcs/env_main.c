@@ -1,7 +1,5 @@
 #include "env.h"
 
-char	*make_pair_str(char *name, char *value);
-
 t_env	*new_env(void)
 {
 	t_env	*env;
