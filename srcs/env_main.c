@@ -35,6 +35,14 @@ void	destroy_env(t_env *env)
 	free(env);
 }
 
+void	destroy_env_node(t_env_node *node)
+{
+	free(node->name);
+	free(node->value);
+	free(node->pair_str);
+	free(node);
+}
+
 void	destroy_env_nodes(t_env_node *head)
 {
 	t_env_node	*next;

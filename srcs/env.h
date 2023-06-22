@@ -26,6 +26,7 @@ struct s_env
 t_env		*new_env(void);
 void		destroy_env(t_env *env);
 t_env_node	*new_env_node(char *name, char *value);
+void		destroy_env_node(t_env_node *node);
 void		destroy_env_nodes(t_env_node *head);
 char		*make_pair_str(char *name, char *value);
 
