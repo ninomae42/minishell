@@ -3,6 +3,8 @@
 # include "parser.h"
 # include <fcntl.h>
 # include <unistd.h>
+# include <signal.h>
+# include <sys/wait.h>
 
 # define REDIRECT_IN 1
 # define REDIRECT_IN_HDOC 2
@@ -33,6 +35,10 @@ struct s_redirect
 typedef struct s_cmd_node		t_cmd_node;
 struct s_cmd_node
 {
+	pid_t		pid;
+	int			pipe_mode;
+	int			pipe_read_fd;
+	int			pipe_write_fd;
 	t_ast_node	*node;
 	size_t		argc;
 	char		**argv;
@@ -42,10 +48,30 @@ struct s_cmd_node
 	t_cmd_node	*next;
 };
 
+typedef struct s_cmd			t_cmd;
+struct s_cmd
+{
+	t_cmd_node	*head;
+	t_cmd_node	*tail;
+	size_t		num_of_commands;
+};
+
 int				exec_cmd(t_ast *ast);
+void			exec_simple_command_child(t_cmd_node *cmd);
 
 t_cmd_node		*new_cmd_node(t_ast_node *node);
 void			destroy_cmd_node(t_cmd_node *cmd);
+void			destroy_cmd(t_cmd *cmd);
+
+// exec_pipeline.c
+int				exec_pipeline(t_cmd *cmd);
+
+// exec_pipeline_fork.c
+int				exec_fork_procs(t_cmd_node *current, t_cmd_node *prev);
+
+// exec_pipeline_wait.c
+void			exec_terminate_procs(t_cmd_node *current);
+int				exec_wait_procs(t_cmd *commands);
 
 // exec_redirect_node.c
 t_redirect_node	*new_redirect_node(char *filename, int redirect_type);
@@ -75,5 +101,10 @@ void			set_argv(char **argv, t_ast_node *node);
 
 // exec_path.c
 char			*cmd_get_binary_path(char *filename);;
+
+// exec_syscall.c
+int				ft_fork(void);
+int				ft_pipe(int filedes[2]);
+int				ft_kill(pid_t pid, int sig);
 
 #endif

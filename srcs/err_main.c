@@ -17,6 +17,12 @@ void	err_perror(int err_no)
 	ft_putendl_fd(strerror(err_no), STDERR_FILENO);
 }
 
+void	err_fatal(int err_no)
+{
+	err_perror(err_no);
+	exit(EXIT_FAILURE);
+}
+
 void	err_perror_with_path(int err_no, char *path)
 {
 	ft_putstr_fd(ERR_PREFIX, STDERR_FILENO);

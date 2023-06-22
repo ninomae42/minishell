@@ -15,6 +15,7 @@
 // err_main.c
 void	err_puterr(char *err_msg);
 void	ft_fatal(char *func_name);
+void	err_fatal(int err_no);
 void	err_perror(int err_no);
 void	err_perror_with_path(int err_no, char *path);
 void	err_is_directory(char *path);
