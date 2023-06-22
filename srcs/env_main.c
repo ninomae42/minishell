@@ -22,6 +22,8 @@ t_env_node	*new_env_node(char *name, char *value)
 		ft_fatal("malloc");
 	node->name = ft_strdup(name);
 	node->value = ft_strdup(value);
+	if (node->name == NULL || node->value == NULL)
+		ft_fatal("malloc");
 	node->pair_str = make_pair_str(name, value);
 	node->next = NULL;
 	return (node);
