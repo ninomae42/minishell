@@ -48,10 +48,7 @@ void	destroy_env_nodes(t_env_node *head)
 	while (head != NULL)
 	{
 		next = head->next;
-		free(head->name);
-		free(head->value);
-		free(head->pair_str);
-		free(head);
+		destroy_env_node(head);
 		head = next;
 	}
 }
