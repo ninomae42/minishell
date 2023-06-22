@@ -13,6 +13,8 @@ int	env_set(t_env *env, char *name, char *value, int overwrite)
 		return (-1);
 	else if (overwrite == 0)
 		return (0);
+	if (value == NULL)
+		return (-1);
 	if (target != NULL)
 		env_replace_value(target, value);
 	else
