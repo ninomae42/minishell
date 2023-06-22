@@ -13,18 +13,16 @@ t_env	*new_env(void)
 	return (env);
 }
 
-t_env_node	*new_env_node(char *name, char *value)
+t_env_node	*new_env_node(char *name, char *value, char *pair_str)
 {
 	t_env_node	*node;
 
 	node = (t_env_node *)malloc(sizeof(t_env_node));
 	if (node == NULL)
 		ft_fatal("malloc");
-	node->name = ft_strdup(name);
-	node->value = ft_strdup(value);
-	if (node->name == NULL || node->value == NULL)
-		ft_fatal("malloc");
-	node->pair_str = make_pair_str(name, value);
+	node->name = name;
+	node->value = value;
+	node->pair_str = pair_str;
 	node->next = NULL;
 	return (node);
 }
