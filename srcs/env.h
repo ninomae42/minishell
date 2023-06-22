@@ -41,4 +41,8 @@ int			env_set(t_env *env, char *name, char *value, int overwrite);
 // env_delete.c
 int			env_unset(t_env *env, char *name);
 
+// env_get.c
+char		*env_get_value(t_env *env, char *name);
+char		*env_get_pair_str(t_env *env, char *name);
+
 #endif
