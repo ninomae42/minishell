@@ -33,6 +33,7 @@ void		destroy_env_nodes(t_env_node *head);
 bool		env_is_name_valid(char *name);
 t_env_node	*env_find_node(t_env *env, char *name);
 char		*make_pair_str(char *name, char *value);
+char		**env_list_to_environ(t_env *env);
 void		env_print(t_env *env);
 
 // env_add.c

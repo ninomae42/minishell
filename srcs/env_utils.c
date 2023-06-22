@@ -56,3 +56,23 @@ void	env_print(t_env *env)
 		node = node->next;
 	}
 }
+
+char	**env_list_to_environ(t_env *env)
+{
+	char		**strs;
+	t_env_node	*node;
+	size_t		i;
+
+	strs = (char **)malloc(sizeof(char *) * (env->size + 1));
+	if (strs == NULL)
+		ft_fatal("malloc");
+	i = 0;
+	node = env->head;
+	while (node != NULL)
+	{
+		strs[i++] = node->pair_str;
+		node = node->next;
+	}
+	strs[i] = NULL;
+	return (strs);
+}
