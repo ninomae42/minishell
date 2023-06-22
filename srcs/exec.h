@@ -3,6 +3,7 @@
 # include "parser.h"
 # include <fcntl.h>
 # include <unistd.h>
+# include <signal.h>
 # include <sys/wait.h>
 
 # define REDIRECT_IN 1
@@ -64,6 +65,13 @@ void			destroy_cmd(t_cmd *cmd);
 
 // exec_pipeline.c
 int				exec_pipeline(t_cmd *cmd);
+
+// exec_pipeline_fork.c
+int				exec_fork_procs(t_cmd_node *current, t_cmd_node *prev);
+
+// exec_pipeline_wait.c
+void			exec_terminate_procs(t_cmd_node *current);
+int				exec_wait_procs(t_cmd *commands);
 
 // exec_redirect_node.c
 t_redirect_node	*new_redirect_node(char *filename, int redirect_type);
