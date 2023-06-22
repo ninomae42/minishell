@@ -13,8 +13,6 @@ int	env_set(t_env *env, char *name, char *value, int overwrite)
 		return (-1);
 	else if (overwrite == 0)
 		return (0);
-	if (value == NULL)
-		return (-1);
 	if (target != NULL)
 		env_replace_value(target, value);
 	else
@@ -25,8 +23,17 @@ int	env_set(t_env *env, char *name, char *value, int overwrite)
 static void	env_add_new_env_node(t_env *env, char *name, char *value)
 {
 	t_env_node	*node;
+	t_env_node	tmp;
 
-	node = new_env_node(name, value);
+	tmp.name = ft_strdup(name);
+	if (value != NULL)
+		tmp.value = ft_strdup(value);
+	else
+		tmp.value = ft_strdup("");
+	if (tmp.name == NULL || tmp.value == NULL)
+		ft_fatal("malloc");
+	tmp.pair_str = make_pair_str(name, value);
+	node = new_env_node(tmp.name, tmp.value, tmp.pair_str);
 	if (env->head == NULL)
 		env->head = node;
 	else
@@ -40,7 +47,10 @@ static void	env_replace_value(t_env_node *target, char *value)
 	char	*dup_value;
 	char	*pair_str;
 
-	dup_value = ft_strdup(value);
+	if (value != NULL)
+		dup_value = ft_strdup(value);
+	else
+		dup_value = ft_strdup("");
 	if (dup_value == NULL)
 		ft_fatal("malloc");
 	pair_str = make_pair_str(target->name, value);
