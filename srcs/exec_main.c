@@ -42,6 +42,19 @@ t_cmd	*new_cmd(void)
 	return (cmd);
 }
 
+void	destroy_cmd(t_cmd *cmd)
+{
+	t_cmd_node	*command;
+
+	command = cmd->head;
+	while (command != NULL)
+	{
+		destroy_cmd_node(command);
+		command = command->next;
+	}
+	free(cmd);
+}
+
 void	cmd_add_command(t_cmd *cmd, t_ast_node *node)
 {
 	t_cmd_node	*command;

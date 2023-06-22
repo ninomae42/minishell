@@ -60,6 +60,7 @@ void			exec_simple_command_child(t_cmd_node *cmd);
 
 t_cmd_node		*new_cmd_node(t_ast_node *node);
 void			destroy_cmd_node(t_cmd_node *cmd);
+void			destroy_cmd(t_cmd *cmd);
 
 // exec_pipeline.c
 int				exec_pipeline(t_cmd *cmd);
