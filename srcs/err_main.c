@@ -47,3 +47,13 @@ void	err_command_not_found(char *command_name)
 	ft_putstr_fd(": ", STDERR_FILENO);
 	ft_putendl_fd(COMMAND_NOT_FOUND, STDERR_FILENO);
 }
+
+void	err_env_name_not_valid(char *env_str)
+{
+	ft_putstr_fd(ERR_PREFIX, STDERR_FILENO);
+	ft_putchar_fd('`', STDERR_FILENO);
+	ft_putstr_fd(env_str, STDERR_FILENO);
+	ft_putchar_fd('\'', STDERR_FILENO);
+	ft_putstr_fd(": ", STDERR_FILENO);
+	ft_putendl_fd(ERR_INVALID_ENV_IDENT, STDERR_FILENO);
+}

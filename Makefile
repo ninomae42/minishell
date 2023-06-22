@@ -43,6 +43,7 @@ SRCS := main.c \
 		env_delete.c \
 		env_get.c \
 		env_utils.c \
+		env_load_environ.c \
 
 SRCS := $(addprefix $(SRCS_DIR)/, $(SRCS))
 OBJS := $(patsubst $(SRCS_DIR)/%.c,$(OBJS_DIR)/%.o,$(SRCS))

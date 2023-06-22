@@ -11,6 +11,7 @@
 # define ERR_IS_DIRECTORY "is a directory"
 # define COMMAND_NOT_FOUND "command not found"
 # define ERR_SYNTAX_MSG "syntax error near unexpected token `"
+# define ERR_INVALID_ENV_IDENT "not a valid identifier"
 
 // err_main.c
 void	err_puterr(char *err_msg);
@@ -20,6 +21,7 @@ void	err_perror(int err_no);
 void	err_perror_with_path(int err_no, char *path);
 void	err_is_directory(char *path);
 void	err_command_not_found(char *command_name);
+void	err_env_name_not_valid(char *env_str);
 
 // err_parser.c
 void	err_put_parser_syntax_err(char *token);;

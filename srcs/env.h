@@ -45,4 +45,7 @@ int			env_unset(t_env *env, char *name);
 char		*env_get_value(t_env *env, char *name);
 char		*env_get_pair_str(t_env *env, char *name);
 
+// env_load_environ.c
+int			env_load_environ(t_env *env, char **environ);
+
 #endif
