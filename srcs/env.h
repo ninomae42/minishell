@@ -35,4 +35,7 @@ t_env_node	*env_find_node(t_env *env, char *name);
 char		*make_pair_str(char *name, char *value);
 void		env_print(t_env *env);
 
+// env_add.c
+int			env_set(t_env *env, char *name, char *value, int overwrite);
+
 #endif
