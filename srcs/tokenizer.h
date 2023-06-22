@@ -54,6 +54,8 @@ bool			t_at_eof(t_tokenizer *tokenizer);
 
 // tokenizer_main.c
 t_token			*tokenize(char *input);
+
+// tokenizer_word.c
 t_token_node	*t_tokenize_word(t_tokenizer *tokenizer);
 
 // tokenizer_redirect.c
