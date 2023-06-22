@@ -1,5 +1,6 @@
 #ifndef ENV_H
 # define ENV_H
+# include <stdbool.h>
 # include <stdlib.h>
 # include "ft_err.h"
 # include "libft.h"
@@ -27,5 +28,9 @@ void		destroy_env(t_env *env);
 t_env_node	*new_env_node(char *name, char *value);
 void		destroy_env_nodes(t_env_node *head);
 char		*make_pair_str(char *name, char *value);
+
+// env_utils.c
+bool		env_is_name_valid(char *name);
+t_env_node	*env_find_node(t_env *env, char *name);
 
 #endif
