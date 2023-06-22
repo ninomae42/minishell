@@ -27,3 +27,17 @@ bool	env_is_name_valid(char *name)
 		return (false);
 	return (true);
 }
+
+void	env_print(t_env *env)
+{
+	t_env_node	*node;
+
+	if (env == NULL)
+		return ;
+	node = env->head;
+	while (node != NULL)
+	{
+		printf("%s=%s\n", node->name, node->value);
+		node = node->next;
+	}
+}

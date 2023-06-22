@@ -32,5 +32,6 @@ char		*make_pair_str(char *name, char *value);
 // env_utils.c
 bool		env_is_name_valid(char *name);
 t_env_node	*env_find_node(t_env *env, char *name);
+void		env_print(t_env *env);
 
 #endif
