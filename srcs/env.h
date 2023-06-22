@@ -38,4 +38,7 @@ void		env_print(t_env *env);
 // env_add.c
 int			env_set(t_env *env, char *name, char *value, int overwrite);
 
+// env_delete.c
+int			env_unset(t_env *env, char *name);
+
 #endif
