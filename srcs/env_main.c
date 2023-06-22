@@ -57,18 +57,3 @@ void	destroy_env_nodes(t_env_node *head)
 		head = next;
 	}
 }
-
-char	*make_pair_str(char *name, char *value)
-{
-	size_t	alloc_size;
-	char	*str;
-
-	alloc_size = ft_strlen(name) + ft_strlen(value) + 2;
-	str = (char *)malloc(sizeof(char) * alloc_size);
-	if (str == NULL)
-		ft_fatal("malloc");
-	ft_strlcpy(str, name, alloc_size);
-	ft_strlcat(str, "=", alloc_size);
-	ft_strlcat(str, value, alloc_size);
-	return (str);
-}

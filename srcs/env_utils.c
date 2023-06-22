@@ -28,6 +28,21 @@ bool	env_is_name_valid(char *name)
 	return (true);
 }
 
+char	*make_pair_str(char *name, char *value)
+{
+	size_t	alloc_size;
+	char	*str;
+
+	alloc_size = ft_strlen(name) + ft_strlen(value) + 2;
+	str = (char *)malloc(sizeof(char) * alloc_size);
+	if (str == NULL)
+		ft_fatal("malloc");
+	ft_strlcpy(str, name, alloc_size);
+	ft_strlcat(str, "=", alloc_size);
+	ft_strlcat(str, value, alloc_size);
+	return (str);
+}
+
 void	env_print(t_env *env)
 {
 	t_env_node	*node;
