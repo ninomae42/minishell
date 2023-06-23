@@ -38,6 +38,8 @@ struct s_tokenizer
 	size_t	pos;
 	size_t	read_pos;
 	char	cur;
+	bool	is_in_quote;
+	bool	is_error;
 };
 
 /* pos -> current position in input (points to current char)
