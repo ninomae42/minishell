@@ -41,5 +41,6 @@ int	main(void)
 		token_destroy(token);
 		free(line);
 	}
+	destroy_env(env);
 	exit(status);
 }
