@@ -5,15 +5,20 @@
 #include "ft_path.h"
 #include "env.h"
 
+extern char **environ;
+
 int	main(void)
 {
 	int		status;
 	char	*line;
 	t_token	*token;
 	t_ast	*ast;
+	t_env	*env;
 
 	rl_outstream = stderr;
 	status = 0;
+	env = new_env();
+	env_load_environ(env, environ);
 	while (true)
 	{
 		line = readline("minishell$ ");
@@ -31,10 +36,11 @@ int	main(void)
 		ast = parse(token);
 		puts("");
 		ast_print(ast);
-		status = exec_cmd(ast);
+		status = exec_cmd(ast, env);
 		ast_destroy(ast);
 		token_destroy(token);
 		free(line);
 	}
+	destroy_env(env);
 	exit(status);
 }

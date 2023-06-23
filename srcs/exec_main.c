@@ -1,7 +1,5 @@
 #include "exec.h"
 
-extern char **environ;
-
 t_cmd_node	*new_cmd_node(t_ast_node *node)
 {
 	t_cmd_node	*cmd;
@@ -107,7 +105,7 @@ int	set_argv_and_redirect(char **argv, t_ast_node *node, t_redirect *redirect)
 	return (0);
 }
 
-void	exec_simple_command_child(t_cmd_node *cmd)
+void	exec_simple_command_child(t_cmd_node *cmd, t_env *env)
 {
 	cmd->argc = count_argc(cmd->node);
 	cmd->argv = alloc_argv(cmd->argc);
@@ -116,12 +114,12 @@ void	exec_simple_command_child(t_cmd_node *cmd)
 		destroy_cmd_node(cmd);
 		exit(EXIT_FAILURE);
 	}
-	cmd->environ = environ;
 	if (r_do_redirect(cmd->redirect) < 0)
 		exit(EXIT_FAILURE);
-	cmd->binary_path = cmd_get_binary_path(cmd->argv[0]);
+	cmd->binary_path = cmd_get_binary_path(cmd->argv[0], env);
 	if (cmd->binary_path == NULL)
 		exit(127);
+	cmd->environ = env_list_to_environ(env);
 	if (execve(cmd->binary_path, cmd->argv, cmd->environ) < 0)
 	{
 		err_perror(errno);
@@ -129,7 +127,7 @@ void	exec_simple_command_child(t_cmd_node *cmd)
 	}
 }
 
-int	exec_simple_command(t_cmd_node *cmd)
+int	exec_simple_command(t_cmd_node *cmd, t_env *env)
 {
 	int		status;
 
@@ -141,7 +139,7 @@ int	exec_simple_command(t_cmd_node *cmd)
 		return (1);
 	}
 	if (cmd->pid == 0)
-		exec_simple_command_child(cmd);
+		exec_simple_command_child(cmd, env);
 	else
 	{
 		wait(&status);
@@ -150,19 +148,19 @@ int	exec_simple_command(t_cmd_node *cmd)
 	return (WEXITSTATUS(status));
 }
 
-int	exec_command(t_cmd *cmd)
+int	exec_command(t_cmd *cmd, t_env *env)
 {
 	int	status;
 
 	status = 0;
 	if (1 < cmd->num_of_commands)
-		status = exec_pipeline(cmd);
+		status = exec_pipeline(cmd, env);
 	else
-		status = exec_simple_command(cmd->head);
+		status = exec_simple_command(cmd->head, env);
 	return (status);
 }
 
-int	exec_cmd(t_ast *ast)
+int	exec_cmd(t_ast *ast, t_env *env)
 {
 	int		status;
 	t_cmd	*cmd;
@@ -173,7 +171,7 @@ int	exec_cmd(t_ast *ast)
 	cmd = build_command(ast);
 	if (cmd == NULL)
 		return (1);
-	status = exec_command(cmd);
+	status = exec_command(cmd, env);
 	printf("exec_cmd_finished: %d\n", status);
 	return (status);
 }

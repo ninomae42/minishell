@@ -46,12 +46,12 @@ bool	is_valid_path_current(char *path, char *filename)
 	return (true);
 }
 
-char	*cmd_find_binary_path(char *filename)
+char	*cmd_find_binary_path(char *filename, t_env *env)
 {
 	char	*env_path;
 	char	*path;
 
-	env_path = getenv("PATH");
+	env_path = env_get_value(env, "PATH");
 	path = NULL;
 	if (env_path != NULL)
 	{
@@ -71,7 +71,7 @@ char	*cmd_find_binary_path(char *filename)
 	return (path);
 }
 
-char	*cmd_get_binary_path(char *filename)
+char	*cmd_get_binary_path(char *filename, t_env *env)
 {
 	t_file_type	f_type;
 	char		*path;
@@ -87,7 +87,7 @@ char	*cmd_get_binary_path(char *filename)
 	}
 	else
 	{
-		path = cmd_find_binary_path(filename);
+		path = cmd_find_binary_path(filename, env);
 	}
 	return (path);
 }
