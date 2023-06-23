@@ -3,11 +3,14 @@
 #include "parser.h"
 #include "exec.h"
 #include "ft_path.h"
+#include "env.h"
 
 int	main(void)
 {
 	int		status;
 	char	*line;
+	t_token	*token;
+	t_ast	*ast;
 
 	rl_outstream = stderr;
 	status = 0;
@@ -23,12 +26,9 @@ int	main(void)
 			free(line);
 			continue;
 		}
-		// char	*path = cmd_get_binary_path(line);
-		// printf("main: %s\n", path);
-		// free(path);
-		t_token *token = tokenize(line);
+		token = tokenize(line);
 		token_print(token);
-		t_ast	*ast = parse(token);
+		ast = parse(token);
 		puts("");
 		ast_print(ast);
 		status = exec_cmd(ast);
