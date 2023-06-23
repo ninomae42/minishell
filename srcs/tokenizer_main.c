@@ -22,6 +22,11 @@ t_token	*tokenize(char *input)
 	}
 	node = new_token_node(TK_EOF, NULL);
 	connect_node(token, node);
+	if (tokenizer->is_error)
+	{
+		token_destroy(token);
+		token = NULL;
+	}
 	tokenizer_destroy(tokenizer);
 	return (token);
 }
