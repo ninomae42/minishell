@@ -36,6 +36,8 @@ t_ast_node	*new_ast_node(t_node_kind kind, t_ast_node *child, t_ast_node *brothe
 
 void	ast_destroy(t_ast *ast)
 {
+	if (ast == NULL)
+		return ;
 	ast_node_destroy(ast->root);
 	free(ast);
 }
@@ -72,5 +74,7 @@ static void	ast_print_internal(t_ast_node *node)
 
 void	ast_print(t_ast *ast)
 {
+	if (ast == NULL)
+		return ;
 	ast_print_internal(ast->root);
 }

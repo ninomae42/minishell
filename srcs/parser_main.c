@@ -40,6 +40,8 @@ t_ast	*parse(t_token *token)
 	t_parser	*parser;
 	t_ast		*ast;
 
+	if (token == NULL)
+		return (NULL);
 	parser = new_parser(token);
 	ast = new_ast();
 	ast->root = parse_pipeline(parser);

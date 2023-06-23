@@ -10,6 +10,7 @@ SRCS := main.c \
 		tokenizer.c \
 		tokenizer_ctype.c \
 		tokenizer_main.c \
+		tokenizer_word.c \
 		tokenizer_redirect.c \
 		tokenizer_pipeline.c \
 		ast.c \

@@ -16,6 +16,8 @@ t_tokenizer	*new_tokenizer(char *input)
 	t->input_len = ft_strlen(input);
 	t->pos = 0;
 	t->read_pos = 0;
+	t->is_in_quote = false;
+	t->is_error = false;
 	t_read_char(t);
 	return (t);
 }
