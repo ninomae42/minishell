@@ -1,5 +1,6 @@
 #ifndef EXEC_H
 # define EXEC_H
+# include "env.h"
 # include "parser.h"
 # include <fcntl.h>
 # include <unistd.h>
@@ -56,18 +57,18 @@ struct s_cmd
 	size_t		num_of_commands;
 };
 
-int				exec_cmd(t_ast *ast);
-void			exec_simple_command_child(t_cmd_node *cmd);
+int				exec_cmd(t_ast *ast, t_env *env);
+void			exec_simple_command_child(t_cmd_node *cmd, t_env *env);
 
 t_cmd_node		*new_cmd_node(t_ast_node *node);
 void			destroy_cmd_node(t_cmd_node *cmd);
 void			destroy_cmd(t_cmd *cmd);
 
 // exec_pipeline.c
-int				exec_pipeline(t_cmd *cmd);
+int				exec_pipeline(t_cmd *cmd, t_env *env);
 
 // exec_pipeline_fork.c
-int				exec_fork_procs(t_cmd_node *current, t_cmd_node *prev);
+int				exec_fork_procs(t_cmd_node *current, t_cmd_node *prev, t_env *env);
 
 // exec_pipeline_wait.c
 void			exec_terminate_procs(t_cmd_node *current);
@@ -100,7 +101,7 @@ char			**alloc_argv(size_t argc);
 void			set_argv(char **argv, t_ast_node *node);
 
 // exec_path.c
-char			*cmd_get_binary_path(char *filename);;
+char			*cmd_get_binary_path(char *filename, t_env *env);;
 
 // exec_syscall.c
 int				ft_fork(void);

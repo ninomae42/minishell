@@ -61,7 +61,7 @@ void	exec_connect_pipes(t_cmd_node *current, t_cmd_node *prev)
 	}
 }
 
-int	exec_fork_procs(t_cmd_node *current, t_cmd_node *prev)
+int	exec_fork_procs(t_cmd_node *current, t_cmd_node *prev, t_env *env)
 {
 	while (current != NULL)
 	{
@@ -74,7 +74,7 @@ int	exec_fork_procs(t_cmd_node *current, t_cmd_node *prev)
 		if (current->pid == 0)
 		{
 			exec_connect_pipes(current, prev);
-			exec_simple_command_child(current);
+			exec_simple_command_child(current, env);
 			exit(EXIT_FAILURE);
 		}
 		if (prev != current)
