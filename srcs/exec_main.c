@@ -167,6 +167,8 @@ int	exec_cmd(t_ast *ast)
 	int		status;
 	t_cmd	*cmd;
 
+	if (ast == NULL)
+		return (1);
 	status = 0;
 	cmd = build_command(ast);
 	if (cmd == NULL)
