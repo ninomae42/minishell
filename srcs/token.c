@@ -37,6 +37,8 @@ void	token_destroy(t_token *token)
 	t_token_node	*cur;
 	t_token_node	*next;
 
+	if (token == NULL)
+		return ;
 	cur = token->head;
 	while (cur != NULL)
 	{
@@ -52,6 +54,8 @@ void	token_print(t_token *token)
 {
 	t_token_node	*cur;
 
+	if (token == NULL)
+		return ;
 	cur = token->head;
 	while (cur != NULL)
 	{
