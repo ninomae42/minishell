@@ -12,7 +12,7 @@ t_env_node	*env_find_node(t_env *env, char *name)
 	current = env->head;
 	while (current != NULL)
 	{
-		if (ft_strncmp(current->name, name, ft_strlen(current->name)) == 0)
+		if (ft_strncmp(current->name, name, ft_strlen(name)) == 0)
 			return (current);
 		current = current->next;
 	}
