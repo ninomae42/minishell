@@ -1,5 +1,11 @@
 #include "ft_err.h"
 
+void	err_put_tokenizer_unclosed_quote_err(void)
+{
+	ft_putstr_fd(ERR_PREFIX, STDERR_FILENO);
+	ft_putendl_fd(ERR_SYNTAX_UNCLOSE_QUOTE, STDERR_FILENO);
+}
+
 void	err_put_parser_syntax_err(char *token)
 {
 	ft_putstr_fd(ERR_PREFIX, STDERR_FILENO);
