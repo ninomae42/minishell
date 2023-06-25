@@ -84,15 +84,14 @@ struct s_redirect_node
 	t_redirect_node	*next;
 };
 
-// yet implemented
-int		execute_builtin_in_parent(t_cmd_node *command);
-
-
 // exec_main.c
 void	execute_command(t_cmd *cmd);
 
 // exec_binary.c
 void	exec(t_cmd_node *command);
+
+// exec_parent.c
+int		execute_builtin_in_parent(t_cmd_node *command);
 
 // exec_cmd.c
 t_cmd		*new_cmd(void);

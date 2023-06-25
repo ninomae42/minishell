@@ -24,6 +24,7 @@ SRCS := main.c \
 		exec_cmd.c \
 		exec_dealloc.c \
 		exec_binary.c \
+		exec_parent.c \
 		exec_build.c \
 		exec_redirect.c \
 		exec_redirect_prepare.c \
@@ -43,6 +44,9 @@ SRCS := main.c \
 		env_get.c \
 		env_utils.c \
 		env_load_environ.c \
+		builtin.c \
+		builtin_echo.c \
+		builtin_env.c \
 
 SRCS := $(addprefix $(SRCS_DIR)/, $(SRCS))
 OBJS := $(patsubst $(SRCS_DIR)/%.c,$(OBJS_DIR)/%.o,$(SRCS))
