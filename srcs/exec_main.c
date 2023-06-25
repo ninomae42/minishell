@@ -1,177 +1,67 @@
 #include "exec.h"
 
-t_cmd_node	*new_cmd_node(t_ast_node *node)
+void	fork_child(t_cmd_node *current, t_cmd_node *prev)
 {
-	t_cmd_node	*cmd;
-
-	cmd = (t_cmd_node *)malloc(sizeof(t_cmd_node));
-	if (cmd == NULL)
-		ft_fatal("malloc");
-	cmd->node = node;
-	cmd->argc = 0;
-	cmd->argv = NULL;
-	cmd->environ = NULL;
-	cmd->binary_path = NULL;
-	cmd->next = NULL;
-	cmd->redirect = new_redirect();
-	cmd->pid = -1;
-	cmd->pipe_read_fd = -1;
-	cmd->pipe_write_fd = -1;
-	return (cmd);
-}
-
-void	destroy_cmd_node(t_cmd_node *cmd)
-{
-	destroy_redirect(cmd->redirect);
-	free(cmd->argv);
-	free(cmd);
-}
-
-t_cmd	*new_cmd(void)
-{
-	t_cmd	*cmd;
-
-	cmd = (t_cmd *)malloc(sizeof(t_cmd));
-	if (cmd == NULL)
-		ft_fatal("malloc");
-	cmd->head = NULL;
-	cmd->tail = NULL;
-	cmd->num_of_commands = 0;
-	return (cmd);
-}
-
-void	destroy_cmd(t_cmd *cmd)
-{
-	t_cmd_node	*command;
-
-	command = cmd->head;
-	while (command != NULL)
+	set_pipe_state(current, prev);
+	open_pipe(current);
+	current->pid = fork();
+	if (current->pid < 0)
+		err_fatal(errno);
+	if (current->pid == 0)
 	{
-		destroy_cmd_node(command);
-		command = command->next;
+		connect_pipes(current, prev);
+		if (setup_redirects(current->redirects) < 0)
+			exit(EXIT_FAILURE);
+		// if (current->is_builtin)
+		// 	exit(execute_builtin(current->argv));
+		exec(current);
 	}
-	free(cmd);
+	if (prev != current)
+		close_pipe(prev);
 }
 
-void	cmd_add_command(t_cmd *cmd, t_ast_node *node)
+void	exec_commands_in_child(t_cmd_node *current, t_cmd_node *prev)
 {
-	t_cmd_node	*command;
-
-	command = new_cmd_node(node);
-	if (cmd->head == NULL)
-		cmd->head = command;
-	else
-		cmd->tail->next = command;
-	cmd->tail = command;
-	cmd->num_of_commands++;
-}
-
-t_cmd	*build_command(t_ast *ast)
-{
-	t_ast_node	*pipeline;
-	t_ast_node	*simple_command;
-	t_cmd		*cmd;
-
-	if (ast == NULL || ast->root == NULL)
-		return (NULL);
-	pipeline = ast->root;
-	cmd = new_cmd();
-	while (pipeline != NULL)
+	while (current)
 	{
-		simple_command = pipeline->child;
-		cmd_add_command(cmd, simple_command->child);
-		pipeline = pipeline->brother;
+		fork_child(current, prev);
+		prev = current;
+		current = current->next;
 	}
-	return (cmd);
 }
 
-int	set_argv_and_redirect(char **argv, t_ast_node *node, t_redirect *redirect)
+int	execute_pipeline(t_cmd *cmd)
 {
+	int		status;
 	size_t	i;
+	pid_t	pid;
 
+	status = 0;
+	exec_commands_in_child(cmd->head, cmd->head);
 	i = 0;
-	while (node != NULL)
+	while (i < cmd->num_of_commands)
 	{
-		if (node->kind == ND_WORD)
-			argv[i++] = node->literal;
-		else if (exec_node_is_redirect(node))
-		{
-			if (r_set_redirect(redirect, node) < 0)
-				return (-1);
-		}
-		node = node->brother;
+		pid = waitpid(0, &status, 0);
+		if (pid < 0)
+			err_perror(errno);
+		if (WIFEXITED(status))
+			status = WEXITSTATUS(status);
+		else if (WIFSIGNALED(status))
+			status = 128 + WTERMSIG(status);
+		i++;
 	}
-	argv[i] = NULL;
-	return (0);
-}
-
-void	exec_simple_command_child(t_cmd_node *cmd, t_env *env)
-{
-	cmd->argc = count_argc(cmd->node);
-	cmd->argv = alloc_argv(cmd->argc);
-	if (set_argv_and_redirect(cmd->argv, cmd->node, cmd->redirect) < 0)
-	{
-		destroy_cmd_node(cmd);
-		exit(EXIT_FAILURE);
-	}
-	if (r_do_redirect(cmd->redirect) < 0)
-		exit(EXIT_FAILURE);
-	cmd->binary_path = cmd_get_binary_path(cmd->argv[0], env);
-	if (cmd->binary_path == NULL)
-		exit(127);
-	cmd->environ = env_list_to_environ(env);
-	if (execve(cmd->binary_path, cmd->argv, cmd->environ) < 0)
-	{
-		err_perror(errno);
-		exit(EXIT_FAILURE);
-	}
-}
-
-int	exec_simple_command(t_cmd_node *cmd, t_env *env)
-{
-	int		status;
-
-	status = 0;
-	cmd->pid = fork();
-	if (cmd->pid < 0)
-	{
-		err_perror(errno);
-		return (1);
-	}
-	if (cmd->pid == 0)
-		exec_simple_command_child(cmd, env);
-	else
-	{
-		wait(&status);
-		destroy_cmd_node(cmd);
-	}
-	return (WEXITSTATUS(status));
-}
-
-int	exec_command(t_cmd *cmd, t_env *env)
-{
-	int	status;
-
-	status = 0;
-	if (1 < cmd->num_of_commands)
-		status = exec_pipeline(cmd, env);
-	else
-		status = exec_simple_command(cmd->head, env);
 	return (status);
 }
 
-int	exec_cmd(t_ast *ast, t_env *env)
+void	execute_command(t_cmd *cmd)
 {
-	int		status;
-	t_cmd	*cmd;
-
-	if (ast == NULL)
-		return (1);
-	status = 0;
-	cmd = build_command(ast);
 	if (cmd == NULL)
-		return (1);
-	status = exec_command(cmd, env);
-	printf("exec_cmd_finished: %d\n", status);
-	return (status);
+		return ;
+	// if (cmd->num_of_commands == 1 && cmd->head && cmd->head->is_builtin)
+	// 	g_env->status = execute_builtin_in_parent(cmd->head);
+	else
+	{
+		g_env->status = execute_pipeline(cmd);
+	}
+	destroy_cmd(cmd);
 }

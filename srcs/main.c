@@ -2,23 +2,44 @@
 #include "tokenizer.h"
 #include "parser.h"
 #include "exec.h"
-#include "ft_path.h"
-#include "env.h"
 
-extern char **environ;
+extern char		**environ;
+extern t_env	*g_env;
+
+void	init_minishell(void)
+{
+	rl_outstream = stderr;
+	g_env = new_env();
+	env_load_environ(g_env, environ);
+}
+
+void	cleanup_environment(void)
+{
+	destroy_env(g_env);
+}
+
+void	interpret(char *line)
+{
+	t_token	*token;
+	t_ast	*ast;
+	t_cmd	*cmd;
+
+	token = tokenize(line);
+	token_print(token);
+	puts("");
+	ast = parse(token);
+	ast_print(ast);
+	cmd = build_command(ast);
+	execute_command(cmd);
+	ast_destroy(ast);
+	token_destroy(token);
+}
 
 int	main(void)
 {
-	int		status;
 	char	*line;
-	t_token	*token;
-	t_ast	*ast;
-	t_env	*env;
 
-	rl_outstream = stderr;
-	status = 0;
-	env = new_env();
-	env_load_environ(env, environ);
+	init_minishell();
 	while (true)
 	{
 		line = readline("minishell$ ");
@@ -31,16 +52,9 @@ int	main(void)
 			free(line);
 			continue;
 		}
-		token = tokenize(line);
-		token_print(token);
-		ast = parse(token);
-		puts("");
-		ast_print(ast);
-		status = exec_cmd(ast, env);
-		ast_destroy(ast);
-		token_destroy(token);
+		interpret(line);
 		free(line);
 	}
-	destroy_env(env);
-	exit(status);
+	cleanup_environment();
+	exit(g_env->status);
 }

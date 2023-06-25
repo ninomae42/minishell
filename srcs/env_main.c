@@ -10,6 +10,7 @@ t_env	*new_env(void)
 	env->size = 0;
 	env->head = NULL;
 	env->tail = NULL;
+	env->status = 0;
 	return (env);
 }
 

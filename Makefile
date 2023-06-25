@@ -21,23 +21,21 @@ SRCS := main.c \
 		parser_utils.c \
 		parser_redirect.c \
 		exec_main.c \
-		exec_arguments.c \
-		exec_path.c \
-		exec_redirects.c \
-		exec_redirect_backup.c \
-		exec_redirect_node.c \
+		exec_cmd.c \
+		exec_dealloc.c \
+		exec_binary.c \
+		exec_build.c \
+		exec_redirect.c \
+		exec_redirect_prepare.c \
 		exec_redirect_set.c \
-		exec_redirect_out.c \
-		exec_pipeline.c \
-		exec_pipeline_fork.c \
-		exec_pipeline_wait.c \
-		exec_syscall.c \
+		exec_pipes.c \
+		exec_heredoc.c \
 		err_main.c \
 		err_parser.c \
-		path_executable.c \
 		path_dir_split.c \
 		path_dir_utils.c \
 		path_utils.c \
+		ft_strcmp.c \
 		ft_strndup.c \
 		env_main.c \
 		env_add.c \

@@ -20,6 +20,7 @@ struct s_env
 	size_t		size;
 	t_env_node	*head;
 	t_env_node	*tail;
+	int			status;
 };
 
 // env_main.c

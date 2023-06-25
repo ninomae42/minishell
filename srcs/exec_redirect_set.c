@@ -1,49 +1,79 @@
 #include "exec.h"
 
-static int	r_add_redirect_node(t_redirect *redirect, char *filename, int redirect_type)
-{
-	t_redirect_node	*node;
+static int	open_redirect_file(char *filename, t_redir_type type);
+static void	backup_std_stream(t_redirect *redirect, int target);
+static void	connect_stream(t_redirect *redirect, t_redirect_node *node);
 
-	node = new_redirect_node(filename, redirect_type);
-	if (node == NULL)
-		return (-1);
-	if (redirect->head == NULL)
-		redirect->head = node;
-	else
-		redirect->tail->next = node;
-	redirect->tail = node;
+int	setup_redirects(t_redirect *redirects)
+{
+	t_redirect_node	*r_node;
+
+	r_node = redirects->head;
+	while (r_node)
+	{
+		if (r_node->type == RDIR_IN
+			|| r_node->type == RDIR_OUT || r_node->type == RDIR_APPEND)
+			r_node->fd = open_redirect_file(r_node->filename, r_node->type);
+		if (r_node->fd < 0)
+		{
+			err_perror_with_path(errno, r_node->filename);
+			return (-1);
+		}
+		connect_stream(redirects, r_node);
+		r_node = r_node->next;
+	}
 	return (0);
 }
 
-int	r_set_redirect(t_redirect *redirect, t_ast_node *node)
+static int	open_redirect_file(char *filename, t_redir_type type)
 {
-	char	*filename;
-	int		res;
+	int	fd;
 
-	filename = node->child->literal;
-	res = 0;
-	if (node->kind == ND_REDIRECT_IN)
-		res = r_add_redirect_node(redirect, filename, REDIRECT_IN);
-	else if (node->kind == ND_REDIRECT_OUT)
-		res = r_add_redirect_node(redirect, filename, REDIRECT_OUT);
-	else if (node->kind == ND_REDIRECT_OUT_APPEND)
-		res = r_add_redirect_node(redirect, filename, REDIRECT_OUT_APPEND);
-	else
-		// TODO: HEREDOCの設定を入れる
-		return (-1);
-	if (res < 0)
-		return (-1);
-	return (0);
+	fd = -1;
+	if (filename == NULL)
+		errno = EINVAL;
+	else if (type == RDIR_IN)
+		fd = open(filename, O_RDONLY);
+	else if (type == RDIR_OUT)
+		fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, RDIR_FILE_MODE);
+	else if (type == RDIR_APPEND)
+		fd = open(filename, O_WRONLY | O_CREAT | O_APPEND, RDIR_FILE_MODE);
+	return (fd);
 }
 
-bool	exec_node_is_redirect(t_ast_node *node)
+static void	connect_stream(t_redirect *redirect, t_redirect_node *node)
 {
-	t_node_kind	kind;
+	if (node->type == RDIR_IN || node->type == RDIR_HDOC)
+	{
+		if (redirect->need_dup_input)
+			backup_std_stream(redirect, STDIN_FILENO);
+		if (dup2(node->fd, STDIN_FILENO) < 0)
+			err_fatal(errno);
+	}
+	else
+	{
+		if (redirect->need_dup_output)
+			backup_std_stream(redirect, STDOUT_FILENO);
+		if (dup2(node->fd, STDOUT_FILENO) < 0)
+			err_fatal(errno);
+	}
+	close(node->fd);
+}
 
-	kind = node->kind;
-	if (kind == ND_REDIRECT_IN || kind == ND_REDIRECT_OUT
-		|| kind == ND_REDIRECT_OUT_APPEND
-		|| kind == ND_REDIRECT_IN_HDOC)
-		return (true);
-	return (false);
+static void	backup_std_stream(t_redirect *redirect, int target)
+{
+	if (target == STDIN_FILENO)
+	{
+		redirect->fd_in_dup = dup(STDIN_FILENO);
+		if (redirect->fd_in_dup < 0)
+			err_fatal(errno);
+		redirect->need_dup_input = false;
+	}
+	else if (target == STDOUT_FILENO)
+	{
+		redirect->fd_out_dup = dup(STDOUT_FILENO);
+		if (redirect->fd_out_dup < 0)
+			err_fatal(errno);
+		redirect->need_dup_output = false;
+	}
 }
