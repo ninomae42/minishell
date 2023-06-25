@@ -33,9 +33,9 @@ t_redirect_node	*new_redirect_node(t_redir_type type)
 void	reset_redirect(t_redirect *redirect)
 {
 	if (redirect->need_dup_input == false)
-		if (dup2(STDIN_FILENO, redirect->fd_in_dup) < 0)
+		if (dup2(redirect->fd_in_dup, STDIN_FILENO) < 0)
 			err_fatal(errno);
 	if (redirect->need_dup_output == false)
-		if (dup2(STDOUT_FILENO, redirect->fd_out_dup) < 0)
+		if (dup2(redirect->fd_out_dup, STDOUT_FILENO) < 0)
 			err_fatal(errno);
 }
