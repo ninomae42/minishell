@@ -43,20 +43,6 @@ char	*make_pair_str(char *name, char *value)
 	return (str);
 }
 
-void	env_print(t_env *env)
-{
-	t_env_node	*node;
-
-	if (env == NULL)
-		return ;
-	node = env->head;
-	while (node != NULL)
-	{
-		printf("%s=%s\n", node->name, node->value);
-		node = node->next;
-	}
-}
-
 char	**env_list_to_environ(t_env *env)
 {
 	char		**strs;
