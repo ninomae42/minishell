@@ -1,7 +1,7 @@
 #include "env.h"
 
 static void	env_add_new_env_node(t_env *env, char *name, char *value);
-static void	env_replace_value(t_env_node *target, char *value);
+static void	env_replace_value(t_env *env, t_env_node *target, char *value);
 
 int	env_set(t_env *env, char *name, char *value, int overwrite)
 {
@@ -14,7 +14,7 @@ int	env_set(t_env *env, char *name, char *value, int overwrite)
 	else if (overwrite == 0)
 		return (0);
 	if (target != NULL)
-		env_replace_value(target, value);
+		env_replace_value(env, target, value);
 	else
 		env_add_new_env_node(env, name, value);
 	return (0);
@@ -25,13 +25,17 @@ static void	env_add_new_env_node(t_env *env, char *name, char *value)
 	t_env_node	*node;
 	t_env_node	tmp;
 
+	// TODO: add name validation
 	tmp.name = ft_strdup(name);
+	if (tmp.name == NULL)
+		err_fatal(errno);
+	tmp.value = NULL;
 	if (value != NULL)
+	{
 		tmp.value = ft_strdup(value);
-	else
-		tmp.value = ft_strdup("");
-	if (tmp.name == NULL || tmp.value == NULL)
-		ft_fatal("malloc");
+		if (tmp.value == NULL)
+			err_fatal(errno);
+	}
 	tmp.pair_str = make_pair_str(name, value);
 	node = new_env_node(tmp.name, tmp.value, tmp.pair_str);
 	if (env->head == NULL)
@@ -40,22 +44,27 @@ static void	env_add_new_env_node(t_env *env, char *name, char *value)
 		env->tail->next = node;
 	env->tail = node;
 	env->size++;
+	if (value != NULL)
+		env->export_size++;
 }
 
-static void	env_replace_value(t_env_node *target, char *value)
+static void	env_replace_value(t_env *env, t_env_node *target, char *value)
 {
 	char	*dup_value;
 	char	*pair_str;
 
+	dup_value = NULL;
 	if (value != NULL)
+	{
 		dup_value = ft_strdup(value);
-	else
-		dup_value = ft_strdup("");
-	if (dup_value == NULL)
-		ft_fatal("malloc");
+		if (dup_value == NULL)
+			err_fatal(errno);
+	}
 	pair_str = make_pair_str(target->name, value);
 	free(target->value);
 	free(target->pair_str);
 	target->value = dup_value;
 	target->pair_str = pair_str;
+	if (value == NULL)
+		env->export_size--;
 }

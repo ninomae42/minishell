@@ -33,10 +33,12 @@ char	*make_pair_str(char *name, char *value)
 	size_t	alloc_size;
 	char	*str;
 
+	if (value == NULL)
+		return (NULL);
 	alloc_size = ft_strlen(name) + ft_strlen(value) + 2;
 	str = (char *)malloc(sizeof(char) * alloc_size);
 	if (str == NULL)
-		ft_fatal("malloc");
+		err_fatal(errno);
 	ft_strlcpy(str, name, alloc_size);
 	ft_strlcat(str, "=", alloc_size);
 	ft_strlcat(str, value, alloc_size);
@@ -49,14 +51,15 @@ char	**env_list_to_environ(t_env *env)
 	t_env_node	*node;
 	size_t		i;
 
-	strs = (char **)malloc(sizeof(char *) * (env->size + 1));
+	strs = (char **)malloc(sizeof(char *) * (env->export_size + 1));
 	if (strs == NULL)
-		ft_fatal("malloc");
+		err_fatal(errno);
 	i = 0;
 	node = env->head;
 	while (node != NULL)
 	{
-		strs[i++] = node->pair_str;
+		if (node->pair_str != NULL)
+			strs[i++] = node->pair_str;
 		node = node->next;
 	}
 	strs[i] = NULL;

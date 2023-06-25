@@ -49,6 +49,8 @@ static int	delete_node_by_name(t_env *env, char *name)
 	else if (target == env->tail)
 		env->tail = prev;
 	prev->next = target->next;
+	if (target->pair_str != NULL)
+		env->export_size--;
 	destroy_env_node(target);
 	env->size--;
 	return (0);
