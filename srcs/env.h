@@ -18,6 +18,7 @@ typedef struct s_env		t_env;
 struct s_env
 {
 	size_t		size;
+	size_t		export_size;
 	t_env_node	*head;
 	t_env_node	*tail;
 	int			status;
@@ -35,7 +36,6 @@ bool		env_is_name_valid(char *name);
 t_env_node	*env_find_node(t_env *env, char *name);
 char		*make_pair_str(char *name, char *value);
 char		**env_list_to_environ(t_env *env);
-void		env_print(t_env *env);
 
 // env_add.c
 int			env_set(t_env *env, char *name, char *value, int overwrite);

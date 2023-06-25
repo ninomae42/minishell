@@ -6,11 +6,12 @@ t_env	*new_env(void)
 
 	env = (t_env *)malloc(sizeof(t_env));
 	if (env == NULL)
-		ft_fatal("malloc");
+		err_fatal(errno);
 	env->size = 0;
 	env->head = NULL;
 	env->tail = NULL;
 	env->status = 0;
+	env->export_size = 0;
 	return (env);
 }
 
@@ -20,7 +21,7 @@ t_env_node	*new_env_node(char *name, char *value, char *pair_str)
 
 	node = (t_env_node *)malloc(sizeof(t_env_node));
 	if (node == NULL)
-		ft_fatal("malloc");
+		err_fatal(errno);
 	node->name = name;
 	node->value = value;
 	node->pair_str = pair_str;
@@ -30,6 +31,8 @@ t_env_node	*new_env_node(char *name, char *value, char *pair_str)
 
 void	destroy_env(t_env *env)
 {
+	if (env == NULL)
+		return ;
 	destroy_env_nodes(env->head);
 	free(env);
 }
