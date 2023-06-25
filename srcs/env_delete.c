@@ -20,7 +20,7 @@ static int	find_target_and_prev(t_env_node *head, char *name,
 	internal_prev = head;
 	while (head != NULL)
 	{
-		if (ft_strncmp(head->name, name, ft_strlen(name)) == 0)
+		if (ft_strcmp(head->name, name) == 0)
 		{
 			*target = head;
 			*prev = internal_prev;
