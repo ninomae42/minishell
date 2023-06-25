@@ -50,4 +50,6 @@ char		*env_get_pair_str(t_env *env, char *name);
 // env_load_environ.c
 int			env_load_environ(t_env *env, char **environ);
 
+int		ft_strcmp(const char *s1, const char *s2);
+
 #endif
