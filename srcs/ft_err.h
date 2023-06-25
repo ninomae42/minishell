@@ -13,6 +13,7 @@
 # define ERR_SYNTAX_MSG "syntax error near unexpected token `"
 # define ERR_INVALID_ENV_IDENT "not a valid identifier"
 # define ERR_SYNTAX_UNCLOSE_QUOTE "syntax error: unclosed quote"
+# define ERR_IDENT_INVALID "not a valid identifier"
 
 // err_main.c
 void	err_puterr(char *err_msg);
@@ -27,5 +28,8 @@ void	err_env_name_not_valid(char *env_str);
 
 // err_parser.c
 void	err_put_parser_syntax_err(char *token);;
+
+// err_builtin.c
+void	err_identifier(char *command_name, char *identifier);
 
 #endif
