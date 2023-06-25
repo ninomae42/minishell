@@ -28,8 +28,8 @@ int	execute_builtin(char **argv)
 	// 	return (builtin_pwd(argv));
 	// if (ft_strcmp(argv[0], "export") == 0)
 	// 	return (builtin_export(argv));
-	// if (ft_strcmp(argv[0], "unset") == 0)
-	// 	return (builtin_unset(argv));
+	if (ft_strcmp(argv[0], "unset") == 0)
+		return (builtin_unset(argv));
 	if (ft_strcmp(argv[0], "env") == 0)
 		return (builtin_env(argv));
 	// if (ft_strcmp(argv[0], "exit") == 0)

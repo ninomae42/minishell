@@ -33,6 +33,7 @@ SRCS := main.c \
 		exec_heredoc.c \
 		err_main.c \
 		err_parser.c \
+		err_builtin.c \
 		path_dir_split.c \
 		path_dir_utils.c \
 		path_utils.c \
@@ -46,6 +47,7 @@ SRCS := main.c \
 		env_load_environ.c \
 		builtin.c \
 		builtin_echo.c \
+		builtin_unset.c \
 		builtin_env.c \
 
 SRCS := $(addprefix $(SRCS_DIR)/, $(SRCS))
