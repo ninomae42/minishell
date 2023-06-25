@@ -20,18 +20,7 @@ SRCS := main.c \
 		parser_simple_command.c \
 		parser_utils.c \
 		parser_redirect.c \
-		exec_main.c \
-		exec_arguments.c \
-		exec_path.c \
-		exec_redirects.c \
-		exec_redirect_backup.c \
-		exec_redirect_node.c \
-		exec_redirect_set.c \
-		exec_redirect_out.c \
-		exec_pipeline.c \
-		exec_pipeline_fork.c \
-		exec_pipeline_wait.c \
-		exec_syscall.c \
+
 		err_main.c \
 		err_parser.c \
 		path_executable.c \
