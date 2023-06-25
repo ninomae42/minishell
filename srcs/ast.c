@@ -6,10 +6,7 @@ t_ast	*new_ast(void)
 
 	ast = (t_ast *)malloc(sizeof(t_ast));
 	if (ast == NULL)
-	{
-		perror("malloc");
-		exit(EXIT_FAILURE);
-	}
+		err_fatal(errno);
 	ast->root = NULL;
 	return (ast);
 }
@@ -20,15 +17,16 @@ t_ast_node	*new_ast_node(t_node_kind kind, t_ast_node *child, t_ast_node *brothe
 
 	node = (t_ast_node *)malloc(sizeof(t_ast_node));
 	if (node == NULL)
-	{
-		perror("malloc");
-		exit(EXIT_FAILURE);
-	}
+		err_fatal(errno);
 	node->kind = kind;
 	node->child = child;
 	node->brother = brother;
 	if (word != NULL)
+	{
 		node->literal = ft_strdup(word);
+		if (node->literal == NULL)
+			err_fatal(errno);
+	}
 	else
 		node->literal = NULL;
 	return (node);

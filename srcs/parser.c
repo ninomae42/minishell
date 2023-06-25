@@ -8,10 +8,7 @@ t_parser	*new_parser(t_token *token)
 
 	parser = (t_parser *)malloc(sizeof(t_parser));
 	if (parser == NULL)
-	{
-		perror("malloc");
-		exit(EXIT_FAILURE);
-	}
+		err_fatal(errno);
 	parser->token = token;
 	parser->cur_tok = NULL;
 	parser->peek_tok = NULL;
