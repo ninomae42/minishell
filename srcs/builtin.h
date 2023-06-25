@@ -7,8 +7,6 @@
 # include "minishell.h"
 # include "libft.h"
 
-extern t_env	*g_env;
-
 bool	is_builtin(char *command_name);
 int		execute_builtin(char **argv);;
 

@@ -1,7 +1,5 @@
 #include "exec.h"
 
-extern t_env	*g_env;
-
 void	validate_path(char *path)
 {
 	if (!path_is_exist(path))

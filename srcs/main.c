@@ -4,7 +4,7 @@
 #include "exec.h"
 
 extern char		**environ;
-extern t_env	*g_env;
+t_env			*g_env;
 
 void	init_minishell(void)
 {

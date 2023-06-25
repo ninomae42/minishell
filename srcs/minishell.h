@@ -10,7 +10,7 @@
 # include "ft_err.h"
 # include "env.h"
 
-t_env	*g_env;
+extern t_env	*g_env;
 
 // ft_strndup.c
 size_t	ft_strnlen(const char *s, size_t maxlen);
