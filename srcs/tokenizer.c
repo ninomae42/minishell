@@ -8,10 +8,7 @@ t_tokenizer	*new_tokenizer(char *input)
 
 	t = (t_tokenizer *)malloc(sizeof(t_tokenizer));
 	if (t == NULL)
-	{
-		perror("malloc");
-		exit(EXIT_FAILURE);
-	}
+		err_fatal(errno);
 	t->input = input;
 	t->input_len = ft_strlen(input);
 	t->pos = 0;

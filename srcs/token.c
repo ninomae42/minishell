@@ -6,10 +6,7 @@ t_token	*new_token(void)
 
 	token = (t_token *)malloc(sizeof(t_token));
 	if (token == NULL)
-	{
-		perror("malloc");
-		exit(EXIT_FAILURE);
-	}
+		err_fatal(errno);
 	token->head = NULL;
 	token->tail = NULL;
 	token->size = 0;
@@ -22,10 +19,7 @@ t_token_node	*new_token_node(t_token_kind kind, char *literal)
 
 	node = (t_token_node *)malloc(sizeof(t_token_node));
 	if (node == NULL)
-	{
-		perror("malloc");
-		exit(EXIT_FAILURE);
-	}
+		err_fatal(errno);
 	node->kind = kind;
 	node->literal = literal;
 	node->next = NULL;
