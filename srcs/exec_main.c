@@ -12,8 +12,8 @@ void	fork_child(t_cmd_node *current, t_cmd_node *prev)
 		connect_pipes(current, prev);
 		if (setup_redirects(current->redirects) < 0)
 			exit(EXIT_FAILURE);
-		// if (current->is_builtin)
-		// 	exit(execute_builtin(current->argv));
+		if (current->is_builtin)
+			exit(execute_builtin(current->argv));
 		exec(current);
 	}
 	if (prev != current)
@@ -57,8 +57,8 @@ void	execute_command(t_cmd *cmd)
 {
 	if (cmd == NULL)
 		return ;
-	// if (cmd->num_of_commands == 1 && cmd->head && cmd->head->is_builtin)
-	// 	g_env->status = execute_builtin_in_parent(cmd->head);
+	if (cmd->num_of_commands == 1 && cmd->head && cmd->head->is_builtin)
+		g_env->status = execute_builtin_in_parent(cmd->head);
 	else
 	{
 		g_env->status = execute_pipeline(cmd);
