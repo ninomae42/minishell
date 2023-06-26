@@ -26,8 +26,7 @@ char	*expand_no_quote(char **word)
 
 	iword = *word;
 	save_iword = iword;
-	// while (*iword && !is_quote_char(*iword) && *iword != '$')
-	while (*iword && *iword != '\'' && *iword != '$')
+	while (*iword && !is_quote_char(*iword) && *iword != '$')
 		iword++;
 	*word = iword;
 	res = ft_strndup(save_iword, iword - save_iword);
