@@ -27,12 +27,31 @@ char	*expand_no_quote(char **word)
 	iword = *word;
 	save_iword = iword;
 	// while (*iword && !is_quote_char(*iword) && *iword != '$')
-	while (*iword)
+	while (*iword && *iword != '\'')
 		iword++;
 	*word = iword;
 	res = ft_strndup(save_iword, iword - save_iword);
 	if (res == NULL)
 		err_fatal(errno);
+	return (res);
+}
+
+char	*expand_single_quote(char **word)
+{
+	char	*iword;
+	char	*save_iword;
+	char	*res;
+
+	iword = *word;
+	iword++;
+	save_iword = iword;
+	while (*iword && *iword != '\'')
+		iword++;
+	res = ft_strndup(save_iword, iword - save_iword);
+	if (res == NULL)
+		err_fatal(errno);
+	iword++;
+	*word = iword;
 	return (res);
 }
 
@@ -47,7 +66,10 @@ char	*expand_word(char *word)
 	iword = word;
 	while (iword && *iword)
 	{
-		value = expand_no_quote(&iword);
+		if (*iword == '\'')
+			value = expand_single_quote(&iword);
+		else
+			value = expand_no_quote(&iword);
 		expanded = concat_str(expanded, value);
 	}
 	return (expanded);
