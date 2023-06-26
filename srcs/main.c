@@ -1,6 +1,7 @@
 #include "minishell.h"
 #include "tokenizer.h"
 #include "parser.h"
+#include "expander.h"
 #include "exec.h"
 
 extern char		**environ;
@@ -30,6 +31,9 @@ void	interpret(char *line)
 	token_print(token);
 	printf("===parse start===\n");
 	ast = parse(token);
+	ast_print(ast);
+	printf("===expand start===\n");
+	expand(ast);
 	ast_print(ast);
 	printf("===build command start===\n");
 	cmd = build_command(ast);
