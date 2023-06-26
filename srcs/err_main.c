@@ -57,3 +57,12 @@ void	err_env_name_not_valid(char *env_str)
 	ft_putstr_fd(": ", STDERR_FILENO);
 	ft_putendl_fd(ERR_INVALID_ENV_IDENT, STDERR_FILENO);
 }
+
+// bash: $foo: ambiguous redirect
+void	err_ambiguous_redirect(char *filename)
+{
+	ft_putstr_fd(ERR_PREFIX, STDERR_FILENO);
+	ft_putstr_fd(filename, STDERR_FILENO);
+	ft_putstr_fd(": ", STDERR_FILENO);
+	ft_putendl_fd(ERR_AMBIGUOUS_REDIRECT, STDERR_FILENO);
+}

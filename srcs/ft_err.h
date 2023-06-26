@@ -14,6 +14,9 @@
 # define ERR_INVALID_ENV_IDENT "not a valid identifier"
 # define ERR_SYNTAX_UNCLOSE_QUOTE "syntax error: unclosed quote"
 # define ERR_IDENT_INVALID "not a valid identifier"
+# define ERR_AMBIGUOUS_REDIRECT "ambiguous redirect"
+
+void	err_ambiguous_redirect(char *filename);
 
 // err_main.c
 void	err_puterr(char *err_msg);
