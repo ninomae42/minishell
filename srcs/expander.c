@@ -27,7 +27,7 @@ char	*expand_no_quote(char **word)
 	iword = *word;
 	save_iword = iword;
 	// while (*iword && !is_quote_char(*iword) && *iword != '$')
-	while (*iword && *iword != '\'')
+	while (*iword && *iword != '\'' && *iword != '$')
 		iword++;
 	*word = iword;
 	res = ft_strndup(save_iword, iword - save_iword);
@@ -55,6 +55,32 @@ char	*expand_single_quote(char **word)
 	return (res);
 }
 
+char	*expand_parameter(char **word)
+{
+	char	*i_word;
+	char	*save_word;
+	char	*name;
+	char	*value;
+
+	i_word = *word;
+	save_word = ++i_word;
+	// validate identifier or not ?
+	while (*i_word && is_alpha_num_under(*i_word))
+		i_word++;
+	*word = i_word;
+	name = ft_strndup(save_word, i_word - save_word);
+	if (name == NULL)
+		err_fatal(errno);
+	value = env_get_value(g_env, name);
+	free(name);
+	if (value == NULL)
+		return (NULL);
+	value = get_escaped_str(value);
+	if (value == NULL)
+		err_fatal(errno);
+	return (value);
+}
+
 char	*expand_word(char *word)
 {
 	char	*iword;
@@ -68,6 +94,8 @@ char	*expand_word(char *word)
 	{
 		if (*iword == '\'')
 			value = expand_single_quote(&iword);
+		else if (*iword == '$')
+			value = expand_parameter(&iword);
 		else
 			value = expand_no_quote(&iword);
 		expanded = concat_str(expanded, value);
