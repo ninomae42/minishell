@@ -11,4 +11,7 @@ void	expand(t_ast *ast);
 bool	is_alpha_under(char c);
 bool	is_alpha_num_under(char c);
 char	*get_escaped_str(char *s);
+
+// expander_utils2.c
+char	*get_without_escape_str(char *escaped_str);
 #endif
