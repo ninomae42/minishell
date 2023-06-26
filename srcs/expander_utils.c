@@ -1,4 +1,14 @@
 #include "expander.h"
+
+bool	is_alpha_under(char c)
+{
+	return (ft_isalpha(c) || c == '_');
+}
+bool	is_alpha_num_under(char c)
+{
+	return (is_alpha_under(c) || ft_isdigit(c));
+}
+
 static size_t	strlen_with_escape(char *s)
 {
 	size_t	len;

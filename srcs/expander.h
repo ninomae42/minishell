@@ -8,5 +8,7 @@ char	*expand_word(char *word);
 void	expand(t_ast *ast);
 
 // expander_utils.c
+bool	is_alpha_under(char c);
+bool	is_alpha_num_under(char c);
 char	*get_escaped_str(char *s);
 #endif
