@@ -16,6 +16,7 @@ void	init_minishell(void)
 void	cleanup_environment(void)
 {
 	destroy_env(g_env);
+	rl_clear_history();
 }
 
 void	interpret(char *line)
@@ -35,11 +36,10 @@ void	interpret(char *line)
 	token_destroy(token);
 }
 
-int	main(void)
+int	main_loop(void)
 {
 	char	*line;
 
-	init_minishell();
 	while (true)
 	{
 		line = readline("minishell$ ");
@@ -55,6 +55,15 @@ int	main(void)
 		interpret(line);
 		free(line);
 	}
+	return (g_env->status);
+}
+
+int	main(void)
+{
+	int	status;
+
+	init_minishell();
+	status = main_loop();
 	cleanup_environment();
-	exit(g_env->status);
+	exit(status);
 }
