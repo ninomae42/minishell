@@ -6,7 +6,9 @@ void	destroy_redirect_nodes(t_redirect_node *head)
 
 	while (head)
 	{
-		next = head;
+		next = head->next;
+		if (head->type == RDIR_HDOC)
+			close(head->fd);
 		free(head->filename);
 		free(head);
 		head = next;
@@ -48,5 +50,6 @@ void	destroy_cmd(t_cmd *cmd)
 {
 	if (cmd == NULL)
 		return ;
+	destroy_cmd_nodes(cmd->head);
 	free(cmd);
 }
