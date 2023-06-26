@@ -55,7 +55,7 @@ char	*expand_single_quote(char **word)
 	return (res);
 }
 
-char	*expand_parameter(char **word)
+char	*expand_parameter_internal(char **word)
 {
 	char	*i_word;
 	char	*save_word;
@@ -63,7 +63,7 @@ char	*expand_parameter(char **word)
 	char	*value;
 
 	i_word = *word;
-	save_word = ++i_word;
+	save_word = i_word;
 	// validate identifier or not ?
 	while (*i_word && is_alpha_num_under(*i_word))
 		i_word++;
@@ -78,6 +78,24 @@ char	*expand_parameter(char **word)
 	value = get_escaped_str(value);
 	if (value == NULL)
 		err_fatal(errno);
+	return (value);
+}
+
+char	*expand_parameter(char **word)
+{
+	char	*i_word;
+	char	*value;
+
+	i_word = *word;
+	i_word++;
+	if (*i_word == '?')
+	{
+		value = ft_itoa(g_env->status);
+		i_word++;
+	}
+	else
+		value = expand_parameter_internal(&i_word);
+	*word = i_word;
 	return (value);
 }
 
