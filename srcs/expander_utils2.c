@@ -40,7 +40,7 @@ char	*get_without_escape_str(char *escaped_str)
 	len = strlen_without_escape(escaped_str);
 	res = (char *)malloc(sizeof(char) * (len + 1));
 	if (res == NULL)
-		exit(EXIT_FAILURE);
+		err_fatal(errno);
 	copy_str_without_escape(res, escaped_str);
 	return (res);
 }
