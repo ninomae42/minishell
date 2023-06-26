@@ -60,8 +60,5 @@ void	execute_command(t_cmd *cmd)
 	if (cmd->num_of_commands == 1 && cmd->head && cmd->head->is_builtin)
 		g_env->status = execute_builtin_in_parent(cmd->head);
 	else
-	{
 		g_env->status = execute_pipeline(cmd);
-	}
-	destroy_cmd(cmd);
 }

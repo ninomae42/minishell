@@ -20,6 +20,9 @@ SRCS := main.c \
 		parser_simple_command.c \
 		parser_utils.c \
 		parser_redirect.c \
+		expander.c \
+		expander_utils.c \
+		expander_utils2.c \
 		exec_main.c \
 		exec_cmd.c \
 		exec_dealloc.c \

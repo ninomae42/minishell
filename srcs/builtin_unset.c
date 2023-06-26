@@ -1,14 +1,6 @@
 #include "builtin.h"
+#include "expander.h"
 
-bool	is_alpha_under(char c)
-{
-	return (ft_isalpha(c) || c == '_');
-}
-
-bool	is_alphanum_under(char c)
-{
-	return (is_alpha_under(c) || isdigit(c));
-}
 
 bool	is_identifier(char *name)
 {
@@ -19,7 +11,7 @@ bool	is_identifier(char *name)
 	name++;
 	while (*name)
 	{
-		if (!is_alphanum_under(*name))
+		if (!is_alpha_num_under(*name))
 			return (false);
 		name++;
 	}
