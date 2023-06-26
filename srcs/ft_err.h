@@ -31,5 +31,6 @@ void	err_put_parser_syntax_err(char *token);;
 
 // err_builtin.c
 void	err_identifier(char *command_name, char *identifier);
+void	err_builtin_exit(char *err_msg, char *arg);
 
 #endif

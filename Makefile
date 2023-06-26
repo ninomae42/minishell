@@ -49,6 +49,7 @@ SRCS := main.c \
 		builtin_echo.c \
 		builtin_unset.c \
 		builtin_env.c \
+		builtin_exit.c \
 
 SRCS := $(addprefix $(SRCS_DIR)/, $(SRCS))
 OBJS := $(patsubst $(SRCS_DIR)/%.c,$(OBJS_DIR)/%.o,$(SRCS))
