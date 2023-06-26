@@ -32,7 +32,7 @@ int	execute_builtin(char **argv)
 		return (builtin_unset(argv));
 	if (ft_strcmp(argv[0], "env") == 0)
 		return (builtin_env(argv));
-	// if (ft_strcmp(argv[0], "exit") == 0)
-	// 	return (builtin_exit(argv));
+	if (ft_strcmp(argv[0], "exit") == 0)
+		return (builtin_exit(argv));
 	exit(EXIT_FAILURE);
 }
