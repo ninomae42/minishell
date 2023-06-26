@@ -1,4 +1,5 @@
 #include "exec.h"
+#include "expander.h"
 
 static int	open_redirect_file(char *filename, t_redir_type type);
 static void	backup_std_stream(t_redirect *redirect, int target);
@@ -16,7 +17,6 @@ int	setup_redirects(t_redirect *redirects)
 			r_node->fd = open_redirect_file(r_node->filename, r_node->type);
 		if (r_node->fd < 0)
 		{
-			err_perror_with_path(errno, r_node->filename);
 			return (-1);
 		}
 		connect_stream(redirects, r_node);
@@ -25,19 +25,38 @@ int	setup_redirects(t_redirect *redirects)
 	return (0);
 }
 
+static bool	is_redirect_ambiguous(char *filename)
+{
+	while (*filename)
+	{
+		if (*filename == ' ' || *filename == '\t' || *filename == '\n')
+			return (true);
+		filename++;
+	}
+	return (false);
+}
+
 static int	open_redirect_file(char *filename, t_redir_type type)
 {
-	int	fd;
+	char	*expanded_filename;
+	int		fd;
 
 	fd = -1;
 	if (filename == NULL)
 		errno = EINVAL;
+	errno = 0;
+	expanded_filename = expand_word(filename);
+	if (is_redirect_ambiguous(expanded_filename))
+		err_ambiguous_redirect(filename);
 	else if (type == RDIR_IN)
-		fd = open(filename, O_RDONLY);
+		fd = open(expanded_filename, O_RDONLY);
 	else if (type == RDIR_OUT)
-		fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, RDIR_FILE_MODE);
+		fd = open(expanded_filename, O_WRONLY | O_CREAT | O_TRUNC, RDIR_FILE_MODE);
 	else if (type == RDIR_APPEND)
-		fd = open(filename, O_WRONLY | O_CREAT | O_APPEND, RDIR_FILE_MODE);
+		fd = open(expanded_filename, O_WRONLY | O_CREAT | O_APPEND, RDIR_FILE_MODE);
+	if (fd < 0 && errno != 0)
+		err_perror_with_path(errno, filename);
+	free(expanded_filename);
 	return (fd);
 }
 
