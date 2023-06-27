@@ -9,6 +9,7 @@ void	fork_child(t_cmd_node *current, t_cmd_node *prev)
 		err_fatal(errno);
 	if (current->pid == 0)
 	{
+		set_execution_sighandlers();
 		connect_pipes(current, prev);
 		if (setup_redirects(current->redirects) < 0)
 			exit(EXIT_FAILURE);

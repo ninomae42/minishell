@@ -6,7 +6,6 @@
 
 extern char		**environ;
 t_env			*g_env;
-void	init_pwd(void);
 
 void	init_minishell(void)
 {
@@ -14,6 +13,7 @@ void	init_minishell(void)
 	g_env = new_env();
 	env_load_environ(g_env, environ);
 	init_pwd();
+	set_normal_sighandlers();
 }
 
 void	cleanup_environment(void)
