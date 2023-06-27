@@ -22,8 +22,8 @@ int	execute_builtin(char **argv)
 {
 	if (ft_strcmp(argv[0], "echo") == 0)
 		return (builtin_echo(argv));
-	// if (ft_strcmp(argv[0], "cd") == 0)
-	// 	return (builtin_cd(argv));
+	if (ft_strcmp(argv[0], "cd") == 0)
+		return (builtin_cd(argv));
 	if (ft_strcmp(argv[0], "pwd") == 0)
 		return (builtin_pwd(argv));
 	if (ft_strcmp(argv[0], "export") == 0)

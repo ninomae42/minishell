@@ -23,5 +23,6 @@ bool	path_is_contain_slash(char *path);
 bool	path_is_directory(char *path);
 bool	path_is_exist(char *path);
 bool	path_has_exec_right(char *path);
+char	*concat_path(char *dir, char *filename);
 
 #endif

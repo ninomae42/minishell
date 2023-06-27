@@ -28,21 +28,6 @@ void	validate_path_current(char *path, char *filename)
 	}
 }
 
-char	*concat_path(char *dir, char *filename)
-{
-	size_t	path_len;
-	char	*path;
-
-	path_len = ft_strlen(dir) + ft_strlen(filename) + 2;
-	path = (char *)malloc(sizeof(char) * path_len);
-	if (path == NULL)
-		err_fatal(errno);
-	ft_strlcpy(path, dir, path_len);
-	ft_strlcat(path, "/", path_len);
-	ft_strlcat(path, filename, path_len);
-	return (path);
-}
-
 char	*search_binary_internal(char **dirs, char *filename)
 {
 	char	*path;

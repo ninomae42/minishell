@@ -20,6 +20,7 @@ int		builtin_exit(char **argv);
 
 // helpers
 int		export_print(void);
+void	init_pwd(void);
 void	set_pwd_value(void);
 
 #endif
