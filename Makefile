@@ -50,6 +50,7 @@ SRCS := main.c \
 		env_load_environ.c \
 		builtin.c \
 		builtin_echo.c \
+		builtin_export.c \
 		builtin_unset.c \
 		builtin_env.c \
 		builtin_exit.c \
