@@ -28,18 +28,18 @@ void	interpret(char *line)
 	t_ast	*ast;
 	t_cmd	*cmd;
 
-	printf("===tokenize start===\n");
+	// printf("===tokenize start===\n");
 	token = tokenize(line);
-	token_print(token);
-	printf("===parse start===\n");
+	// token_print(token);
+	// printf("===parse start===\n");
 	ast = parse(token);
-	ast_print(ast);
-	printf("===expand start===\n");
+	// ast_print(ast);
+	// printf("===expand start===\n");
 	expand(ast);
-	ast_print(ast);
-	printf("===build command start===\n");
+	// ast_print(ast);
+	// printf("===build command start===\n");
 	cmd = build_command(ast);
-	printf("===execute command start===\n");
+	// printf("===execute command start===\n");
 	execute_command(cmd);
 	destroy_cmd(cmd);
 	ast_destroy(ast);
