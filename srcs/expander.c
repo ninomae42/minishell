@@ -168,6 +168,7 @@ static void	expand_internal(t_ast_node *node)
 	t_ast_node	*child;
 	t_ast_node	*brother;
 	char		*expanded;
+	char		*tmp;
 
 	if (node == NULL)
 		return ;
@@ -176,6 +177,9 @@ static void	expand_internal(t_ast_node *node)
 	if (node->kind == ND_WORD && node->literal)
 	{
 		expanded = expand_word(node->literal);
+		tmp = get_without_escape_str(expanded);
+		free(expanded);
+		expanded = tmp;
 		free(node->literal);
 		node->literal = expanded;
 	}
