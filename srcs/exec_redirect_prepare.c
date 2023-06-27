@@ -30,7 +30,9 @@ static void	duplicate_redirect(t_redirect *redirect, t_ast_node *command)
 	if (node->type == RDIR_HDOC)
 	{
 		// TODO: do expand delmiter literal
+		set_heredoc_sighandlers();
 		node->fd = read_heredoc(command->literal);
+		set_normal_sighandlers();
 	}
 	else
 	{

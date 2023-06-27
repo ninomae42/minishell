@@ -57,6 +57,7 @@ SRCS := main.c \
 		builtin_unset.c \
 		builtin_env.c \
 		builtin_exit.c \
+		signal.c \
 
 SRCS := $(addprefix $(SRCS_DIR)/, $(SRCS))
 OBJS := $(patsubst $(SRCS_DIR)/%.c,$(OBJS_DIR)/%.o,$(SRCS))
