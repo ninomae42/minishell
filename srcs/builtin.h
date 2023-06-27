@@ -18,4 +18,7 @@ int		builtin_unset(char **argv);
 int		builtin_env(char **argv);
 int		builtin_exit(char **argv);
 
+// helpers
+int		export_print(void);
+
 #endif
