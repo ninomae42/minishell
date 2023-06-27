@@ -6,13 +6,14 @@
 
 extern char		**environ;
 t_env			*g_env;
+void	init_pwd(void);
 
 void	init_minishell(void)
 {
 	rl_outstream = stderr;
 	g_env = new_env();
 	env_load_environ(g_env, environ);
-	set_pwd_value();
+	init_pwd();
 }
 
 void	cleanup_environment(void)
