@@ -23,3 +23,19 @@ void	err_builtin_exit(char *err_msg, char *arg)
 	}
 	ft_putendl_fd(err_msg, STDERR_FILENO);
 }
+
+void	err_builtin_cd_perror_with_path(int err_no, char *path)
+{
+	ft_putstr_fd(ERR_PREFIX, STDERR_FILENO);
+	ft_putstr_fd(ERR_CD_PREFIX, STDERR_FILENO);
+	ft_putstr_fd(path, STDERR_FILENO);
+	ft_putstr_fd(": ", STDERR_FILENO);
+	ft_putendl_fd(strerror(err_no), STDERR_FILENO);
+}
+
+void	err_builtin_cd(char *err_msg)
+{
+	ft_putstr_fd(ERR_PREFIX, STDERR_FILENO);
+	ft_putstr_fd(ERR_CD_PREFIX, STDERR_FILENO);
+	ft_putendl_fd(err_msg, STDERR_FILENO);
+}

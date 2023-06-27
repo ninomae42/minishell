@@ -8,6 +8,7 @@
 # include "libft.h"
 
 # define ERR_PREFIX "minishell: "
+# define ERR_CD_PREFIX "cd: "
 # define ERR_IS_DIRECTORY "is a directory"
 # define COMMAND_NOT_FOUND "command not found"
 # define ERR_SYNTAX_MSG "syntax error near unexpected token `"
@@ -35,5 +36,7 @@ void	err_put_parser_syntax_err(char *token);;
 // err_builtin.c
 void	err_identifier(char *command_name, char *identifier);
 void	err_builtin_exit(char *err_msg, char *arg);
+void	err_builtin_cd_perror_with_path(int err_no, char *path);
+void	err_builtin_cd(char *err_msg);
 
 #endif
