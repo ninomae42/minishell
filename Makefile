@@ -51,6 +51,7 @@ SRCS := main.c \
 		builtin.c \
 		builtin_echo.c \
 		builtin_export.c \
+		builtin_export_print.c \
 		builtin_unset.c \
 		builtin_env.c \
 		builtin_exit.c \
