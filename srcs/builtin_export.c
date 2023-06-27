@@ -78,8 +78,7 @@ void	add_exported_env_var(char *export_input)
 		name = ft_strndup(export_input, delim - export_input);
 		if (name == NULL)
 			err_fatal(errno);
-		delim = delim + 1;
-		value = ft_strdup(delim);
+		value = delim + 1;
 	}
 	else
 	{
@@ -90,7 +89,6 @@ void	add_exported_env_var(char *export_input)
 	}
 	env_set(g_env, name, value, 1);
 	free(name);
-	free(value);
 }
 
 int	export_set_environs(char **argv)
