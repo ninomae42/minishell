@@ -28,7 +28,7 @@ static int	parse_environ_str(t_env *env, char *str)
 	name = ft_strndup(str, delimiter - str);
 	value = ft_strdup(delimiter + 1);
 	if (name == NULL || value == NULL)
-		ft_fatal("malloc");
+		err_fatal(errno);
 	res = env_set(env, name, value, 1);
 	if (res < 0)
 		err_env_name_not_valid(name);

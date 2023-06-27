@@ -12,6 +12,7 @@ void	init_minishell(void)
 	rl_outstream = stderr;
 	g_env = new_env();
 	env_load_environ(g_env, environ);
+	set_pwd_value();
 }
 
 void	cleanup_environment(void)
