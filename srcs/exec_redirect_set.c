@@ -27,6 +27,8 @@ int	setup_redirects(t_redirect *redirects)
 
 static bool	is_redirect_ambiguous(char *filename)
 {
+	if (*filename == '\0')
+		return (true);
 	while (*filename)
 	{
 		if (*filename == ' ' || *filename == '\t' || *filename == '\n')
