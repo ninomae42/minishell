@@ -2,7 +2,7 @@
 #include "expander.h"
 
 
-bool	is_identifier(char *name)
+bool	is_identifier_str(char *name)
 {
 	if (name == NULL)
 		return (false);
@@ -27,7 +27,7 @@ int		builtin_unset(char **argv)
 	res = EXIT_SUCCESS;
 	while (argv[i])
 	{
-		if (is_identifier(argv[i]))
+		if (is_identifier_str(argv[i]))
 			env_unset(g_env, argv[i]);
 		else
 		{
