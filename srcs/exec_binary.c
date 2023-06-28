@@ -76,18 +76,17 @@ char	*build_binary_path(char *search_dir, char *filename)
 	return (res_path);
 }
 
-void	exec(char *command_name, char **argv, char **environ)
+void	exec(char *command_name, char **argv, char **envp)
 {
 	char	*env_path;
 	char	*binary_path;
 
-	printf("command_name: %p, argv: %p\n", command_name, argv);
 	if (command_name == NULL || argv == NULL)
 		exit(EXIT_FAILURE);
 	if (*command_name == '/' || path_is_contain_slash(command_name))
 	{
 		validate_path(command_name);
-		if (execve(command_name, argv, environ) < 0)
+		if (execve(command_name, argv, envp) < 0)
 			err_fatal(errno);
 	}
 	else
@@ -96,7 +95,6 @@ void	exec(char *command_name, char **argv, char **environ)
 		if (env_path != NULL && *env_path)
 		{
 			binary_path = build_binary_path(env_path, command_name);
-			printf("binary_path: %s\n", binary_path);
 			if (binary_path == NULL || path_is_directory(binary_path))
 			{
 				err_command_not_found(command_name);
@@ -108,7 +106,7 @@ void	exec(char *command_name, char **argv, char **environ)
 			binary_path = build_binary_path(".", command_name);
 			validate_path_current(binary_path, command_name);
 		}
-		if (execve(binary_path, argv, environ) < 0)
+		if (execve(binary_path, argv, envp) < 0)
 			err_fatal(errno);
 	}
 }
