@@ -49,6 +49,7 @@ int	check_state(void)
 		// printf("check state\n");
 		g_env->is_readline_interrupted = true;
 		rl_done = 1;
+		rl_event_hook = NULL;
 		return (0);
 	}
 	return (0);
