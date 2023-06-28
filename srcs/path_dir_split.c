@@ -72,7 +72,7 @@ static char	**split_main(char *s, size_t num_of_dirs)
 	{
 		delim = find_next_delim(s);
 		dirs[i] = ft_strndup(s, delim - s);
-		if (dirs[i] ==  NULL)
+		if (dirs[i] == NULL)
 		{
 			dir_free(dirs);
 			return (NULL);

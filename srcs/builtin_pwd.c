@@ -1,4 +1,5 @@
 #include "builtin.h"
+
 char	*get_sys_cwd_path(char *caller);
 
 void	init_pwd(void)
@@ -19,7 +20,6 @@ void	init_pwd(void)
 	}
 	env_set(g_env, "OLDPWD", NULL, 1);
 }
-
 
 int	builtin_pwd(char **argv)
 {

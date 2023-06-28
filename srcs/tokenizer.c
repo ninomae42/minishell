@@ -33,7 +33,7 @@ char	t_peek_char(t_tokenizer *tokenizer)
 {
 	if (tokenizer->input_len <= tokenizer->read_pos)
 		return ('\0');
-	return tokenizer->input[tokenizer->read_pos];
+	return (tokenizer->input[tokenizer->read_pos]);
 }
 
 bool	t_at_eof(t_tokenizer *tokenizer)

@@ -11,7 +11,8 @@ t_ast	*new_ast(void)
 	return (ast);
 }
 
-t_ast_node	*new_ast_node(t_node_kind kind, t_ast_node *child, t_ast_node *brother, char *word)
+t_ast_node	*new_ast_node(t_node_kind kind, t_ast_node *child,
+		t_ast_node *brother, char *word)
 {
 	t_ast_node	*node;
 
@@ -65,7 +66,7 @@ static void	ast_print_internal(t_ast_node *node)
 	child = node->child;
 	brother = node->brother;
 	printf("nd_kind: %s, literal: %s\n",
-			node_kind_to_str(node->kind), node->literal);
+		node_kind_to_str(node->kind), node->literal);
 	ast_print_internal(child);
 	ast_print_internal(brother);
 }

@@ -25,7 +25,6 @@ static bool	is_valid_argument(char *s)
 	return (true);
 }
 
-
 static int	is_overflow(long current, long sign, char next)
 {
 	if (0 < sign)
@@ -74,7 +73,7 @@ static void	atol_exit(char *str)
 	exit((sign * num) & 255);
 }
 
-int		builtin_exit(char **argv)
+int	builtin_exit(char **argv)
 {
 	if (isatty(STDOUT_FILENO))
 		ft_putendl_fd("exit", STDERR_FILENO);

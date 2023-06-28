@@ -22,7 +22,7 @@ struct s_token_node
 	t_token_node	*next;
 };
 
-typedef struct s_token	t_token;
+typedef struct s_token		t_token;
 struct s_token
 {
 	t_token_node	*head;

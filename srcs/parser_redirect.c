@@ -1,9 +1,9 @@
 #include "parser.h"
 
-# define REDIRECT_IN 1
-# define REDIRECT_IN_HDOC 2
-# define REDIRECT_OUT 3
-# define REDIRECT_OUT_APPEND 4
+#define REDIRECT_IN 1
+#define REDIRECT_IN_HDOC 2
+#define REDIRECT_OUT 3
+#define REDIRECT_OUT_APPEND 4
 
 int	p_get_redirect_type(t_parser *p)
 {

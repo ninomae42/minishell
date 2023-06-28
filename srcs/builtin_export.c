@@ -82,7 +82,7 @@ static int	export_set_environs(char **argv)
 	return (res);
 }
 
-int		builtin_export(char **argv)
+int	builtin_export(char **argv)
 {
 	if (argv[1])
 	{

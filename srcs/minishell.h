@@ -13,7 +13,6 @@
 
 extern t_env	*g_env;
 
-
 // signal.c
 void	set_normal_sighandlers(void);
 void	set_execution_sighandlers(void);
@@ -24,6 +23,6 @@ size_t	ft_strnlen(const char *s, size_t maxlen);
 char	*ft_strndup(char *s, size_t len);
 
 // ft_strcmp.c
-int		ft_strcmp(const char *s1, const char *s2);;
+int		ft_strcmp(const char *s1, const char *s2);
 
 #endif

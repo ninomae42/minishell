@@ -53,9 +53,9 @@ static int	open_redirect_file(char *filename, t_redir_type type)
 	else if (type == RDIR_IN)
 		fd = open(expanded_filename, O_RDONLY);
 	else if (type == RDIR_OUT)
-		fd = open(expanded_filename, O_WRONLY | O_CREAT | O_TRUNC, RDIR_FILE_MODE);
+		fd = open(expanded_filename, O_WRONLY | O_CREAT | O_TRUNC, FILE_MODE);
 	else if (type == RDIR_APPEND)
-		fd = open(expanded_filename, O_WRONLY | O_CREAT | O_APPEND, RDIR_FILE_MODE);
+		fd = open(expanded_filename, O_WRONLY | O_CREAT | O_APPEND, FILE_MODE);
 	if (fd < 0 && errno != 0)
 		err_perror_with_path(errno, filename);
 	free(expanded_filename);

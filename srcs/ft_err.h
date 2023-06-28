@@ -31,7 +31,7 @@ void	err_put_tokenizer_unclosed_quote_err(void);
 void	err_env_name_not_valid(char *env_str);
 
 // err_parser.c
-void	err_put_parser_syntax_err(char *token);;
+void	err_put_parser_syntax_err(char *token);
 
 // err_builtin.c
 void	err_identifier(char *command_name, char *identifier);

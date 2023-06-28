@@ -26,7 +26,6 @@ void	update_path(char **path, char *dir_component)
 	{
 		tmp = *path;
 		*path = get_parent_dir(*path);
-
 		free(tmp);
 	}
 	else

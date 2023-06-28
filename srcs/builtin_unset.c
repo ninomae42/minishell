@@ -1,7 +1,6 @@
 #include "builtin.h"
 #include "expander.h"
 
-
 bool	is_identifier_str(char *name)
 {
 	if (name == NULL)
@@ -18,7 +17,7 @@ bool	is_identifier_str(char *name)
 	return (true);
 }
 
-int		builtin_unset(char **argv)
+int	builtin_unset(char **argv)
 {
 	size_t	i;
 	int		res;

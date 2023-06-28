@@ -71,7 +71,7 @@ int	main_loop(void)
 		if (*line == '\0')
 		{
 			free(line);
-			continue;
+			continue ;
 		}
 		interpret(line);
 		free(line);

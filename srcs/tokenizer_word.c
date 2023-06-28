@@ -40,7 +40,7 @@ static void	t_read_until_next_quote_char(t_tokenizer *tokenizer, char quote_c)
 		{
 			t_read_char(tokenizer);
 			tokenizer->is_in_quote = false;
-			break;
+			break ;
 		}
 	}
 }

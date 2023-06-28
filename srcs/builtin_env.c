@@ -9,7 +9,7 @@ static void	print_env_node(t_env_node *node)
 	ft_putendl_fd(node->value, STDOUT_FILENO);
 }
 
-int		builtin_env(char **argv)
+int	builtin_env(char **argv)
 {
 	t_env_node	*head;
 

@@ -4,6 +4,7 @@ bool	is_alpha_under(char c)
 {
 	return (ft_isalpha(c) || c == '_');
 }
+
 bool	is_alpha_num_under(char c)
 {
 	return (is_alpha_under(c) || ft_isdigit(c));

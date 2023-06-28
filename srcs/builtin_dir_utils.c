@@ -24,7 +24,6 @@ void	setpwd(char *path)
 	env_set(g_env, "PWD", path, 1);
 }
 
-// cd: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory
 char	*get_sys_cwd_path(char *caller)
 {
 	char	*cwd;
@@ -34,7 +33,8 @@ char	*get_sys_cwd_path(char *caller)
 	{
 		ft_putstr_fd(caller, STDERR_FILENO);
 		ft_putstr_fd(": error retriefving current directory: ", STDERR_FILENO);
-		ft_putstr_fd("getcwd: cannot access parent directories: ", STDERR_FILENO);
+		ft_putstr_fd("getcwd: ", STDERR_FILENO);
+		ft_putstr_fd("cannot access parent directories: ", STDERR_FILENO);
 		ft_putendl_fd(strerror(errno), STDERR_FILENO);
 	}
 	return (cwd);
