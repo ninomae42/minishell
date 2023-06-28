@@ -10,21 +10,36 @@ void	validate_path(char *path)
 	if (path_is_directory(path))
 	{
 		err_is_directory(path);
-		exit(127);
+		exit(126);
+	}
+	if (!path_has_exec_right(path))
+	{
+		err_perror_with_path(errno, path);
+		exit(126);
 	}
 }
 
 void	validate_path_current(char *path, char *filename)
 {
+	if (path == NULL)
+	{
+		err_perror_with_path(ENOENT, filename);
+		exit(127);
+	}
+	if (!path_is_exist(path))
+	{
+		err_perror_with_path(errno, path);
+		exit(127);
+	}
 	if (!path_has_exec_right(path))
 	{
 		err_perror_with_path(errno, filename);
-		exit(127);
+		exit(126);
 	}
 	if (path_is_directory(path))
 	{
 		err_is_directory(filename);
-		exit(127);
+		exit(126);
 	}
 }
 
@@ -51,6 +66,8 @@ char	*build_binary_path(char *search_dir, char *filename)
 	char	**dirs;
 	char	*res_path;
 
+	if (*filename == '\0')
+		return (ft_strdup(""));
 	dirs = path_dir_split(search_dir);
 	if (dirs == NULL)
 		err_fatal(errno);
@@ -59,28 +76,28 @@ char	*build_binary_path(char *search_dir, char *filename)
 	return (res_path);
 }
 
-void	exec(t_cmd_node *command)
+void	exec(char *command_name, char **argv, char **environ)
 {
-	char	*command_name;
 	char	*env_path;
+	char	*binary_path;
 
-	if (command == NULL || command->argv == NULL)
+	printf("command_name: %p, argv: %p\n", command_name, argv);
+	if (command_name == NULL || argv == NULL)
 		exit(EXIT_FAILURE);
-	if (command->argv[0] == NULL || command->argv[0][0] == '\0')
-		exit(EXIT_SUCCESS);
-	command_name = command->argv[0];
 	if (*command_name == '/' || path_is_contain_slash(command_name))
 	{
 		validate_path(command_name);
-		command->binary_path = command_name;
+		if (execve(command_name, argv, environ) < 0)
+			err_fatal(errno);
 	}
 	else
 	{
 		env_path = env_get_value(g_env, "PATH");
-		if (env_path != NULL)
+		if (env_path != NULL && *env_path)
 		{
-			command->binary_path = build_binary_path(env_path, command_name);
-			if (command->binary_path == NULL || path_is_directory(command->binary_path))
+			binary_path = build_binary_path(env_path, command_name);
+			printf("binary_path: %s\n", binary_path);
+			if (binary_path == NULL || path_is_directory(binary_path))
 			{
 				err_command_not_found(command_name);
 				exit(127);
@@ -88,13 +105,10 @@ void	exec(t_cmd_node *command)
 		}
 		else
 		{
-			// build binary path from current dir
-			command->binary_path = build_binary_path(".", command_name);
-			if (command->binary_path == NULL)
-				err_command_not_found(command_name);
-			validate_path_current(command->binary_path, command_name);
+			binary_path = build_binary_path(".", command_name);
+			validate_path_current(binary_path, command_name);
 		}
+		if (execve(binary_path, argv, environ) < 0)
+			err_fatal(errno);
 	}
-	if (execve(command->binary_path, command->argv, command->environ) < 0)
-		err_fatal(errno);
 }
