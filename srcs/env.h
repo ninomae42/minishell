@@ -18,12 +18,9 @@ typedef struct s_env		t_env;
 struct s_env
 {
 	size_t		size;
-	size_t		export_size;
 	t_env_node	*head;
 	t_env_node	*tail;
 	int			status;
-	char		*pwd;
-	char		*old_pwd;
 };
 
 // env_main.c

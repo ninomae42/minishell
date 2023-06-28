@@ -16,6 +16,7 @@ void	fork_child(t_cmd_node *current, t_cmd_node *prev)
 		if (current->is_builtin)
 			exit(execute_builtin(current->argv));
 		current->binary_path = current->argv[0];
+		current->environ = env_list_to_environ(g_env);
 		exec(current->binary_path, current->argv, current->environ);
 	}
 	if (prev != current)
