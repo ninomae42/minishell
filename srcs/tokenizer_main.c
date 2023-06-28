@@ -26,6 +26,7 @@ t_token	*tokenize(char *input)
 	{
 		token_destroy(token);
 		token = NULL;
+		g_env->status = 258;
 	}
 	tokenizer_destroy(tokenizer);
 	return (token);
