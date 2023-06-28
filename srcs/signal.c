@@ -1,13 +1,6 @@
 #include "minishell.h"
 
-static void	sigint_handler(int sig)
-{
-	(void)sig;
-	write(STDOUT_FILENO, "\n", sizeof(char));
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
-}
+static void	sigint_handler(int sig);
 
 void	set_normal_sighandlers(void)
 {
@@ -16,6 +9,28 @@ void	set_normal_sighandlers(void)
 	{
 		err_fatal(errno);
 	}
+}
+
+static void	sigint_handler(int sig)
+{
+	// printf("signal handler\n");
+	g_env->signo = sig;
+}
+
+int	hook_signal_event(void)
+{
+	// printf("signal event\n");
+	if (g_env->signo == SIGINT)
+	{
+		// g_env->signo = 0;
+		// printf("signal event\n");
+		write(STDOUT_FILENO, "\n", sizeof(char));
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
+		return (0);
+	}
+	return (0);
 }
 
 void	set_execution_sighandlers(void)
@@ -27,12 +42,14 @@ void	set_execution_sighandlers(void)
 	}
 }
 
-void	set_heredoc_sighandlers(void)
+int	check_state(void)
 {
-	// TODO: SIG_INT must break readline loop;
-	if (signal(SIGQUIT, SIG_IGN) == SIG_ERR
-		|| signal(SIGINT, SIG_IGN) == SIG_ERR)
+	if (g_env->signo == SIGINT)
 	{
-		err_fatal(errno);
+		// printf("check state\n");
+		g_env->is_readline_interrupted = true;
+		rl_done = 1;
+		return (0);
 	}
+	return (0);
 }
