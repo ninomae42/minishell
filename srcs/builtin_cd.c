@@ -18,6 +18,8 @@ char	*set_cd_destination(char **argv)
 	}
 	else
 		dest = ft_strdup(argv[1]);
+	if (dest == NULL)
+		err_perror(errno);
 	return (dest);
 }
 
@@ -101,6 +103,8 @@ int	builtin_cd(char **argv)
 	int		res;
 
 	dest = set_cd_destination(argv);
+	if (dest == NULL)
+		return (EXIT_FAILURE);
 	if (change_directory(dest) == 0)
 		res = EXIT_SUCCESS;
 	else
