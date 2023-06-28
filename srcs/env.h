@@ -17,10 +17,12 @@ struct s_env_node
 typedef struct s_env		t_env;
 struct s_env
 {
-	size_t		size;
-	t_env_node	*head;
-	t_env_node	*tail;
-	int			status;
+	size_t			size;
+	t_env_node		*head;
+	t_env_node		*tail;
+	int				status;
+	volatile int	signo;
+	bool			is_readline_interrupted;
 };
 
 // env_main.c

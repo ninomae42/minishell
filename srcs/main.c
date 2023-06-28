@@ -7,10 +7,17 @@
 extern char		**environ;
 t_env			*g_env;
 
+int	hook_signal_event(void);
+
 void	init_minishell(void)
 {
+	extern int	_rl_echo_control_chars;
+
 	rl_outstream = stderr;
+	_rl_echo_control_chars = 0;
 	g_env = new_env();
+	g_env->signo = 0;
+	rl_signal_event_hook = hook_signal_event;
 	env_load_environ(g_env, environ);
 	init_pwd();
 	set_normal_sighandlers();
@@ -55,6 +62,7 @@ int	main_loop(void)
 
 	while (true)
 	{
+		g_env->signo = 0;
 		line = readline("minishell$ ");
 		if (line == NULL)
 			break ;
