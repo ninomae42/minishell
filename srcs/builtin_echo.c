@@ -8,7 +8,7 @@ int	builtin_echo(char **argv)
 
 	i = 1;
 	need_newline = true;
-	if (argv[1] != NULL && ft_strncmp(argv[1], "-n", 2) == 0)
+	if (argv[1] != NULL && ft_strcmp(argv[1], "-n") == 0)
 	{
 		i++;
 		need_newline = false;
