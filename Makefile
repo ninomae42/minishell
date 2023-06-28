@@ -23,6 +23,9 @@ SRCS := main.c \
 		expander.c \
 		expander_utils.c \
 		expander_utils2.c \
+		expander_parameter.c \
+		expander_double_quotes.c \
+		expander_quotes1.c \
 		exec_main.c \
 		exec_cmd.c \
 		exec_dealloc.c \
@@ -37,6 +40,7 @@ SRCS := main.c \
 		err_main.c \
 		err_parser.c \
 		err_builtin.c \
+		err_exec.c \
 		path_dir_split.c \
 		path_dir_utils.c \
 		path_utils.c \
