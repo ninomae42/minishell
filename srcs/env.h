@@ -22,8 +22,6 @@ struct s_env
 	t_env_node	*head;
 	t_env_node	*tail;
 	int			status;
-	char		*pwd;
-	char		*old_pwd;
 };
 
 // env_main.c
