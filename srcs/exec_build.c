@@ -29,7 +29,7 @@ static void	build_simple_command(t_cmd_node *command)
 {
 	command->argc = count_argc(command->node);
 	command->argv = set_argv(command->node, command->argc);
-	command->environ = env_list_to_environ(g_env);
+	// command->environ = env_list_to_environ(g_env);
 	if (command->argv[0] != NULL && is_builtin(command->argv[0]))
 		command->is_builtin = true;
 	else
