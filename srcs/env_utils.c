@@ -45,13 +45,29 @@ char	*make_pair_str(char *name, char *value)
 	return (str);
 }
 
+size_t	count_exported_strs(t_env *env)
+{
+	size_t		num_of_strs;
+	t_env_node	*head;
+
+	head = env->head;
+	num_of_strs = 0;
+	while (head)
+	{
+		if (head->pair_str != NULL)
+			num_of_strs++;
+		head = head->next;
+	}
+	return (num_of_strs);
+}
+
 char	**env_list_to_environ(t_env *env)
 {
 	char		**strs;
 	t_env_node	*node;
 	size_t		i;
 
-	strs = (char **)malloc(sizeof(char *) * (env->export_size + 1));
+	strs = (char **)malloc(sizeof(char *) * (count_exported_strs(env) + 1));
 	if (strs == NULL)
 		err_fatal(errno);
 	i = 0;
