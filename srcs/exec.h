@@ -88,7 +88,7 @@ struct s_redirect_node
 void	execute_command(t_cmd *cmd);
 
 // exec_binary.c
-void	exec(t_cmd_node *command);
+void	exec(char *command_name, char **argv, char **environ);
 
 // exec_parent.c
 int		execute_builtin_in_parent(t_cmd_node *command);
