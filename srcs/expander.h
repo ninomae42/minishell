@@ -3,6 +3,7 @@
 # include "parser.h"
 # include "minishell.h"
 
+// expander.c
 char	*concat_str(char *s1, char *s2);
 char	*expand_word(char *word);
 void	expand(t_ast *ast);
@@ -14,4 +15,15 @@ char	*get_escaped_str(char *s);
 
 // expander_utils2.c
 char	*get_without_escape_str(char *escaped_str);
+
+// expander_quotes1.c
+char	*expand_no_quote(char **word);
+char	*expand_single_quote(char **word);
+
+// expander_parameter.c
+char	*expand_parameter(char **word);
+
+// expander_double_quotes.c
+char	*expand_double_quote(char **word);
+
 #endif
