@@ -33,26 +33,38 @@ void	exec_commands_in_child(t_cmd_node *current, t_cmd_node *prev)
 	}
 }
 
+void	wait_child_procs(t_cmd *cmd, int *last_status)
+{
+	int			status;
+	pid_t		last_pid;
+	pid_t		pid;
+	t_cmd_node	*node;
+
+	node = cmd->head;
+	while (node && node->next)
+		node = node->next;
+	last_pid = node->pid;
+	while (true)
+	{
+		pid = waitpid(0, &status, 0);
+		if (pid == -1 && errno == ECHILD)
+			break ;
+		else if (pid == -1)
+			err_perror(errno);
+		if (pid == last_pid && WIFEXITED(status))
+			*last_status = WEXITSTATUS(status);
+		else if (WIFSIGNALED(status))
+			*last_status = 128 + WTERMSIG(status);
+	}
+}
+
 int	execute_pipeline(t_cmd *cmd)
 {
 	int		status;
-	size_t	i;
-	pid_t	pid;
 
 	status = 0;
 	exec_commands_in_child(cmd->head, cmd->head);
-	i = 0;
-	while (i < cmd->num_of_commands)
-	{
-		pid = waitpid(0, &status, 0);
-		if (pid < 0)
-			err_perror(errno);
-		if (WIFEXITED(status))
-			status = WEXITSTATUS(status);
-		else if (WIFSIGNALED(status))
-			status = 128 + WTERMSIG(status);
-		i++;
-	}
+	wait_child_procs(cmd, &status);
 	return (status);
 }
 
