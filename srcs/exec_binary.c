@@ -82,7 +82,7 @@ void	exec(char *command_name, char **argv, char **envp)
 	char	*binary_path;
 
 	if (command_name == NULL || argv == NULL)
-		exit(EXIT_FAILURE);
+		exit(EXIT_SUCCESS);
 	if (*command_name == '/' || path_is_contain_slash(command_name))
 	{
 		validate_path(command_name);
