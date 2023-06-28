@@ -57,6 +57,8 @@ SRCS := main.c \
 		builtin_unset.c \
 		builtin_env.c \
 		builtin_exit.c \
+		builtin_dir_utils.c \
+		builtin_cd_dir_cannon.c \
 		signal.c \
 
 SRCS := $(addprefix $(SRCS_DIR)/, $(SRCS))

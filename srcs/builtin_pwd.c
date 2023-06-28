@@ -1,41 +1,36 @@
 #include "builtin.h"
-char	*get_current_working_directory(void);
+char	*get_sys_cwd_path(char *caller);
 
 void	init_pwd(void)
 {
-	char	*pwd;
 	char	*sys_cwd;
+	char	*dup;
 
-	pwd = env_get_value(g_env, "PWD");
-	if (pwd == NULL)
+	sys_cwd = get_sys_cwd_path("shell-init");
+	printf("pwd: %s\n", sys_cwd);
+	if (sys_cwd != NULL)
 	{
-		sys_cwd = getcwd(NULL, 0);
-		if (sys_cwd)
-			env_set(g_env, "PWD", sys_cwd, 1);
-		g_env->pwd = ft_strdup(sys_cwd);
-		if (g_env->pwd == NULL)
+		dup = ft_strdup(sys_cwd);
+		if (dup == NULL)
 			err_fatal(errno);
+		env_set(g_env, "PWD", dup, 1);
 		free(sys_cwd);
+		free(dup);
 	}
-	else
-	{
-		g_env->pwd = ft_strdup(pwd);
-		if (g_env->pwd == NULL)
-			err_fatal(errno);
-	}
-	g_env->old_pwd = env_get_value(g_env, "OLDPWD");
-	if (g_env->old_pwd != NULL)
-	{
-		g_env->old_pwd = ft_strdup(g_env->old_pwd);
-		if (g_env->old_pwd == NULL)
-			err_fatal(errno);
-	}
+	env_set(g_env, "OLDPWD", NULL, 1);
 }
 
 
 int	builtin_pwd(char **argv)
 {
+	char	*cwd;
+
 	(void)argv;
-	ft_putendl_fd(g_env->pwd, STDOUT_FILENO);
+	cwd = get_sys_cwd_path("pwd");
+	if (cwd == NULL)
+		return (EXIT_FAILURE);
+	else
+		ft_putendl_fd(cwd, STDOUT_FILENO);
+	free(cwd);
 	return (EXIT_SUCCESS);
 }
