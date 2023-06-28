@@ -82,6 +82,8 @@ int	export_print(void)
 	t_env_node	**env_array;
 	size_t		i;
 
+	if (g_env->size == 0)
+		return (EXIT_SUCCESS);
 	env_array = copy_env_entries(g_env);
 	sort_env_entries(env_array, g_env->size);
 	i = 0;
