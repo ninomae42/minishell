@@ -30,6 +30,7 @@ t_ast_node	*parse_pipeline(t_parser *parser)
 	if (parser->is_syntax_err)
 	{
 		ast_node_destroy(node);
+		g_env->status = 258;
 		return (NULL);
 	}
 	return (node);

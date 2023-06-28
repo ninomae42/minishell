@@ -35,13 +35,16 @@ void	interpret(char *line)
 	ast = parse(token);
 	// ast_print(ast);
 	// printf("===expand start===\n");
-	expand(ast);
-	// ast_print(ast);
-	// printf("===build command start===\n");
-	cmd = build_command(ast);
-	// printf("===execute command start===\n");
-	execute_command(cmd);
-	destroy_cmd(cmd);
+	if (ast->root != NULL)
+	{
+		expand(ast);
+		// ast_print(ast);
+		// printf("===build command start===\n");
+		cmd = build_command(ast);
+		// printf("===execute command start===\n");
+		execute_command(cmd);
+		destroy_cmd(cmd);
+	}
 	ast_destroy(ast);
 	token_destroy(token);
 }
