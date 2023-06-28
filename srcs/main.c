@@ -36,6 +36,7 @@ void	interpret(char *line)
 	// ast_print(ast);
 	// printf("===expand start===\n");
 	if (ast->root != NULL)
+	if (ast && ast->root)
 	{
 		expand(ast);
 		// ast_print(ast);

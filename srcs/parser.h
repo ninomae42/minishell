@@ -44,6 +44,7 @@ t_ast		*parse(t_token *token);
 // parser_simple_command.c
 t_ast_node	*parse_simple_command(t_parser *parser);
 t_ast_node	*parse_word(t_parser *parser);
+bool		p_is_simple_command_element(t_parser *p);
 
 // parser_redirect.c
 t_ast_node	*parse_redirect(t_parser *p);

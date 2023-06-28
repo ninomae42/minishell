@@ -23,6 +23,12 @@ t_ast_node	*parse_pipeline(t_parser *parser)
 	while (!parser->is_syntax_err && !p_at_eof(parser) && p_is_pipeline(parser))
 	{
 		p_next_token(parser);
+		if (!p_is_simple_command_element(parser))
+		{
+			err_put_parser_syntax_err(parser->cur_tok->literal);
+			parser->is_syntax_err = true;
+			break ;
+		}
 		child = parse_simple_command(parser);
 		cur->brother = new_ast_node(ND_PIPELINE, child, NULL, NULL);
 		cur = cur->brother;
