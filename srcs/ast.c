@@ -55,25 +55,3 @@ void	ast_node_destroy(t_ast_node *node)
 	free(node->literal);
 	free(node);
 }
-
-static void	ast_print_internal(t_ast_node *node)
-{
-	t_ast_node	*child;
-	t_ast_node	*brother;
-
-	if (node == NULL)
-		return ;
-	child = node->child;
-	brother = node->brother;
-	printf("nd_kind: %s, literal: %s\n",
-		node_kind_to_str(node->kind), node->literal);
-	ast_print_internal(child);
-	ast_print_internal(brother);
-}
-
-void	ast_print(t_ast *ast)
-{
-	if (ast == NULL)
-		return ;
-	ast_print_internal(ast->root);
-}
