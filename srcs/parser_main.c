@@ -33,12 +33,6 @@ t_ast_node	*parse_pipeline(t_parser *parser)
 		cur->brother = new_ast_node(ND_PIPELINE, child, NULL, NULL);
 		cur = cur->brother;
 	}
-	if (parser->is_syntax_err)
-	{
-		ast_node_destroy(node);
-		g_env->status = 258;
-		return (NULL);
-	}
 	return (node);
 }
 
@@ -52,6 +46,12 @@ t_ast	*parse(t_token *token)
 	parser = new_parser(token);
 	ast = new_ast();
 	ast->root = parse_pipeline(parser);
+	if (parser->is_syntax_err)
+	{
+		ast_node_destroy(ast->root);
+		ast->root = NULL;
+		g_env->status = 258;
+	}
 	parser_destroy(parser);
 	return (ast);
 }
