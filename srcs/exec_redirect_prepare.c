@@ -1,6 +1,7 @@
 #include "exec.h"
 
-static void			duplicate_redirect(t_redirect *redirect, t_ast_node *command);
+static void			duplicate_redirect(t_redirect *redirect,
+						t_ast_node *command);
 static t_redir_type	node_kind_to_redir_type(t_ast_node *node);
 static bool			is_redirect_node(t_ast_node *node);
 
@@ -28,10 +29,7 @@ static void	duplicate_redirect(t_redirect *redirect, t_ast_node *command)
 	if (command->literal == NULL)
 		return ;
 	if (node->type == RDIR_HDOC)
-	{
-		// TODO: do expand delmiter literal
 		node->fd = read_heredoc(command->literal);
-	}
 	else
 	{
 		node->filename = ft_strdup(command->literal);
