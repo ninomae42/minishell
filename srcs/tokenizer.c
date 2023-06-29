@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   tokenizer.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tashimiz <tashimiz@student.42tokyo.jp      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/06/29 10:07:09 by tashimiz          #+#    #+#             */
+/*   Updated: 2023/06/29 10:07:09 by tashimiz         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "tokenizer.h"
 
 void	t_read_char(t_tokenizer *tokenizer);
@@ -33,7 +45,7 @@ char	t_peek_char(t_tokenizer *tokenizer)
 {
 	if (tokenizer->input_len <= tokenizer->read_pos)
 		return ('\0');
-	return tokenizer->input[tokenizer->read_pos];
+	return (tokenizer->input[tokenizer->read_pos]);
 }
 
 bool	t_at_eof(t_tokenizer *tokenizer)

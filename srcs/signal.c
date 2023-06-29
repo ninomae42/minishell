@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   signal.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tashimiz <tashimiz@student.42tokyo.jp      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/06/29 10:06:43 by tashimiz          #+#    #+#             */
+/*   Updated: 2023/06/29 10:06:44 by tashimiz         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 static void	sigint_handler(int sig);
@@ -13,17 +25,13 @@ void	set_normal_sighandlers(void)
 
 static void	sigint_handler(int sig)
 {
-	// printf("signal handler\n");
 	g_env->signo = sig;
 }
 
 int	hook_signal_event(void)
 {
-	// printf("signal event\n");
 	if (g_env->signo == SIGINT)
 	{
-		// g_env->signo = 0;
-		// printf("signal event\n");
 		write(STDOUT_FILENO, "\n", sizeof(char));
 		rl_on_new_line();
 		rl_replace_line("", 0);
@@ -42,11 +50,10 @@ void	set_execution_sighandlers(void)
 	}
 }
 
-int	check_state(void)
+int	heredoc_event_hook(void)
 {
 	if (g_env->signo == SIGINT)
 	{
-		// printf("check state\n");
 		g_env->is_readline_interrupted = true;
 		rl_done = 1;
 		rl_event_hook = NULL;

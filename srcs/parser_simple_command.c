@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parser_simple_command.c                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tashimiz <tashimiz@student.42tokyo.jp      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/06/29 10:06:09 by tashimiz          #+#    #+#             */
+/*   Updated: 2023/06/29 10:06:10 by tashimiz         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "parser.h"
 
 bool	p_is_simple_command_element(t_parser *p)
@@ -9,7 +21,7 @@ bool	p_is_simple_command_element(t_parser *p)
 	kind = p->cur_tok->kind;
 	if (kind == TK_WORD
 		|| kind == TK_REDIRECT_IN || kind == TK_REDIRECT_IN_HDOC
-		|| kind == TK_REDIRECT_OUT|| kind == TK_REDIRECT_OUT_APPEND)
+		|| kind == TK_REDIRECT_OUT || kind == TK_REDIRECT_OUT_APPEND)
 		return (true);
 	return (false);
 }
@@ -63,7 +75,7 @@ t_ast_node	*parse_simple_command(t_parser *parser)
 	child = parse_simple_command_elem(parser);
 	node = new_ast_node(ND_SIMPLE_COMMAND, child, NULL, NULL);
 	while (!parser->is_syntax_err && !p_at_eof(parser)
-			&& p_is_simple_command_element(parser))
+		&& p_is_simple_command_element(parser))
 	{
 		child->brother = parse_simple_command_elem(parser);
 		child = child->brother;

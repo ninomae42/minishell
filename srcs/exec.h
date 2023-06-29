@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exec.h                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tashimiz <tashimiz@student.42tokyo.jp      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/06/29 10:02:33 by tashimiz          #+#    #+#             */
+/*   Updated: 2023/06/29 10:02:33 by tashimiz         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef EXEC_H
 # define EXEC_H
 # include <fcntl.h>
@@ -14,8 +26,7 @@
 # include "parser.h"
 # include "libft.h"
 
-
-# define RDIR_FILE_MODE 0644
+# define FILE_MODE 0644
 
 typedef struct s_cmd_node		t_cmd_node;
 typedef struct s_cmd			t_cmd;
@@ -28,7 +39,6 @@ typedef enum e_pipe_mode
 	PIPE_RD,
 	PIPE_WR,
 	PIPE_RDWR,
-
 }	t_pipe_mode;
 
 struct s_cmd
@@ -85,46 +95,52 @@ struct s_redirect_node
 };
 
 // exec_main.c
-void	execute_command(t_cmd *cmd);
+void			execute_command(t_cmd *cmd);
 
 // exec_binary.c
-void	exec(char *command_name, char **argv, char **environ);
+void			exec(char *command_name, char **argv, char **environ);
 
 // exec_parent.c
-int		execute_builtin_in_parent(t_cmd_node *command);
+int				execute_builtin_in_parent(t_cmd_node *command);
 
 // exec_cmd.c
-t_cmd		*new_cmd(void);
-t_cmd_node	*new_cmd_node(t_ast_node *node);
+t_cmd			*new_cmd(void);
+t_cmd_node		*new_cmd_node(t_ast_node *node);
 
 // exec_dealloc.c
-void	destroy_redirect_nodes(t_redirect_node *head);
-void	destroy_redirect(t_redirect *redirect);
-void	destroy_cmd_node(t_cmd_node *node);
-void	destroy_cmd_nodes(t_cmd_node *head);
-void	destroy_cmd(t_cmd *cmd);
+void			destroy_redirect_nodes(t_redirect_node *head);
+void			destroy_redirect(t_redirect *redirect);
+void			destroy_cmd_node(t_cmd_node *node);
+void			destroy_cmd_nodes(t_cmd_node *head);
+void			destroy_cmd(t_cmd *cmd);
 
 // exec_build.c
-t_cmd	*build_command(t_ast *ast);
+t_cmd			*build_command(t_ast *ast);
 
 // exec_redirect.c
-t_redirect	*new_redirect(void);
+t_redirect		*new_redirect(void);
 t_redirect_node	*new_redirect_node(t_redir_type type);
-void	reset_redirect(t_redirect *redirect);
+void			reset_redirect(t_redirect *redirect);
 
 // exec_redirect_prepare.c
-void	prepare_redirect(t_cmd_node *command);
+void			prepare_redirect(t_cmd_node *command);
 
 // exec_redirect_set.c
-int	setup_redirects(t_redirect *redirects);
+int				setup_redirects(t_redirect *redirects);
 
 // exec_pipes.c
-void	set_pipe_state(t_cmd_node *current, t_cmd_node *prev);
-void	open_pipe(t_cmd_node *command);
-void	close_pipe(t_cmd_node *command);
-void	connect_pipes(t_cmd_node *current, t_cmd_node *prev);
+void			set_pipe_state(t_cmd_node *current, t_cmd_node *prev);
+void			open_pipe(t_cmd_node *command);
+void			close_pipe(t_cmd_node *command);
+void			connect_pipes(t_cmd_node *current, t_cmd_node *prev);
 
 // exec_heredoc.c
-int		read_heredoc(char *delimiter);
+int				read_heredoc(char *delimiter);
+
+// exec_path_utils.c
+void			validate_path(char *path);
+void			validate_path_current(char *path, char *filename);
+char			*search_binary_internal(char **dirs, char *filename);
+char			*build_binary_path(char *search_dir, char *filename);
 
 #endif

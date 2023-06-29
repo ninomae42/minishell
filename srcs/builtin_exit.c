@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtin_exit.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tashimiz <tashimiz@student.42tokyo.jp      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/06/29 10:00:35 by tashimiz          #+#    #+#             */
+/*   Updated: 2023/06/29 10:00:36 by tashimiz         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "builtin.h"
 #include <limits.h>
 #include "ft_err.h"
@@ -24,7 +36,6 @@ static bool	is_valid_argument(char *s)
 		return (false);
 	return (true);
 }
-
 
 static int	is_overflow(long current, long sign, char next)
 {
@@ -74,7 +85,7 @@ static void	atol_exit(char *str)
 	exit((sign * num) & 255);
 }
 
-int		builtin_exit(char **argv)
+int	builtin_exit(char **argv)
 {
 	if (isatty(STDOUT_FILENO))
 		ft_putendl_fd("exit", STDERR_FILENO);

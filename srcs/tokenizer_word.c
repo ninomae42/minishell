@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   tokenizer_word.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tashimiz <tashimiz@student.42tokyo.jp      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/06/29 10:07:49 by tashimiz          #+#    #+#             */
+/*   Updated: 2023/06/29 10:07:50 by tashimiz         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "tokenizer.h"
 
 static bool	is_single_quote(char c);
@@ -40,7 +52,7 @@ static void	t_read_until_next_quote_char(t_tokenizer *tokenizer, char quote_c)
 		{
 			t_read_char(tokenizer);
 			tokenizer->is_in_quote = false;
-			break;
+			break ;
 		}
 	}
 }

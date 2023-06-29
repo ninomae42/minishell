@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exec_build.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tashimiz <tashimiz@student.42tokyo.jp      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/06/29 10:02:47 by tashimiz          #+#    #+#             */
+/*   Updated: 2023/06/29 10:02:48 by tashimiz         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "exec.h"
 
 static void		connect_command(t_cmd *cmd, t_cmd_node *node);
@@ -29,7 +41,6 @@ static void	build_simple_command(t_cmd_node *command)
 {
 	command->argc = count_argc(command->node);
 	command->argv = set_argv(command->node, command->argc);
-	// command->environ = env_list_to_environ(g_env);
 	if (command->argv[0] != NULL && is_builtin(command->argv[0]))
 		command->is_builtin = true;
 	else

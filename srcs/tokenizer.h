@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   tokenizer.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tashimiz <tashimiz@student.42tokyo.jp      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/06/29 10:07:16 by tashimiz          #+#    #+#             */
+/*   Updated: 2023/06/29 10:07:16 by tashimiz         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef TOKENIZER_H
 # define TOKENIZER_H
 # include "minishell.h"
@@ -22,7 +34,7 @@ struct s_token_node
 	t_token_node	*next;
 };
 
-typedef struct s_token	t_token;
+typedef struct s_token		t_token;
 struct s_token
 {
 	t_token_node	*head;

@@ -1,4 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtin_pwd.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tashimiz <tashimiz@student.42tokyo.jp      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/06/29 10:00:55 by tashimiz          #+#    #+#             */
+/*   Updated: 2023/06/29 10:01:03 by tashimiz         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "builtin.h"
+
 char	*get_sys_cwd_path(char *caller);
 
 void	init_pwd(void)
@@ -19,7 +32,6 @@ void	init_pwd(void)
 	}
 	env_set(g_env, "OLDPWD", NULL, 1);
 }
-
 
 int	builtin_pwd(char **argv)
 {

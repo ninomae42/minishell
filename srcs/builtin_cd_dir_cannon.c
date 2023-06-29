@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtin_cd_dir_cannon.c                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tashimiz <tashimiz@student.42tokyo.jp      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/06/29 10:00:03 by tashimiz          #+#    #+#             */
+/*   Updated: 2023/06/29 10:00:04 by tashimiz         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "builtin.h"
 #include "ft_path.h"
 
@@ -26,7 +38,6 @@ void	update_path(char **path, char *dir_component)
 	{
 		tmp = *path;
 		*path = get_parent_dir(*path);
-
 		free(tmp);
 	}
 	else

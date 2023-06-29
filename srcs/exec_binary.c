@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exec_binary.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tashimiz <tashimiz@student.42tokyo.jp      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/06/29 10:02:39 by tashimiz          #+#    #+#             */
+/*   Updated: 2023/06/29 10:02:40 by tashimiz         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "exec.h"
 
 void	validate_path(char *path)
@@ -43,44 +55,32 @@ void	validate_path_current(char *path, char *filename)
 	}
 }
 
-char	*search_binary_internal(char **dirs, char *filename)
-{
-	char	*path;
-
-	while (*dirs)
-	{
-		if (*dirs[0] == '\0')
-			path = concat_path(".", filename);
-		else
-			path = concat_path(*dirs, filename);
-		if (access(path, F_OK) == 0)
-			return (path);
-		free(path);
-		dirs++;
-	}
-	return (NULL);
-}
-
-char	*build_binary_path(char *search_dir, char *filename)
-{
-	char	**dirs;
-	char	*res_path;
-
-	if (*filename == '\0')
-		return (ft_strdup(""));
-	dirs = path_dir_split(search_dir);
-	if (dirs == NULL)
-		err_fatal(errno);
-	res_path = search_binary_internal(dirs, filename);
-	dir_free(dirs);
-	return (res_path);
-}
-
-void	exec(char *command_name, char **argv, char **envp)
+void	exec_from_environ_path(char *command_name, char **argv, char **envp)
 {
 	char	*env_path;
 	char	*binary_path;
 
+	env_path = env_get_value(g_env, "PATH");
+	if (env_path != NULL && *env_path)
+	{
+		binary_path = build_binary_path(env_path, command_name);
+		if (binary_path == NULL || path_is_directory(binary_path))
+		{
+			err_command_not_found(command_name);
+			exit(127);
+		}
+	}
+	else
+	{
+		binary_path = build_binary_path(".", command_name);
+		validate_path_current(binary_path, command_name);
+	}
+	if (execve(binary_path, argv, envp) < 0)
+		err_fatal(errno);
+}
+
+void	exec(char *command_name, char **argv, char **envp)
+{
 	if (command_name == NULL || argv == NULL)
 		exit(EXIT_SUCCESS);
 	if (*command_name == '/' || path_is_contain_slash(command_name))
@@ -90,23 +90,5 @@ void	exec(char *command_name, char **argv, char **envp)
 			err_fatal(errno);
 	}
 	else
-	{
-		env_path = env_get_value(g_env, "PATH");
-		if (env_path != NULL && *env_path)
-		{
-			binary_path = build_binary_path(env_path, command_name);
-			if (binary_path == NULL || path_is_directory(binary_path))
-			{
-				err_command_not_found(command_name);
-				exit(127);
-			}
-		}
-		else
-		{
-			binary_path = build_binary_path(".", command_name);
-			validate_path_current(binary_path, command_name);
-		}
-		if (execve(binary_path, argv, envp) < 0)
-			err_fatal(errno);
-	}
+		exec_from_environ_path(command_name, argv, envp);
 }

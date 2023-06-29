@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ast_utils.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tashimiz <tashimiz@student.42tokyo.jp      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/06/29 09:59:21 by tashimiz          #+#    #+#             */
+/*   Updated: 2023/06/29 09:59:22 by tashimiz         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "parser.h"
 
 char	*node_kind_to_str(t_node_kind kind)
@@ -17,4 +29,26 @@ char	*node_kind_to_str(t_node_kind kind)
 	if (kind == ND_PIPELINE)
 		return ("ND_PIPELINE");
 	return ("UNKNOWN");
+}
+
+static void	ast_print_internal(t_ast_node *node)
+{
+	t_ast_node	*child;
+	t_ast_node	*brother;
+
+	if (node == NULL)
+		return ;
+	child = node->child;
+	brother = node->brother;
+	printf("nd_kind: %s, literal: %s\n",
+		node_kind_to_str(node->kind), node->literal);
+	ast_print_internal(child);
+	ast_print_internal(brother);
+}
+
+void	ast_print(t_ast *ast)
+{
+	if (ast == NULL)
+		return ;
+	ast_print_internal(ast->root);
 }

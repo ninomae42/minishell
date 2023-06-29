@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   path_dir_split.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tashimiz <tashimiz@student.42tokyo.jp      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/06/29 10:06:23 by tashimiz          #+#    #+#             */
+/*   Updated: 2023/06/29 10:06:23 by tashimiz         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_path.h"
 
 static size_t	find_num_of_dirs(char *dir_list);
@@ -72,7 +84,7 @@ static char	**split_main(char *s, size_t num_of_dirs)
 	{
 		delim = find_next_delim(s);
 		dirs[i] = ft_strndup(s, delim - s);
-		if (dirs[i] ==  NULL)
+		if (dirs[i] == NULL)
 		{
 			dir_free(dirs);
 			return (NULL);

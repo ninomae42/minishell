@@ -1,9 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parser_redirect.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tashimiz <tashimiz@student.42tokyo.jp      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/06/29 10:06:03 by tashimiz          #+#    #+#             */
+/*   Updated: 2023/06/29 10:06:03 by tashimiz         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "parser.h"
 
-# define REDIRECT_IN 1
-# define REDIRECT_IN_HDOC 2
-# define REDIRECT_OUT 3
-# define REDIRECT_OUT_APPEND 4
+#define REDIRECT_IN 1
+#define REDIRECT_IN_HDOC 2
+#define REDIRECT_OUT 3
+#define REDIRECT_OUT_APPEND 4
 
 int	p_get_redirect_type(t_parser *p)
 {
@@ -33,7 +45,6 @@ t_ast_node	*parse_redirect_main(t_parser *p, t_node_kind kind)
 	if (node->literal == NULL)
 		err_fatal(errno);
 	p_next_token(p);
-	// node->child = parse_word(p);
 	return (node);
 }
 

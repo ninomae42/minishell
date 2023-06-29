@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tashimiz <tashimiz@student.42tokyo.jp      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/06/29 10:05:25 by tashimiz          #+#    #+#             */
+/*   Updated: 2023/06/29 10:05:25 by tashimiz         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 #include "tokenizer.h"
 #include "parser.h"
@@ -6,8 +18,6 @@
 
 extern char		**environ;
 t_env			*g_env;
-
-int	hook_signal_event(void);
 
 void	init_minishell(void)
 {
@@ -35,20 +45,12 @@ void	interpret(char *line)
 	t_ast	*ast;
 	t_cmd	*cmd;
 
-	// printf("===tokenize start===\n");
 	token = tokenize(line);
-	// token_print(token);
-	// printf("===parse start===\n");
 	ast = parse(token);
-	// ast_print(ast);
-	// printf("===expand start===\n");
 	if (ast && ast->root)
 	{
 		expand(ast);
-		// ast_print(ast);
-		// printf("===build command start===\n");
 		cmd = build_command(ast);
-		// printf("===execute command start===\n");
 		execute_command(cmd);
 		destroy_cmd(cmd);
 	}
@@ -71,7 +73,7 @@ int	main_loop(void)
 		if (*line == '\0')
 		{
 			free(line);
-			continue;
+			continue ;
 		}
 		interpret(line);
 		free(line);
@@ -88,3 +90,30 @@ int	main(void)
 	cleanup_environment();
 	exit(status);
 }
+
+// void	interpret(char *line)
+// {
+// 	t_token	*token;
+// 	t_ast	*ast;
+// 	t_cmd	*cmd;
+//
+// 	// printf("===tokenize start===\n");
+// 	token = tokenize(line);
+// 	// token_print(token);
+// 	// printf("===parse start===\n");
+// 	ast = parse(token);
+// 	// ast_print(ast);
+// 	// printf("===expand start===\n");
+// 	if (ast && ast->root)
+// 	{
+// 		expand(ast);
+// 		// ast_print(ast);
+// 		// printf("===build command start===\n");
+// 		cmd = build_command(ast);
+// 		// printf("===execute command start===\n");
+// 		execute_command(cmd);
+// 		destroy_cmd(cmd);
+// 	}
+// 	ast_destroy(ast);
+// 	token_destroy(token);
+// }

@@ -1,18 +1,25 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exec_heredoc.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tashimiz <tashimiz@student.42tokyo.jp      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/06/29 10:03:07 by tashimiz          #+#    #+#             */
+/*   Updated: 2023/06/29 10:03:07 by tashimiz         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "exec.h"
 
-int	check_state(void);
-
-int	read_heredoc(char *delimiter)
+static void	heredoc_readline_loop(char *delimiter, int dest_fd)
 {
-	int		pipe_fd[2];
 	char	*line;
 
-	g_env->is_readline_interrupted = false;
-	if (pipe(pipe_fd) < 0)
-		err_fatal(errno);
-	rl_event_hook = check_state;
+	rl_event_hook = heredoc_event_hook;
 	rl_done = 0;
 	g_env->signo = 0;
+	g_env->is_readline_interrupted = false;
 	while (true)
 	{
 		line = readline("> ");
@@ -22,11 +29,20 @@ int	read_heredoc(char *delimiter)
 			free(line);
 			break ;
 		}
-		ft_putendl_fd(line, pipe_fd[1]);
+		ft_putendl_fd(line, dest_fd);
 		free(line);
 	}
-	close(pipe_fd[1]);
 	rl_event_hook = NULL;
+}
+
+int	read_heredoc(char *delimiter)
+{
+	int		pipe_fd[2];
+
+	if (pipe(pipe_fd) < 0)
+		err_fatal(errno);
+	heredoc_readline_loop(delimiter, pipe_fd[1]);
+	close(pipe_fd[1]);
 	if (g_env->is_readline_interrupted)
 	{
 		close(pipe_fd[0]);

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtin_env.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tashimiz <tashimiz@student.42tokyo.jp      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/06/29 10:00:28 by tashimiz          #+#    #+#             */
+/*   Updated: 2023/06/29 10:00:29 by tashimiz         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "builtin.h"
 
 static void	print_env_node(t_env_node *node)
@@ -9,7 +21,7 @@ static void	print_env_node(t_env_node *node)
 	ft_putendl_fd(node->value, STDOUT_FILENO);
 }
 
-int		builtin_env(char **argv)
+int	builtin_env(char **argv)
 {
 	t_env_node	*head;
 

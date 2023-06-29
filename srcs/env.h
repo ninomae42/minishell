@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   env.h                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tashimiz <tashimiz@student.42tokyo.jp      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/06/29 10:01:18 by tashimiz          #+#    #+#             */
+/*   Updated: 2023/06/29 10:01:18 by tashimiz         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef ENV_H
 # define ENV_H
 # include <stdbool.h>
@@ -51,6 +63,6 @@ char		*env_get_pair_str(t_env *env, char *name);
 // env_load_environ.c
 int			env_load_environ(t_env *env, char **environ);
 
-int		ft_strcmp(const char *s1, const char *s2);
+int			ft_strcmp(const char *s1, const char *s2);
 
 #endif

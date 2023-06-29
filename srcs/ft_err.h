@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_err.h                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tashimiz <tashimiz@student.42tokyo.jp      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/06/29 10:04:48 by tashimiz          #+#    #+#             */
+/*   Updated: 2023/06/29 10:04:49 by tashimiz         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef FT_ERR_H
 # define FT_ERR_H
 # include <errno.h>
@@ -17,26 +29,27 @@
 # define ERR_IDENT_INVALID "not a valid identifier"
 # define ERR_AMBIGUOUS_REDIRECT "ambiguous redirect"
 
-void	err_ambiguous_redirect(char *filename);
-
 // err_main.c
 void	err_puterr(char *err_msg);
 void	ft_fatal(char *func_name);
 void	err_fatal(int err_no);
 void	err_perror(int err_no);
 void	err_perror_with_path(int err_no, char *path);
+void	err_put_tokenizer_unclosed_quote_err(void);
+
+// err_exec.c
 void	err_is_directory(char *path);
 void	err_command_not_found(char *command_name);
-void	err_put_tokenizer_unclosed_quote_err(void);
-void	err_env_name_not_valid(char *env_str);
+void	err_ambiguous_redirect(char *filename);
 
 // err_parser.c
-void	err_put_parser_syntax_err(char *token);;
+void	err_put_parser_syntax_err(char *token);
 
 // err_builtin.c
 void	err_identifier(char *command_name, char *identifier);
 void	err_builtin_exit(char *err_msg, char *arg);
 void	err_builtin_cd_perror_with_path(int err_no, char *path);
 void	err_builtin_cd(char *err_msg);
+void	err_env_name_not_valid(char *env_str);
 
 #endif

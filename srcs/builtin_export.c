@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtin_export.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tashimiz <tashimiz@student.42tokyo.jp      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/06/29 10:00:43 by tashimiz          #+#    #+#             */
+/*   Updated: 2023/06/29 10:00:43 by tashimiz         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "builtin.h"
 #include "expander.h"
 
@@ -82,7 +94,7 @@ static int	export_set_environs(char **argv)
 	return (res);
 }
 
-int		builtin_export(char **argv)
+int	builtin_export(char **argv)
 {
 	if (argv[1])
 	{

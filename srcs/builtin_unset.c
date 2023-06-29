@@ -1,6 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtin_unset.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tashimiz <tashimiz@student.42tokyo.jp      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/06/29 10:01:09 by tashimiz          #+#    #+#             */
+/*   Updated: 2023/06/29 10:01:10 by tashimiz         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "builtin.h"
 #include "expander.h"
-
 
 bool	is_identifier_str(char *name)
 {
@@ -18,7 +29,7 @@ bool	is_identifier_str(char *name)
 	return (true);
 }
 
-int		builtin_unset(char **argv)
+int	builtin_unset(char **argv)
 {
 	size_t	i;
 	int		res;
