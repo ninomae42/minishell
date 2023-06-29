@@ -6,7 +6,7 @@
 /*   By: tashimiz <tashimiz@student.42tokyo.jp      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 10:00:55 by tashimiz          #+#    #+#             */
-/*   Updated: 2023/06/29 10:01:03 by tashimiz         ###   ########.fr       */
+/*   Updated: 2023/06/29 11:25:14 by tashimiz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ void	init_pwd(void)
 	char	*dup;
 
 	sys_cwd = get_sys_cwd_path("shell-init");
-	printf("pwd: %s\n", sys_cwd);
 	if (sys_cwd != NULL)
 	{
 		dup = ft_strdup(sys_cwd);
