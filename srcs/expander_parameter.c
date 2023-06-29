@@ -9,7 +9,6 @@ static char	*expand_parameter_internal(char **word)
 
 	i_word = *word;
 	save_word = i_word;
-	// validate identifier or not ?
 	while (*i_word && is_alpha_num_under(*i_word))
 		i_word++;
 	*word = i_word;

@@ -25,7 +25,6 @@ static void	env_add_new_env_node(t_env *env, char *name, char *value)
 	t_env_node	*node;
 	t_env_node	tmp;
 
-	// TODO: add name validation
 	tmp.name = ft_strdup(name);
 	if (tmp.name == NULL)
 		err_fatal(errno);
