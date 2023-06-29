@@ -42,7 +42,7 @@ void	set_execution_sighandlers(void)
 	}
 }
 
-int	check_state(void)
+int	heredoc_event_hook(void)
 {
 	if (g_env->signo == SIGINT)
 	{

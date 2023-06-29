@@ -1,12 +1,10 @@
 #include "exec.h"
 
-int	check_state(void);
-
 static void	heredoc_readline_loop(char *delimiter, int dest_fd)
 {
 	char	*line;
 
-	rl_event_hook = check_state;
+	rl_event_hook = heredoc_event_hook;
 	rl_done = 0;
 	g_env->signo = 0;
 	g_env->is_readline_interrupted = false;

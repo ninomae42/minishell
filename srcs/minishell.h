@@ -17,6 +17,7 @@ extern t_env	*g_env;
 void	set_normal_sighandlers(void);
 void	set_execution_sighandlers(void);
 void	set_heredoc_sighandlers(void);
+int		heredoc_event_hook(void);
 
 // ft_strndup.c
 size_t	ft_strnlen(const char *s, size_t maxlen);
