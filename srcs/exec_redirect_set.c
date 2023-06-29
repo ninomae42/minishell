@@ -6,7 +6,7 @@
 /*   By: tashimiz <tashimiz@student.42tokyo.jp      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 10:03:54 by tashimiz          #+#    #+#             */
-/*   Updated: 2023/06/29 10:03:54 by tashimiz         ###   ########.fr       */
+/*   Updated: 2023/06/29 15:17:59 by tashimiz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,7 @@ static void	connect_stream(t_redirect *redirect, t_redirect_node *node)
 			err_fatal(errno);
 	}
 	close(node->fd);
+	node->fd = -1;
 }
 
 static void	backup_std_stream(t_redirect *redirect, int target)

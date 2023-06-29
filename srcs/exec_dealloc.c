@@ -6,7 +6,7 @@
 /*   By: tashimiz <tashimiz@student.42tokyo.jp      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 10:02:59 by tashimiz          #+#    #+#             */
-/*   Updated: 2023/06/29 10:03:00 by tashimiz         ###   ########.fr       */
+/*   Updated: 2023/06/29 13:06:26 by tashimiz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,9 @@ void	destroy_redirect_nodes(t_redirect_node *head)
 	while (head)
 	{
 		next = head->next;
-		if (head->type == RDIR_HDOC)
+		// if (head->type == RDIR_HDOC)
+		// 	close(head->fd);
+		if (0 <= head->fd)
 			close(head->fd);
 		free(head->filename);
 		free(head);

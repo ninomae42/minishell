@@ -6,7 +6,7 @@
 /*   By: tashimiz <tashimiz@student.42tokyo.jp      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 10:03:42 by tashimiz          #+#    #+#             */
-/*   Updated: 2023/06/29 10:03:42 by tashimiz         ###   ########.fr       */
+/*   Updated: 2023/06/29 15:26:23 by tashimiz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,15 @@ t_redirect_node	*new_redirect_node(t_redir_type type)
 void	reset_redirect(t_redirect *redirect)
 {
 	if (redirect->need_dup_input == false)
+	{
 		if (dup2(redirect->fd_in_dup, STDIN_FILENO) < 0)
 			err_fatal(errno);
+		close(redirect->fd_in_dup);
+	}
 	if (redirect->need_dup_output == false)
+	{
 		if (dup2(redirect->fd_out_dup, STDOUT_FILENO) < 0)
 			err_fatal(errno);
+		close(redirect->fd_out_dup);
+	}
 }
