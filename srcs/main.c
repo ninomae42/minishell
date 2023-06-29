@@ -7,8 +7,6 @@
 extern char		**environ;
 t_env			*g_env;
 
-int	hook_signal_event(void);
-
 void	init_minishell(void)
 {
 	extern int	_rl_echo_control_chars;
