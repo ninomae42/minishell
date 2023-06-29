@@ -37,6 +37,7 @@ SRCS := main.c \
 		exec_redirect_set.c \
 		exec_pipes.c \
 		exec_heredoc.c \
+		exec_path_utils.c \
 		err_main.c \
 		err_parser.c \
 		err_builtin.c \

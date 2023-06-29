@@ -125,4 +125,10 @@ void			connect_pipes(t_cmd_node *current, t_cmd_node *prev);
 // exec_heredoc.c
 int				read_heredoc(char *delimiter);
 
+// exec_path_utils.c
+void			validate_path(char *path);
+void			validate_path_current(char *path, char *filename);
+char			*search_binary_internal(char **dirs, char *filename);
+char			*build_binary_path(char *search_dir, char *filename);
+
 #endif
