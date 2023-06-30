@@ -6,7 +6,7 @@
 /*   By: tashimiz <tashimiz@student.42tokyo.jp      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 10:03:18 by tashimiz          #+#    #+#             */
-/*   Updated: 2023/06/29 10:03:18 by tashimiz         ###   ########.fr       */
+/*   Updated: 2023/06/30 22:50:05 by tashimiz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void	wait_child_procs(t_cmd *cmd, int *last_status)
 			err_perror(errno);
 		if (pid == last_pid && WIFEXITED(status))
 			*last_status = WEXITSTATUS(status);
-		else if (WIFSIGNALED(status))
+		else if (pid == last_pid && WIFSIGNALED(status))
 			*last_status = 128 + WTERMSIG(status);
 	}
 }
